@@ -7,36 +7,22 @@ package com.teamProject;
 
 import com.orsoncharts.Chart3D;
 import com.orsoncharts.Chart3DFactory;
-import com.orsoncharts.axis.AbstractValueAxis3D;
 import com.orsoncharts.axis.NumberAxis3D;
 import com.orsoncharts.axis.ValueAxis3D;
-import com.orsoncharts.data.Dataset3D;
-import com.orsoncharts.data.function.Function3D;
-import com.orsoncharts.data.xyz.XYZDataset;
 import com.orsoncharts.data.xyz.XYZSeries;
 import com.orsoncharts.data.xyz.XYZSeriesCollection;
-import com.orsoncharts.fx.Chart3DCanvas;
 import com.orsoncharts.fx.Chart3DViewer;
-import com.orsoncharts.plot.XYZPlot;
-import com.orsoncharts.renderer.xyz.ScatterXYZRenderer;
-import com.orsoncharts.renderer.xyz.SurfaceRenderer;
-import com.orsoncharts.renderer.xyz.XYZRenderer;
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.Stroke;
 import java.awt.geom.Rectangle2D;
-import static java.lang.Double.NaN;
-import java.util.ArrayList;
+import java.util.Random;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
-import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.ScatterChart;
 import javafx.scene.chart.XYChart;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
-import org.jblas.DoubleMatrix;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.axis.ValueAxis;
@@ -51,6 +37,18 @@ import org.jfree.data.xy.XYDataset;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 import org.jfree.fx.FXGraphics2D;
+import org.jzy3d.chart.AWTChart;
+import org.jzy3d.chart.factories.IChartComponentFactory;
+import org.jzy3d.colors.Color;
+import org.jzy3d.colors.ColorMapper;
+import org.jzy3d.colors.colormaps.ColorMapRainbow;
+import org.jzy3d.maths.Coord3d;
+import org.jzy3d.plot3d.builder.Builder;
+import org.jzy3d.plot3d.builder.Mapper;
+import org.jzy3d.plot3d.builder.concrete.OrthonormalGrid;
+import org.jzy3d.plot3d.primitives.Scatter;
+import org.jzy3d.plot3d.primitives.Shape;
+import org.jzy3d.plot3d.rendering.canvas.Quality;
 
 
 /**
@@ -121,108 +119,75 @@ public class Plot {
     }
     
     
-    public void scatter3DWindow(Cluster[] cluster){
+    
+
+    public void scatter3DWindowJzy3d(Cluster[] cluster){
         Stage stage = new Stage();
+        stage.setWidth(800);
+        stage.setHeight(600);
         stage.setTitle(title);
+        GridPane grid=new GridPane();
+        Scene scene=new Scene(grid);
         
         ValueAxis3D xAxis3D=new NumberAxis3D(xAxis);
         ValueAxis3D yAxis3D=new NumberAxis3D(yAxis);
         ValueAxis3D zAxis3D=new NumberAxis3D(zAxis);
         
-        
-        //XYPlot plt=new XYPlot();
+        // Jzy3d
+        JavaFXChartFactory factory = new JavaFXChartFactory();
 
-        /* SETUP Scatter */
-       // Create the scatter data, renderer, and axis
-        //XYItemRenderer renderer1= new XYLineAndShapeRenderer(false, true);
-        //ValueAxis domain1=new org.jfree.chart.axis.NumberAxis("x");
-        //ValueAxis range1=new org.jfree.chart.axis.NumberAxis("y");
+        AWTChart chart = (AWTChart) factory.newChart(Quality.Advanced, IChartComponentFactory.Toolkit.offscreen);
         
-        // Set the scatter data, renderer, and axis into plot
-        //plt.setDataset(0, collection1);
-        //plt.setRenderer(0, renderer1);
-        //plt.setDomainAxis(0, domain1);
-        //plt.setRangeAxis(0, range1);
+        // Define a function to plot
+        Mapper mapper = new Mapper() {
+            @Override
+            public double f(double x, double y) {
+                return x * Math.sin(x * y);
+            }
+        };
+                // Define range and precision for the function to plot
+        org.jzy3d.maths.Range range = new org.jzy3d.maths.Range(-3, 3);
+        int steps = 80;
+        
+        // Create the object to represent the function over the given range.
+        final Shape surface = Builder.buildOrthonormal(mapper, range, steps);
+        surface.setColorMapper(new ColorMapper(new ColorMapRainbow(), surface.getBounds().getZmin(), surface.getBounds().getZmax(), new Color(1, 1, 1, .5f)));
+        //surface.setFaceDisplayed(true);
+        //surface.setWireframeDisplayed(false);
+        
+        //chart.add(surface);
+        Scatter[] scatters=getJzy3dScatterPoints(cluster);
+        for(int i=0;i<scatters.length;i++){
+            scatters[i].setWidth(6);
+            Random rand=new Random();
+            Color color=new Color(rand.nextInt(255), rand.nextInt(255), 
+                rand.nextInt(255), 200);
+            scatters[i].setColor(color);
+            chart.add(scatters[i]);
+        }
+        
+        Shape[] surfaces=getJzy3dSurface(cluster);
+        for(int i=0;i<surfaces.length;i++){
+            chart.add(surfaces[i]);
+        }
         
         
         
-
+        //JavaFXChartFactory factory = new JavaFXChartFactory();
+        //AWTChart chart  = getDemoChart(factory, "offscreen");
         
-  
-        
-        //JFreeChart chart=ChartFactory.createScatterPlot(title, xAxis, yAxis, 
-        //        xyCollection, PlotOrientation.HORIZONTAL, true, true, true);
+        ImageView imageView = factory.bindImageView(chart);
         
         
-       
         
-      
+        grid.add(imageView, 0, 5);
         
-        
-        Chart3D chart=Chart3DFactory.createScatterChart(title, 
-                null, get3DScatterPlotData(cluster), xAxis, yAxis, zAxis);
-        XYZPlot xyzplt=(XYZPlot ) chart.getPlot();
-        
-        //XYZRenderer xyzrenderer=new ScatterXYZRenderer();
-        //xyzplt.setRenderer(get3DsurfaceRender(cluster));
-        //xyzplt.setRenderer(xyzrenderer);
-        
-               // new XYZPlot(get3DScatterPlotData(cluster), 
-               // get3DsurfaceRender(cluster), xAxis3D, yAxis3D, zAxis3D);
-        Chart3DViewer viewer=new Chart3DViewer(chart,true);
-        
-        stage.setScene(new Scene(viewer, 750, 750));
+        stage.setScene(scene);
         stage.show();
-    }
-    public void scatter3DWindow_copy(Cluster[] cluster){
-        Stage stage = new Stage();
-        stage.setTitle(title);
+        factory.addSceneSizeChangedListener(chart, scene);
+    
+ 
         
-        ValueAxis3D xAxis3D=new NumberAxis3D(xAxis);
-        ValueAxis3D yAxis3D=new NumberAxis3D(yAxis);
-        ValueAxis3D zAxis3D=new NumberAxis3D(zAxis);
-        
-        
-        //XYPlot plt=new XYPlot();
-
-        /* SETUP Scatter */
-       // Create the scatter data, renderer, and axis
-        //XYItemRenderer renderer1= new XYLineAndShapeRenderer(false, true);
-        //ValueAxis domain1=new org.jfree.chart.axis.NumberAxis("x");
-        //ValueAxis range1=new org.jfree.chart.axis.NumberAxis("y");
-        
-        // Set the scatter data, renderer, and axis into plot
-        //plt.setDataset(0, collection1);
-        //plt.setRenderer(0, renderer1);
-        //plt.setDomainAxis(0, domain1);
-        //plt.setRangeAxis(0, range1);
-        
-        
-        
-
-        
-  
-        
-        //JFreeChart chart=ChartFactory.createScatterPlot(title, xAxis, yAxis, 
-        //        xyCollection, PlotOrientation.HORIZONTAL, true, true, true);
-        
-        
-       
-        
-      
-        
-        
-        Chart3D chart=Chart3DFactory.createScatterChart(title, 
-                null, get3DScatterPlotData(cluster), xAxis, yAxis, zAxis);
-        XYZPlot xyzplt=(XYZPlot ) chart.getPlot();
-        xyzplt.setRenderer(get3DsurfaceRender(cluster));
-        
-               // new XYZPlot(get3DScatterPlotData(cluster), 
-               // get3DsurfaceRender(cluster), xAxis3D, yAxis3D, zAxis3D);
-        Chart3DViewer viewer=new Chart3DViewer(chart,true);
-        
-        stage.setScene(new Scene(viewer, 750, 750));
-        stage.show();
     }
     
     public void scatter2DWindow(Points X,Points Y){
@@ -271,11 +236,7 @@ public class Plot {
         plt.setDomainAxis(0, domain1);
         plt.setRangeAxis(0, range1);
         
-        // Map the scatter to the first Domain and first Range
-        //plt.mapDatasetToDomainAxis(0, 0);
-        //plt.mapDatasetToRangeAxis(0, 0);
-        
-        
+
         if(m_bShowFitting){
             /* SETUP LINE */
             // Create the line data, renderer, and axis
@@ -287,22 +248,10 @@ public class Plot {
             plt.setDataset(1, collection2);
             plt.setRenderer(1, renderer2);
             //plt.setDomainAxis(1, domain2);
-            //plt.setRangeAxis(1, range2);
-            // Map the line to the second Domain and second Range
-            //plt.mapDatasetToDomainAxis(1, 1);
-            //plt.mapDatasetToRangeAxis(1, 1);
-            
-            
-            //range1.setFixedAutoRange(1);
-            //domain1.setFixedAutoRange(20);
-            //range1.setAutoRange(m_bShowFitting);
-            //domain1.setAutoRange(m_bShowFitting);
-            // Map the line to the FIRST Domain and second Range
+
             plt.mapDatasetToDomainAxis(1, 0);
             plt.mapDatasetToRangeAxis(1, 0);
             
-            //range1.setAutoRange(m_bShowFitting);
-            //domain1.setAutoRange(m_bShowFitting);
         }
         
 
@@ -365,47 +314,16 @@ public class Plot {
         if(xDimension==1)
             scatter2DWindow(cluster);
         else if(xDimension==2)
+            scatter3DWindowJzy3d(cluster);
+            //scatter3DWindow(cluster);
             
-            scatter3DWindow(cluster);
         else{
             System.err.println("not 2D or 3D, so can not plot!");
             
         }
     }
     
-    static class ChartCanvas extends Canvas { 
-        
-        JFreeChart chart;
-        
-        private FXGraphics2D g2;
-        
-        public ChartCanvas(JFreeChart chart) {
-            this.chart = chart;
-            this.g2 = new FXGraphics2D(getGraphicsContext2D());
-            // Redraw canvas when size changes.
-            widthProperty().addListener(e -> draw()); 
-            heightProperty().addListener(e -> draw()); 
-        }  
-        
-        private void draw() { 
-            double width = getWidth(); 
-            double height = getHeight();
-            getGraphicsContext2D().clearRect(0, 0, width, height);
-            this.chart.draw(this.g2, new Rectangle2D.Double(0, 0, width, 
-                    height));
-        } 
-        
-        @Override 
-        public boolean isResizable() { 
-            return true;
-        }  
-        
-        @Override 
-        public double prefWidth(double height) { return getWidth(); }  
-        
-        @Override 
-        public double prefHeight(double width) { return getHeight(); } 
-    }
+    
     
     public XYSeriesCollection get2DScatterPlotData(Cluster[] cluster){
         int numCluster=cluster.length;
@@ -469,6 +387,229 @@ public class Plot {
                 
         return xyCollection;
     }
+   
+    private Scatter[] getJzy3dScatterPoints(Cluster[] cluster){
+        int numCluster=cluster.length;
+        Scatter[] scatters=new Scatter[numCluster+1];
+        Coord3d[] points;
+        Color[]   colors;
+        float a;
+        //XYZSeriesCollection xyzCollection=new XYZSeriesCollection();
+        //XYZSeries[] xyzSeries=new XYZSeries[numCluster];
+        
+        //Color clors[]=new Color[numCluster+1];
+        
+        Random rand=new Random();
+        Color color=new Color(rand.nextInt(255), rand.nextInt(255), 
+                rand.nextInt(255), 200);
+        
+        for(int i=0;i<numCluster;i++){
+            //xyzSeries[i]=new XYZSeries("Group "+cluster[i].getID());
+            int clusterILength=cluster[i].getCluster().getPointNum();
+            points=new Coord3d[clusterILength];
+            colors=new Color[clusterILength];
+            for(int j=0;j<cluster[i].getCluster().getPointNum();j++){
+                points[j]=new Coord3d(cluster[i].getCluster().getX().get(j).get(0),
+                                 cluster[i].getCluster().getX().get(j).get(1), 
+                                 cluster[i].getCluster().getY().get(j).get(0));
+                a=0.25f;
+               // colors[j]=new Color((int)(20+30*i),(int)(255-30*i),(int)(100+20*i),
+                //                255);
+            }
+            //scatters[i]=new Scatter(points,colors);
+            scatters[i]=new Scatter(points);
+            
+        }
+        
+        
+        // get data for centroids
+        
+        
+        points=new Coord3d[numCluster];
+        colors=new Color[numCluster];
+        
+        for(int i=0;i<cluster.length;i++){
+            points[i]=new Coord3d(cluster[i].getCentroid().get(0),
+                              cluster[i].getCentroid().get(1),
+                              cluster[i].getCentroid().get(2)
+            );
+            a=0.25f;
+            colors[i]=new Color((float)cluster[i].getCentroid().get(0),
+                              (float)cluster[i].getCentroid().get(1),
+                              (float)cluster[i].getCentroid().get(2),a
+            );
+            if(m_bPrintR2){
+                cluster[i].runRegression();
+                System.out.println("R2 of Cluster "+i+" is "+cluster[i].getR2());
+                //System.out.println("R2 of Cluster "+j+" is "+rm.getR2());
+            }   
+        }
+        scatters[numCluster]=new Scatter(points);
+        //scatters[numCluster]=new Scatter(points,colors);
+        
+
+        return scatters;
+    }
+    
+    private Shape[] getJzy3dSurface(Cluster[] cluster){
+        int numCluster=cluster.length;     
+        Random rand=new Random();
+        Mapper mappers[]=new Mapper[numCluster];
+        Shape surfaces[]=new Shape[numCluster];
+        int steps = 20;
+        
+        for(int i=0;i<numCluster;i++){
+            rm=new RegressionModel(cluster[i].getCluster().getX().toArray(),
+                                            cluster[i].getCluster().getY().toVector());
+            rm.run();
+            
+            mappers[i]=new Mapper() {
+                @Override
+                public double f(double x, double y) {
+                    double[] xy=new double[2];
+                    xy[0]=x;
+                    xy[1]=y;
+                    return rm.fitFunction(xy);
+                }
+            };
+            float min=(float)(cluster[i].getRange()[0].get(0));
+            float max=(float)(cluster[i].getRange()[0].get(1));
+            org.jzy3d.maths.Range rangex = new org.jzy3d.maths.Range(min,max);
+            min=(float)(cluster[i].getRange()[1].get(0));
+            max=(float)(cluster[i].getRange()[1].get(1));
+            org.jzy3d.maths.Range rangey = new org.jzy3d.maths.Range(min,max);      
+            
+            
+            surfaces[i] = Builder.buildOrthonormal(new 
+                OrthonormalGrid(rangex, steps, rangey, steps), mappers[i]);
+            
+            surfaces[i].setColorMapper(new ColorMapper(new ColorMapRainbow(), 
+                    surfaces[i].getBounds().getZmin(), 
+                    surfaces[i].getBounds().getZmax(), 
+                    new Color(1, 1, 1, .5f)));
+            surfaces[i].setFaceDisplayed(true);
+            surfaces[i].setWireframeDisplayed(false);
+            
+
+            
+        }
+
+        
+
+        return surfaces;
+    }
+    
+    
+    public void showFittingLine(boolean b){
+        m_bShowFitting=b;
+    }
+    
+    public void showR2(boolean b){
+        m_bPrintR2=b;
+    }
+    
+    static class ChartCanvas extends Canvas { 
+        
+        JFreeChart chart;
+        
+        private FXGraphics2D g2;
+        
+        public ChartCanvas(JFreeChart chart) {
+            this.chart = chart;
+            this.g2 = new FXGraphics2D(getGraphicsContext2D());
+            // Redraw canvas when size changes.
+            widthProperty().addListener(e -> draw()); 
+            heightProperty().addListener(e -> draw()); 
+        }  
+        
+        private void draw() { 
+            double width = getWidth(); 
+            double height = getHeight();
+            getGraphicsContext2D().clearRect(0, 0, width, height);
+            this.chart.draw(this.g2, new Rectangle2D.Double(0, 0, width, 
+                    height));
+        } 
+        
+        @Override 
+        public boolean isResizable() { 
+            return true;
+        }  
+        
+        @Override 
+        public double prefWidth(double height) { return getWidth(); }  
+        
+        @Override 
+        public double prefHeight(double width) { return getHeight(); } 
+    }
+    
+/*    public void scatter3DWindow(Cluster[] cluster){
+        Stage stage = new Stage();
+        stage.setTitle(title);
+        
+        ValueAxis3D xAxis3D=new NumberAxis3D(xAxis);
+        ValueAxis3D yAxis3D=new NumberAxis3D(yAxis);
+        ValueAxis3D zAxis3D=new NumberAxis3D(zAxis);
+        
+        
+        //XYPlot plt=new XYPlot();
+
+        //SETUP Scatter 
+       // Create the scatter data, renderer, and axis
+        //XYItemRenderer renderer1= new XYLineAndShapeRenderer(false, true);
+        //ValueAxis domain1=new org.jfree.chart.axis.NumberAxis("x");
+        //ValueAxis range1=new org.jfree.chart.axis.NumberAxis("y");
+        
+        // Set the scatter data, renderer, and axis into plot
+        //plt.setDataset(0, collection1);
+        //plt.setRenderer(0, renderer1);
+        //plt.setDomainAxis(0, domain1);
+        //plt.setRangeAxis(0, range1);
+        
+        
+        
+
+        
+  
+        
+        //JFreeChart chart=ChartFactory.createScatterPlot(title, xAxis, yAxis, 
+        //        xyCollection, PlotOrientation.HORIZONTAL, true, true, true);
+        
+        
+       
+        
+      
+        
+        
+        Chart3D chart=Chart3DFactory.createScatterChart(title, 
+                null, get3DScatterPlotData(cluster), xAxis, yAxis, zAxis);
+        XYZPlot xyzplt=(XYZPlot ) chart.getPlot();
+        
+        //XYZRenderer xyzrenderer=new ScatterXYZRenderer();
+        //xyzplt.setRenderer(get3DsurfaceRender(cluster));
+        //xyzplt.setRenderer(xyzrenderer);
+        
+               // new XYZPlot(get3DScatterPlotData(cluster), 
+               // get3DsurfaceRender(cluster), xAxis3D, yAxis3D, zAxis3D);
+        Chart3DViewer viewer=new Chart3DViewer(chart,true);
+        
+        stage.setScene(new Scene(viewer, 750, 750));
+        stage.show();
+    }
+    
+    public SurfaceRenderer get3DsurfaceRender(Cluster[] cluster){
+        
+        rm=new RegressionModel(cluster[0].getCluster().getX().toArray(),
+                                            cluster[0].getCluster().getY().toVector());
+        //clusterRange[0]=(cluster[0].getRange())[0].get(0);
+        //clusterRange[1]=(cluster[0].getRange())[0].get(1);
+        //clusterRange[2]=(cluster[0].getRange())[1].get(0);
+        //clusterRange[3]=(cluster[0].getRange())[1].get(1);
+        rm.run();
+        DoubleMatrix beta=rm.getBeta();
+        Function3D tf=new FittingFunctionFor3DPlot(beta);
+        SurfaceRenderer sr = new SurfaceRenderer(tf);
+        return sr;
+    }
     
     public XYZSeriesCollection get3DScatterPlotData(Cluster[] cluster){
         int numCluster=cluster.length;
@@ -509,22 +650,9 @@ public class Plot {
         return xyzCollection;
     }
     
-    public SurfaceRenderer get3DsurfaceRender(Cluster[] cluster){
-        
-        rm=new RegressionModel(cluster[0].getCluster().getX().toArray(),
-                                            cluster[0].getCluster().getY().toVector());
-        //clusterRange[0]=(cluster[0].getRange())[0].get(0);
-        //clusterRange[1]=(cluster[0].getRange())[0].get(1);
-        //clusterRange[2]=(cluster[0].getRange())[1].get(0);
-        //clusterRange[3]=(cluster[0].getRange())[1].get(1);
-        rm.run();
-        DoubleMatrix beta=rm.getBeta();
-        Function3D tf=new FittingFunctionFor3DPlot(beta);
-        SurfaceRenderer sr = new SurfaceRenderer(tf);
-        return sr;
-    }
+*/
     
-    /*
+        /*
     public double fittingFunction(double x,double z){
         double[] xz=new double[2];
         double result=NaN;
@@ -536,12 +664,4 @@ public class Plot {
         return result;
     }
     */
-    public void showFittingLine(boolean b){
-        m_bShowFitting=b;
-    }
-    
-    public void showR2(boolean b){
-        m_bPrintR2=b;
-    }
-    
 }

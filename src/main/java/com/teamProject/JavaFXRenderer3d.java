@@ -1,4 +1,4 @@
-package com.teamproject;
+package com.teamProject;
 
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;

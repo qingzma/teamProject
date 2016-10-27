@@ -66,37 +66,11 @@ public class App extends Application {
         //root.add(wekaPane(),0,7);
         //root.add(orsonChart(),0,2);
         
+/*        
         
         
-        // Jzy3d
-        JavaFXChartFactory factory = new JavaFXChartFactory();
-
-        AWTChart chart = (AWTChart) factory.newChart(Quality.Advanced, IChartComponentFactory.Toolkit.offscreen);
         
-        // Define a function to plot
-        Mapper mapper = new Mapper() {
-            @Override
-            public double f(double x, double y) {
-                return x * Math.sin(x * y);
-            }
-        };
-                // Define range and precision for the function to plot
-        Range range = new Range(-3, 3);
-        int steps = 80;
-        
-        // Create the object to represent the function over the given range.
-        final Shape surface = Builder.buildOrthonormal(mapper, range, steps);
-        surface.setColorMapper(new ColorMapper(new ColorMapRainbow(), surface.getBounds().getZmin(), surface.getBounds().getZmax(), new Color(1, 1, 1, .5f)));
-        surface.setFaceDisplayed(true);
-        surface.setWireframeDisplayed(false);
-        
-        chart.add(surface);
-        ImageView imageView=factory.bindImageView(chart);
-        
-        root.add(imageView, 0, 5);
-        factory.addSceneSizeChangedListener(chart, scene);
-        
-        
+ */
         primaryStage.show();
     }
 
@@ -119,7 +93,7 @@ public class App extends Application {
                 dc.setDataWidth(Integer.parseInt(tfWidth.getText()));
                 dc.readFile(",");
                 //dc.filterData();
-                km=new KMeans(dc.getRowsBefore(140),6);
+                km=new KMeans(dc.getRowsBefore(140),5);
                 
                 km.runClusters();
                 
@@ -151,18 +125,21 @@ public class App extends Application {
         newStage.setTitle("FX Demo");
         newStage.setHeight(600);
         newStage.setWidth(1000);
-        
+        GridPane pane=new GridPane();
+        Scene scene=new Scene(pane);
          // Jzy3d
         JavaFXChartFactory factory = new JavaFXChartFactory();
         AWTChart chart  = getDemoChart(factory, "offscreen");
+        
         ImageView imageView = factory.bindImageView(chart);
         
-        GridPane pane=new GridPane();
-        Scene scene=new Scene(pane);
+        
+        
         pane.add(imageView, 0, 0);
         
         newStage.setScene(scene);
         newStage.show();
+        factory.addSceneSizeChangedListener(chart, scene);
     }
 
     private AWTChart getDemoChart(JavaFXChartFactory factory, String toolkit) {
@@ -186,8 +163,8 @@ public class App extends Application {
         // -------------------------------
         // Create a chart
         Quality quality = Quality.Advanced;
-        //quality.setSmoothPolygon(true);
-        //quality.setAnimated(true);
+        quality.setSmoothPolygon(true);
+        quality.setAnimated(true);
         
         // let factory bind mouse and keyboard controllers to JavaFX node
         AWTChart chart =  (AWTChart) factory.newChart(quality, toolkit);
