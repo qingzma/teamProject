@@ -166,10 +166,13 @@ public class Plot {
             chart.add(scatters[i]);
         }
         
-        Shape[] surfaces=getJzy3dSurface(cluster);
-        for(int i=0;i<surfaces.length;i++){
-            chart.add(surfaces[i]);
+        if(m_bShowFitting){
+            Shape[] surfaces=getJzy3dSurface(cluster);
+            for(int i=0;i<surfaces.length;i++){
+                chart.add(surfaces[i]);
+            }
         }
+        
         
         
         
@@ -459,19 +462,11 @@ public class Plot {
         int steps = 20;
         
         for(int i=0;i<numCluster;i++){
-            rm=new RegressionModel(cluster[i].getCluster().getX().toArray(),
-                                            cluster[i].getCluster().getY().toVector());
-            rm.run();
+            //rm=new RegressionModel(cluster[i].getCluster().getX().toArray(),
+             //                               cluster[i].getCluster().getY().toVector());
+            //rm.run();
             
-            mappers[i]=new Mapper() {
-                @Override
-                public double f(double x, double y) {
-                    double[] xy=new double[2];
-                    xy[0]=x;
-                    xy[1]=y;
-                    return rm.fitFunction(xy);
-                }
-            };
+            mappers[i]=new SurfaceFunction(cluster[i]);
             float min=(float)(cluster[i].getRange()[0].get(0));
             float max=(float)(cluster[i].getRange()[0].get(1));
             org.jzy3d.maths.Range rangex = new org.jzy3d.maths.Range(min,max);

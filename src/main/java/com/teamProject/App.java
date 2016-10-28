@@ -9,27 +9,13 @@ package com.teamProject;
 
 
 import javafx.application.Application;
-import javafx.event.ActionEvent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
-import org.jzy3d.chart.AWTChart;
-import org.jzy3d.chart.Chart;
-import org.jzy3d.chart.factories.IChartComponentFactory;
-import org.jzy3d.colors.Color;
-import org.jzy3d.colors.ColorMapper;
-import org.jzy3d.colors.colormaps.ColorMapRainbow;
-import org.jzy3d.maths.Range;
-import org.jzy3d.plot3d.builder.Builder;
-import org.jzy3d.plot3d.builder.Mapper;
-import org.jzy3d.plot3d.primitives.Shape;
-import org.jzy3d.plot3d.rendering.canvas.Quality;
 
 //import net.sf.javaml.core.Dataset;
 
@@ -54,15 +40,10 @@ public class App extends Application {
         primaryStage.setTitle("Hello World!");
         primaryStage.setScene(scene);
 
-        
-        Button btn=new Button("FX");
-        btn.setOnAction((ActionEvent)->{
-            showFX();
-    });
 
         //root.add(btnRead,0,5);
         root.add(dimensionBox(),0,0);
-        root.add(btn, 0, 1);
+
         //root.add(wekaPane(),0,7);
         //root.add(orsonChart(),0,2);
         
@@ -97,18 +78,18 @@ public class App extends Application {
                 
                 km.runClusters();
                 
+                
                 plt.showFittingLine(true);
                 plt.showR2(false);
                 plt.autoPlot(km.getClusters());
            
-                Fitting tf=new Fitting(km.getClusters());
-                tf.showValidateInformation(false);
-                tf.validate(dc.getRowsAfter(140));
-                System.out.println(tf.getValidateNRMSE());
-                System.out.println(tf.getValidateRMSE());
-                System.out.println(tf.getValidateTMSE());
-                //runFX(new Stage());
-                //runFX();
+                Fitting ft=new Fitting(km.getClusters());
+                ft.showValidateInformation(false);
+                ft.validate(dc.getRowsAfter(140));
+                System.out.println("NRMSE is : "+ft.getValidateNRMSE());
+                System.out.println("RMSE  is : "+ft.getValidateRMSE());
+                //System.out.println(ft.getValidateTMSE());
+
 
             }
             catch (NumberFormatException e){
@@ -120,57 +101,5 @@ public class App extends Application {
         return hbDimension;
     }
 
-    private void showFX(){
-        Stage newStage=new Stage();
-        newStage.setTitle("FX Demo");
-        newStage.setHeight(600);
-        newStage.setWidth(1000);
-        GridPane pane=new GridPane();
-        Scene scene=new Scene(pane);
-         // Jzy3d
-        JavaFXChartFactory factory = new JavaFXChartFactory();
-        AWTChart chart  = getDemoChart(factory, "offscreen");
-        
-        ImageView imageView = factory.bindImageView(chart);
-        
-        
-        
-        pane.add(imageView, 0, 0);
-        
-        newStage.setScene(scene);
-        newStage.show();
-        factory.addSceneSizeChangedListener(chart, scene);
-    }
-
-    private AWTChart getDemoChart(JavaFXChartFactory factory, String toolkit) {
-      // Define a function to plot
-        Mapper mapper = new Mapper() {
-            @Override
-            public double f(double x, double y) {
-                return x * Math.sin(x * y);
-            }
-        };
-                // Define range and precision for the function to plot
-        Range range = new Range(-3, 3);
-        int steps = 80;
-        
-        // Create the object to represent the function over the given range.
-        final Shape surface = Builder.buildOrthonormal(mapper, range, steps);
-        surface.setColorMapper(new ColorMapper(new ColorMapRainbow(), surface.getBounds().getZmin(), surface.getBounds().getZmax(), new Color(1, 1, 1, .5f)));
-        surface.setFaceDisplayed(true);
-        surface.setWireframeDisplayed(false);
-        
-        // -------------------------------
-        // Create a chart
-        Quality quality = Quality.Advanced;
-        quality.setSmoothPolygon(true);
-        quality.setAnimated(true);
-        
-        // let factory bind mouse and keyboard controllers to JavaFX node
-        AWTChart chart =  (AWTChart) factory.newChart(quality, toolkit);
-        chart.getScene().getGraph().add(surface);
-        return chart;
-
-      
-  }
+    
 }
