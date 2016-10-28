@@ -21,7 +21,7 @@ public class dataContainer {
     //private int  iXDimension=2;
     private int iDataWidth=3;
     
-    public void readFile(String splitStr){
+    public void readFile(String file,String splitStr){
         //X=new Points();
         //Y=new Points();
         data=new Points();
@@ -32,7 +32,7 @@ public class dataContainer {
             
             //ArrayRow.clear();
             Scanner lineScanner;
-            Scanner s=new Scanner(new FileInputStream(new File("src/main/resources/iris1.data")));
+            Scanner s=new Scanner(new FileInputStream(new File("src/main/resources/"+file)));
             while(s.hasNext()){
                 pt=new Point();
                 String lineStr=s.nextLine();

@@ -63,7 +63,7 @@ public class Plot {
     private String zAxis="zAxis";
     private boolean m_bShowFitting=true;
     private final int m_iPlotPointNum=40;
-    private RegressionModel rm;
+    //private RegressionModel rm;
     private double[] clusterRange=new double[4];
     private boolean m_bPrintR2=true;
     //private Cluster[] cluster;
@@ -467,6 +467,8 @@ public class Plot {
             //rm.run();
             
             mappers[i]=new SurfaceFunction(cluster[i]);
+            
+            
             float min=(float)(cluster[i].getRange()[0].get(0));
             float max=(float)(cluster[i].getRange()[0].get(1));
             org.jzy3d.maths.Range rangex = new org.jzy3d.maths.Range(min,max);

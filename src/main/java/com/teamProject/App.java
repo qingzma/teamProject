@@ -27,7 +27,7 @@ import javafx.stage.Stage;
 public class App extends Application {
 
     dataContainer dc=new dataContainer();
-    Plot plt=new Plot();
+    Plot plt;
     KMeans km;
     RegressionModel rm;
 
@@ -72,13 +72,17 @@ public class App extends Application {
         btnDimension.setOnAction((ActionEvent)->{
             try{
                 dc.setDataWidth(Integer.parseInt(tfWidth.getText()));
-                dc.readFile(",");
+                dc.readFile("iris1.data",",");
                 //dc.filterData();
-                km=new KMeans(dc.getRowsBefore(140),5);
-                
+                km=new KMeans(dc.getRowsBefore(140),5); 
                 km.runClusters();
                 
+               
+                rm=new RegressionModel(km.getClusters());
+                rm.showBeta(true);
+                rm.run();
                 
+                plt=new Plot();
                 plt.showFittingLine(true);
                 plt.showR2(false);
                 plt.autoPlot(km.getClusters());

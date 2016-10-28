@@ -20,27 +20,64 @@ public class RegressionModel {
     private double RSS;
     private double TSS;
     private double R2;
+    private boolean m_bShowBeta=false;
     int n;
     int p;
+    Cluster cluster;
+    Cluster[] clusters;
+    RegressionModel regressionModels[];
     
     public RegressionModel(double[][] x,double[] y){
         this.x=new DoubleMatrix(x);
-        Y=new DoubleMatrix(y);
-        
-        
-        
+        Y=new DoubleMatrix(y);  
     }
     
-    public void run(){
-        if(x.columns==1){
-            polynominal1D(6);
+    public RegressionModel(Cluster cluster){
+        this.x=new DoubleMatrix(cluster.getCluster().getX().toArray());
+        Y=new DoubleMatrix(cluster.getCluster().getY().toVector());
+        this.cluster=cluster;
+    }
+    
+    public RegressionModel(Cluster[] clusters){
+        this.clusters=clusters;
+        regressionModels=new RegressionModel[clusters.length];
+        for(int i=0;i<clusters.length;i++){
+            regressionModels[i]=new RegressionModel(clusters[i]);
+            //regressionModels[i].run();
         }
-        else if(x.columns>=2){
-            polynominalMD2P();
+    }
+    
+    
+    public void run(){
+        if(clusters==null){
+            if(x.columns==1){
+                polynominal1D(6);
+            }
+            else if(x.columns>=2){
+                polynominalMD2P();
+            }
+            else{
+                System.out.println("error in class Regression Model.");
+            }
+            
+            if(m_bShowBeta){
+                System.out.println("Beta is: "+getBeta());
+            
+            }
         }
         else{
-            System.out.println("error in class Regression Model.");
+            for(int i=0;i<clusters.length;i++){
+                regressionModels[i].run();
+                
+            }
         }
+        
+        if(cluster!=null)
+            setClusterFitFunction();
+        
+        
+        
+        
     }
     
     public double fitFunction(double[]xx){
@@ -269,5 +306,23 @@ public class RegressionModel {
     
     public DoubleMatrix getBeta(){
         return beta;
+    }
+    
+    
+    public void setClusterFitFunction(){
+        if(cluster.rm==null){
+            cluster.runRegression();
+        }
+    }
+    
+    
+    public void showBeta(boolean b){
+        m_bShowBeta=true;
+        if(clusters!=null){
+            for(int i=0;i<clusters.length;i++){
+                regressionModels[i].showBeta(b);
+                
+            }
+        }
     }
 }
