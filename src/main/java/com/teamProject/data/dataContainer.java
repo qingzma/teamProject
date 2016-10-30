@@ -5,8 +5,11 @@
  */
 package com.teamProject.data;
 
+import com.opencsv.CSVReader;
+import com.teamProject.Record2File;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileReader;
 import java.io.IOException;
 import java.util.Scanner;
 
@@ -15,11 +18,16 @@ import java.util.Scanner;
  * @author qingzhi
  */
 public class dataContainer {
-    private Points X; //=new Points();
-    private Points Y; //=new Points();
-    private Points data;     //=new Points();
+    //private Points X; //=new Points();
+    //private Points Y; //=new Points();
+    private PointsStr fileData; 
+    private Points data;        //to store  X,Y data points,(point1, x1,x2,..y)
+    //private PointStr fileHeader;
+    private PointStr header;
     //private int  iXDimension=2;
-    private int iDataWidth=3;
+    private int iDataWidth;
+    private int fileWidth;
+    private int fileRowNum;
     
     public void readFile(String file,String splitStr){
         //X=new Points();
@@ -56,13 +64,54 @@ public class dataContainer {
     
     public void readCSV(String file, String splitStr){
         
+        fileData=new PointsStr();
+        PointStr pt;
+        
+        try{
+            //open csv file
+            CSVReader csvReader = new CSVReader(new FileReader("src/main/resources/"+file));
+            String [] nextLine;
+            
+            //read fileHeader
+            if((nextLine=csvReader.readNext())!=null){
+                fileWidth=nextLine.length;
+                fileData.setHeader(nextLine);
+                //fileHeader=new PointStr(nextLine);
+            }
+            
+            // read file to fileData
+            while((nextLine=csvReader.readNext())!=null){
+                pt=new PointStr(nextLine);
+                fileData.add(pt);
+            }
+            fileRowNum=fileData.getPointNum();
+        }
+        catch (IOException e){
+            System.err.println("data Container:readCSV(): exception");
+        }
+
+        //
+        //column(2).plotPoints();
+        //fileData.column(" n_tokens_content").plotPoints();
+        
+        
+
+       
     }
     
     
-    public void filterData(){
-        data.removeAt(1);
-        iDataWidth--;
-        //iXDimension--;
+    public void filterData(int[] index){
+        
+        data=fileData.generateTargetPoints(index);
+        iDataWidth=data.get(0).getSize();
+        
+        for(int i=0;i<data.getPointNum();i++){
+            if(data.get(i).get(2)>600){
+                System.out.println("abnormal data point detected and deleted: "+i);
+                data.delete(i);
+            }
+        }
+        
     }
     
     public void showData(){
@@ -115,6 +164,36 @@ public class dataContainer {
         
         return newPt;
     }
+    
+    public void printFileHeader(){
+        if(fileData.header()!=null){
+            System.out.println("fileHeader:");
+            for(int i=0;i<fileData.header().getSize();i++){
+                System.out.print(fileData.header().get(i)+",");
+            }
+            System.out.println();
+        }
+        
+    }
+    
+    public void printFileData(){
+        if(fileData!=null){
+            System.out.println("fileData:");
+            for(int i=0;i<fileData.getPointNum();i++){
+                System.out.println("i: "+i);
+                PointStr pt1=fileData.get(i);
+                //System.out.print(fileData.get(i)+",");
+                fileData.get(i).printPointStr();
+            }
+        }
+        else{
+            System.err.println("dataContainer:printFileData(): "
+                    + "fileData not exist!");
+        }
+    }
+    
+
+    
     
     /*
     public void generateXY(){

@@ -5,6 +5,7 @@
  */
 package com.teamProject.data;
 
+import com.teamProject.Record2File;
 import java.util.ArrayList;
 
 /**
@@ -12,7 +13,8 @@ import java.util.ArrayList;
  * @author qingzhi
  */
 public class Points {
-    public ArrayList<ArrayList<Double>> points=new ArrayList<>();
+    private ArrayList<ArrayList<Double>> points=new ArrayList<>();
+    private PointStr header;
     public Points(){
         
     }
@@ -102,10 +104,12 @@ public class Points {
         return y;
     }
     
-    public void plotPoints(){
+    public void printPoints(){
+        //System.out.print("[");
         for(int i=0;i<getPointNum();i++){
             System.out.println(points.get(i));
         }
+        //System.out.println("]");
     }
     
     
@@ -143,6 +147,10 @@ public class Points {
     
     public boolean isEmpty(){
         return points.isEmpty();
+    }
+    
+    public void delete(int index){
+        points.remove(index);
     }
     
 }

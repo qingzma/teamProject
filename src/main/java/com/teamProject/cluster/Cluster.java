@@ -19,7 +19,7 @@ public class Cluster {
     private int id;
     private Point[] range;
     final private boolean m_bPrintClusterInformation=false;
-    double enlargeFactor=1.05;     // to give freedom to range, multiply this factor
+    double enlargeFactor=1.01;     // to give freedom to range, multiply this factor
     public RegressionModel rm;
     
     public Cluster(int id){

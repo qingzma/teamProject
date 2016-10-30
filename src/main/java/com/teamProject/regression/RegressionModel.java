@@ -54,7 +54,8 @@ public class RegressionModel {
                 polynominal1D(3);
             }
             else if(x.columns>=2){
-                polynominalMD2P();
+                //polynominalMD2P();
+                polynominalMD1P();
             }
             else{
                 System.out.println("error in class Regression Model.");
@@ -86,20 +87,21 @@ public class RegressionModel {
             result= functionPolynominal1D(xx[0]);
         }else
         if(x.columns>=2){
-            result= functionPolynominalMD2P(xx);
+            //result= functionPolynominalMD2P(xx);
+            result= functionPolynominalMD1P(xx);
         }else{
             System.err.println("error in class Regression Model.");
         }
         return result;
     }
-    public double fitFunction(double xx){
+/*    public double fitFunction(double xx){
         double result=999999;
 
             result= functionPolynominal1D(xx);
  
         return result;
     }
-    
+*/    
     public void polynominal1D(int powerMax){
         n=Y.length;
         p=powerMax+1;
@@ -310,14 +312,14 @@ public class RegressionModel {
     
     
     public void setClusterFitFunction(){
-        if(cluster.rm==null){
+        if(cluster.getRegressionModel()==null){
             cluster.runRegression();
         }
     }
     
     
     public void showBeta(boolean b){
-        m_bShowBeta=true;
+        
         if(clusters!=null){
             for(int i=0;i<clusters.length;i++){
                 regressionModels[i].showBeta(b);

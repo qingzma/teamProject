@@ -12,8 +12,10 @@ import com.teamProject.plot.Plot;
 import com.teamProject.data.dataContainer;
 import com.teamProject.cluster.KMeans;
 import com.teamProject.regression.Fitting;
+import com.teamProject.regression.LR;
 import com.teamProject.regression.RegressionModel;
 import javafx.application.Application;
+import javafx.event.ActionEvent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -44,19 +46,36 @@ public class App extends Application {
         
         primaryStage.setTitle("Hello World!");
         primaryStage.setScene(scene);
-
-
-        //root.add(btnRead,0,5);
         root.add(dimensionBox(),0,0);
+        
+        
+        Button btnCSV=new Button("read CSV");
+        btnCSV.setOnAction((ActionEvent e)->{
+            dc.readCSV("OnlineNewsPopularity.csv",",");
+            int[] index={2,3,4};
+            dc.filterData(index);
+            km=new KMeans(dc.getRowsBefore(10000),20); 
+            km.runClusters();
+            
+            //rm=new RegressionModel(km.getClusters());
+            //rm.showBeta(false);
+            //rm.run();
+            LR lr=new LR(km.getClusters());
+            lr.run();
+            System.out.println("total time is "+lr.timeCost());
+            
+            plt=new Plot();
+            plt.showFittingLine(true);
+            plt.showR2(false);
+            plt.autoPlot(km.getClusters());
+        });
+        
+        
+        root.add(btnCSV,0,1);
+        
+        
+        
 
-        //root.add(wekaPane(),0,7);
-        //root.add(orsonChart(),0,2);
-        
-/*        
-        
-        
-        
- */
         primaryStage.show();
     }
 
@@ -88,7 +107,7 @@ public class App extends Application {
                 rm.run();
                 
                 plt=new Plot();
-                plt.showFittingLine(true);
+                plt.showFittingLine(false);
                 plt.showR2(false);
                 plt.autoPlot(km.getClusters());
            
@@ -109,6 +128,8 @@ public class App extends Application {
         hbDimension.getChildren().addAll(lblDimension,tfWidth,btnDimension);
         return hbDimension;
     }
+    
+
 
     
 }
