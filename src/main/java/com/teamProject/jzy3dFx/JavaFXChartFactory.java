@@ -1,7 +1,7 @@
-package com.teamProject;
+package com.teamProject.jzy3dFx;
 
 //import com.teamproject.JavaFXRenderer3d.DisplayListener;
-import com.teamProject.JavaFXRenderer3d.DisplayListener;
+import com.teamProject.jzy3dFx.JavaFXRenderer3d.DisplayListener;
 import java.awt.image.BufferedImage;
 import java.util.Date;
 

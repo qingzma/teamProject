@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.teamProject;
+package com.teamProject.data;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -52,6 +52,12 @@ public class dataContainer {
         
         iDataWidth=data.get(0).getSize();
     }
+    
+    
+    public void readCSV(String file, String splitStr){
+        
+    }
+    
     
     public void filterData(){
         data.removeAt(1);

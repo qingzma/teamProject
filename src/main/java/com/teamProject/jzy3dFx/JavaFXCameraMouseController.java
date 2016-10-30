@@ -1,4 +1,4 @@
-package com.teamProject;
+package com.teamProject.jzy3dFx;
 import javafx.event.EventHandler;
 import javafx.scene.Cursor;
 import javafx.scene.Node;

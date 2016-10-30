@@ -8,6 +8,11 @@ package com.teamProject;
 
 
 
+import com.teamProject.plot.Plot;
+import com.teamProject.data.dataContainer;
+import com.teamProject.cluster.KMeans;
+import com.teamProject.regression.Fitting;
+import com.teamProject.regression.RegressionModel;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;

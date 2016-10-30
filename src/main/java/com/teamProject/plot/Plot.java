@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.teamProject;
+package com.teamProject.plot;
 
 import com.orsoncharts.Chart3D;
 import com.orsoncharts.Chart3DFactory;
@@ -12,6 +12,7 @@ import com.orsoncharts.axis.ValueAxis3D;
 import com.orsoncharts.data.xyz.XYZSeries;
 import com.orsoncharts.data.xyz.XYZSeriesCollection;
 import com.orsoncharts.fx.Chart3DViewer;
+import com.teamProject.cluster.Cluster;
 import java.awt.geom.Rectangle2D;
 import java.util.Random;
 import javafx.scene.Scene;
@@ -49,6 +50,11 @@ import org.jzy3d.plot3d.builder.concrete.OrthonormalGrid;
 import org.jzy3d.plot3d.primitives.Scatter;
 import org.jzy3d.plot3d.primitives.Shape;
 import org.jzy3d.plot3d.rendering.canvas.Quality;
+import com.teamProject.data.Points;
+import com.teamProject.data.Point;
+import com.teamProject.data.dataContainer;
+import com.teamProject.jzy3dFx.JavaFXChartFactory;
+
 
 
 /**

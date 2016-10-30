@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.teamProject;
+package com.teamProject.plot;
 
 import com.orsoncharts.data.function.Function3D;
 import org.jblas.DoubleMatrix;

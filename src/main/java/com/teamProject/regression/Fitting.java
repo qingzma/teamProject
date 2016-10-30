@@ -3,10 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.teamProject;
+package com.teamProject.regression;
 
+import com.teamProject.cluster.Cluster;
 import java.util.ArrayList;
 import java.util.Arrays;
+import com.teamProject.data.Points;
+import com.teamProject.data.Point;
 
 /**
  *

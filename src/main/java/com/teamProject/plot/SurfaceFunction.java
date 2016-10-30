@@ -3,9 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.teamProject;
+package com.teamProject.plot;
 
+import com.teamProject.cluster.Cluster;
 import org.jzy3d.plot3d.builder.Mapper;
+import com.teamProject.data.Point;
 
 /**
  *

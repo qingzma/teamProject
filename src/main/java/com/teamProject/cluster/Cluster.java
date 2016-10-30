@@ -3,7 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.teamProject;
+package com.teamProject.cluster;
+
+import com.teamProject.data.Point;
+import com.teamProject.data.Points;
+import com.teamProject.regression.RegressionModel;
 
 /**
  *
@@ -132,6 +136,10 @@ public class Cluster {
           }
             //}
             return result;
+      }
+      
+      public RegressionModel getRegressionModel(){
+          return rm;
       }
     
 }

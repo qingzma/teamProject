@@ -1,4 +1,4 @@
-package com.teamProject;
+package com.teamProject.jzy3dFx;
 
 import java.net.URL;
 import java.util.ResourceBundle;

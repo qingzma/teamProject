@@ -3,10 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.teamProject;
+package com.teamProject.regression;
 
 import org.jblas.DoubleMatrix;
 import org.jblas.Solve;
+import com.teamProject.cluster.Cluster;
 
 /**
  *
@@ -43,7 +44,6 @@ public class RegressionModel {
         regressionModels=new RegressionModel[clusters.length];
         for(int i=0;i<clusters.length;i++){
             regressionModels[i]=new RegressionModel(clusters[i]);
-            //regressionModels[i].run();
         }
     }
     
@@ -51,7 +51,7 @@ public class RegressionModel {
     public void run(){
         if(clusters==null){
             if(x.columns==1){
-                polynominal1D(6);
+                polynominal1D(3);
             }
             else if(x.columns>=2){
                 polynominalMD2P();
