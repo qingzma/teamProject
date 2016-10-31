@@ -1,7 +1,5 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+*please call Record2File.out() or Record2File.error() to output result to file
  */
 package com.teamProject.regression;
 
@@ -19,7 +17,7 @@ public interface RegressionInterface extends Runnable{
     */
     
     
-    public String getMethod();      //return the name of your regression algorithm
+    public String getMethodName();      //return the name of your regression algorithm
     
     public void run();              //implement the regression 
     
@@ -31,6 +29,17 @@ public interface RegressionInterface extends Runnable{
     
     public double timeCost();
         // return the time cost (in seconds) during calculation
+    
+    public void printTimeCost();
+        //print the time cost in a well defined structure
+        //Simply copy the following codes
+    /*
+    {
+        Record2File.out("Time for "+getMethodName()+" is "+
+                    Record2File.double2str( timeCost()) +"s."  );
+    }
+    */
+    
 
     public void setClusterFitFunction();        //
         //set the fitFunction is each cluster, simply copy the following codes to

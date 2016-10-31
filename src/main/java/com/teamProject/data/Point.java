@@ -173,4 +173,16 @@ public class Point {
         
         return Arrays.stream(toArray()).sum();
     }
+    
+    public String toString(){
+        String str="[";
+        for(int i=0;i<point.size()-1;i++){
+            str+=point.get(i);
+            str+=",";
+        }
+        str+=point.get(point.size()-1);
+        str+="]";
+        
+        return str;
+    }
 }

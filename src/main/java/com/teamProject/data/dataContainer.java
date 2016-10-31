@@ -28,8 +28,10 @@ public class dataContainer {
     private int iDataWidth;
     private int fileWidth;
     private int fileRowNum;
+    private double t1,t0;
     
     public void readFile(String file,String splitStr){
+        t0=System.currentTimeMillis();
         //X=new Points();
         //Y=new Points();
         data=new Points();
@@ -59,11 +61,13 @@ public class dataContainer {
         }
         
         iDataWidth=data.get(0).getSize();
+        t1=System.currentTimeMillis();
     }
     
     
     public void readCSV(String file, String splitStr){
-        
+        Record2File.out("Reading file starting...");
+        t0=System.currentTimeMillis();
         fileData=new PointsStr();
         PointStr pt;
         
@@ -94,9 +98,12 @@ public class dataContainer {
         //column(2).plotPoints();
         //fileData.column(" n_tokens_content").plotPoints();
         
+        t1=System.currentTimeMillis();
+        Record2File.out("Reading file ends.");
+        printTimeCost();
+        Record2File.out("\n");
         
-
-       
+        
     }
     
     
@@ -111,6 +118,8 @@ public class dataContainer {
                 data.delete(i);
             }
         }
+        
+        t1=System.currentTimeMillis();
         
     }
     
@@ -138,31 +147,18 @@ public class dataContainer {
     }
     
     public Points getRowsBefore(int cutIndex){
-        if(cutIndex>data.getPointNum()){
-            System.out.println("in dataContainer: cutIndex beyond bounds, "
-                    + "so adjust it automatically ");
-            cutIndex=data.getPointNum();
-        }
-        Points newPt=new Points();
-        for(int i=0;i<cutIndex;i++){
-            newPt.add(data.get(i));
-        }
         
-        return newPt;
+        return data.getRowsBefore(cutIndex);
     }
     
     public Points getRowsAfter(int cutIndex){
-        if(cutIndex>data.getPointNum()){
-            System.out.println("in dataContainer: cutIndex beyond bounds, "
-                    + "so adjust it automatically ");
-            cutIndex=data.getPointNum();
-        }
-        Points newPt=new Points();
-        for(int i=cutIndex;i<data.getPointNum();i++){
-            newPt.add(data.get(i));
-        }
         
-        return newPt;
+        
+        return data.getRowsAfter(cutIndex);
+    }
+    
+    public Points getRowsBetween(int cutIndex1,int cutIndex2){
+        return data.getRowsBetween(cutIndex1, cutIndex2);
     }
     
     public void printFileHeader(){
@@ -192,8 +188,16 @@ public class dataContainer {
         }
     }
     
-
     
+    public double timeCost(){
+        return (t1-t0)/1000.0d;
+    }
+    
+
+    public void printTimeCost(){
+        Record2File.out("Time for file read and treatment is "+
+                    Record2File.double2str(  timeCost() )+"s." );
+    }
     
     /*
     public void generateXY(){

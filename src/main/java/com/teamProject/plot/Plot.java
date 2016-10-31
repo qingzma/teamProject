@@ -12,6 +12,7 @@ import com.orsoncharts.axis.ValueAxis3D;
 import com.orsoncharts.data.xyz.XYZSeries;
 import com.orsoncharts.data.xyz.XYZSeriesCollection;
 import com.orsoncharts.fx.Chart3DViewer;
+import com.teamProject.Record2File;
 import com.teamProject.cluster.Cluster;
 import java.awt.geom.Rectangle2D;
 import java.util.Random;
@@ -73,6 +74,7 @@ public class Plot {
     private double[] clusterRange=new double[4];
     private boolean m_bPrintR2=true;
     //private Cluster[] cluster;
+    private double t0,t1;
     public void scatter2DWindowFX(Points X, Points Y){
     
         Stage stage = new Stage();
@@ -194,6 +196,9 @@ public class Plot {
         stage.setScene(scene);
         stage.show();
         factory.addSceneSizeChangedListener(chart, scene);
+        
+        t1=System.currentTimeMillis();
+        
     
  
         
@@ -223,6 +228,7 @@ public class Plot {
 
         stage.setScene(new Scene(gp, 750, 750));
         stage.show();
+        t1=System.currentTimeMillis();
     }
     
     
@@ -294,10 +300,13 @@ public class Plot {
         
         stage.setScene(new Scene(gp, 750, 750));
         stage.show();
+        t1=System.currentTimeMillis();
     }
     
     
-    public void autoPlot(Points data){
+    public void plot(Points data){
+        t0=System.currentTimeMillis();
+        Record2File.out("Plot starting...");
         Points X=data.getX(); 
         Points Y=data.getY();
         //X.plotPoints();
@@ -312,11 +321,12 @@ public class Plot {
             System.err.println("not 2D or 3D, so can not plot!");
             
         }
+        t1=System.currentTimeMillis();
     }
     
-    public void autoPlot(Cluster[] cluster){
-        
-        
+    public void plot(Cluster[] cluster){
+        Record2File.out("Plot starting...");
+        t0=System.currentTimeMillis();
         
         int xDimension=cluster[0].getCluster().getDimension()-1;
         
@@ -330,6 +340,11 @@ public class Plot {
             System.err.println("not 2D or 3D, so can not plot!");
             
         }
+        t1=System.currentTimeMillis();
+        
+        Record2File.out("Plot ends.");
+        printTimeCost();
+        Record2File.out("\n");
     }
     
     
@@ -509,6 +524,15 @@ public class Plot {
     
     public void showR2(boolean b){
         m_bPrintR2=b;
+    }
+    
+    public double timeCost(){
+        return (t1-t0)/1000.0d;
+    }
+    
+    public void printTimeCost(){
+        Record2File.out("Time for "+"plot"+" is "+
+                    Record2File.double2str( timeCost()) +"s." );
     }
     
     static class ChartCanvas extends Canvas { 

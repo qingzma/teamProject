@@ -153,4 +153,47 @@ public class Points {
         points.remove(index);
     }
     
+    public Points getRowsBefore(int cutIndex){
+        if(cutIndex>getPointNum()){
+            System.out.println("in dataContainer: cutIndex beyond bounds, "
+                    + "so adjust it automatically ");
+            cutIndex=getPointNum();
+        }
+        Points newPt=new Points();
+        for(int i=0;i<cutIndex;i++){
+            newPt.add(get(i));
+        }
+        
+        return newPt;
+    }
+    
+    public Points getRowsAfter(int cutIndex){
+        if(cutIndex>getPointNum()){
+            System.out.println("in dataContainer: cutIndex beyond bounds, "
+                    + "so adjust it automatically ");
+            cutIndex=getPointNum();
+        }
+        Points newPt=new Points();
+        for(int i=cutIndex;i<getPointNum();i++){
+            newPt.add(get(i));
+        }
+        
+        return newPt;
+    } 
+    
+
+    public Points getRowsBetween(int cutIndex1,int cutIndex2){
+        if(cutIndex2>getPointNum()){
+            System.out.println("in dataContainer: cutIndex beyond bounds, "
+                    + "so adjust it automatically ");
+            cutIndex2=getPointNum();
+        }
+        Points newPt=new Points();
+        for(int i=cutIndex1;i<cutIndex2;i++){
+            newPt.add(get(i));
+        }
+        
+        return newPt;
+    }         
+    
 }

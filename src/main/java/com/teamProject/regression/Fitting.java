@@ -5,6 +5,7 @@
  */
 package com.teamProject.regression;
 
+import com.teamProject.Record2File;
 import com.teamProject.cluster.Cluster;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -28,6 +29,7 @@ public class Fitting {
     private    double R2=999;
     private int validateDegree;
     private boolean m_bShowVaidateInformation=false;
+    private double t0,t1;
     
     public Fitting(Cluster[] clusters){
         this.clusters=clusters;
@@ -35,6 +37,7 @@ public class Fitting {
         numClusters=clusters.length;
         //clusterGroup=new ArrayList<>();
         //clusterGroupWeight=new ArrayList<>();
+        t0=System.currentTimeMillis();
     }
     
     public double fit(Point x){
@@ -54,8 +57,7 @@ public class Fitting {
         
         
         if(clusterGroup.isEmpty()){
-            System.out.println("Point"+x+"does not belong to any clusters, "
-                    + "so choose the nearest cluster to predict it.");
+            
             double distance=Double.MAX_VALUE;
             int nearestGroupID=0;
             for(int i=0;i<numClusters;i++){
@@ -66,8 +68,11 @@ public class Fitting {
                 }
                 
             }
-            System.out.println("use cluster "+nearestGroupID+ " to fit, distance is "+distance);
-            clusters[nearestGroupID].runRegression();
+            Record2File.warning("Point"+x.toString()+"does not belong to any clusters, "
+                    + "so choose the nearest cluster "+nearestGroupID+ 
+                    " to fit, distance is "+Record2File.double2str(distance));
+            
+            //clusters[nearestGroupID].runRegression();
             result=clusters[nearestGroupID].fit(x);
             
             
@@ -75,7 +80,7 @@ public class Fitting {
         else{
             //int weight=0;
             for(int i=0;i<clusterGroup.size();i++){
-                clusters[clusterGroup.get(i)].runRegression();
+                //clusters[clusterGroup.get(i)].runRegression();
                 result+=clusters[clusterGroup.get(i)].fit(x) * 
                         clusterGroupWeight.get(i) ;
             //   weight+=clusterGroupWeight.get(i);
@@ -84,7 +89,7 @@ public class Fitting {
             //result=result/weight;
             //System.out.println("result is "+result);
         }
-        
+        t1=System.currentTimeMillis();
         return result;
     }
     
@@ -100,10 +105,15 @@ public class Fitting {
         for(int j=0;j<pts.getPointNum();j++){
             newPt.get(j).add(fit(newPt.get(j)));
         }
+        t1=System.currentTimeMillis();
+        Record2File.out("Fitting ends");
+        printTimeCost();
+        Record2File.out("\n");
         return newPt;
     }
     
     public Points validate(Points pts){
+        Record2File.out("Validation starting...");
         SSRatio=0;
         TSS=0;
         RSS=0;
@@ -128,22 +138,27 @@ public class Fitting {
             if(m_bShowVaidateInformation)
                 System.out.println("xi,yi,y_hat,y_mean:"+pts.get(j).get(0)+" "+yi+" "+y_hat+" "+y_mean);
         }
+        t1=System.currentTimeMillis();
+        Record2File.out("Validation ends.");
         return newPts;
         
     }
     
     public double getValidateNRMSE(){
+        t1=System.currentTimeMillis();
         double a1=SSRatio/validateDegree;
         double a2=SSRatio;
         return Math.sqrt(SSRatio/validateDegree);
     }
     
     public double getValidateRMSE(){
+        t1=System.currentTimeMillis();
         double a1=SSRatio/validateDegree;
         double a2=SSRatio;
         return Math.sqrt(RSS/validateDegree);
     }
     public double getValidateTMSE(){
+        t1=System.currentTimeMillis();
         double a1=SSRatio/validateDegree;
         double a2=SSRatio;
         return Math.sqrt(TSS/validateDegree);
@@ -175,5 +190,14 @@ public class Fitting {
     
     public void showValidateInformation(boolean b){
         m_bShowVaidateInformation=b;
+    }
+    
+    public double timeCost(){
+        return (t1-t0)/1000.0d;
+    }
+    
+    public void printTimeCost(){
+        Record2File.out("Time for "+"Fitting and validating "+" is "+
+                    Record2File.double2str( timeCost()) +"s."  );
     }
 }

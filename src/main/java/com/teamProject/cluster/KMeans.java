@@ -5,6 +5,7 @@
  */
 package com.teamProject.cluster;
 
+import com.teamProject.Record2File;
 import java.util.Random;
 import com.teamProject.data.Points;
 import com.teamProject.data.Point;
@@ -26,6 +27,8 @@ public class KMeans {
     //private Point centroids[];
     private Cluster  clusters[];
     private final boolean m_bPrintCycleInformation=false;
+    private double t0;
+    private double t1;
     
     public KMeans(dataContainer dc,int group){
         //this.X=dc.getX();
@@ -51,6 +54,8 @@ public class KMeans {
     
     
     public Cluster[] runClusters(){
+        t0=System.currentTimeMillis();
+        Record2File.out("KMeans clustering starting...");
         //create and initialize clusters and centroids
         //centroids=new Point[NUM_CLUSTER];
         do{
@@ -141,7 +146,10 @@ public class KMeans {
             }
         }
         
-        
+        t1=System.currentTimeMillis();
+        Record2File.out("KMeans clustering ends.");
+        printTimeCost();
+        Record2File.out("\n");
         return clusters;
     }
     
@@ -260,4 +268,13 @@ public class KMeans {
     }
     
     
+    public double timeCost(){
+        return (t1-t0)/1000.0d;
+    }
+    
+    
+    public void printTimeCost(){
+        Record2File.out("Time for clustering is "+
+                    Record2File.double2str( timeCost())+"s."  );
+    }
 }

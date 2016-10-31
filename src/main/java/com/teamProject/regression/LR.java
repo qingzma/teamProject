@@ -5,6 +5,7 @@
  */
 package com.teamProject.regression;
 
+import com.teamProject.Record2File;
 import com.teamProject.cluster.Cluster;
 import org.jblas.DoubleMatrix;
 import org.jblas.Solve;
@@ -12,7 +13,7 @@ import org.jblas.Solve;
 
 
 /**
- *
+ *this is the linear regression model
  * @author qingzhi
  */
 public class LR implements RegressionInterface{
@@ -55,13 +56,19 @@ public class LR implements RegressionInterface{
     
 
     @Override
-    public String getMethod() {
+    public String getMethodName() {
         return "Linear Regression"; 
+    }
+    
+    public void printTimeCost(){
+        Record2File.out("Time for "+getMethodName()+" is "+
+                    Record2File.double2str( timeCost()) +"s."  );
     }
 
     @Override
     public void run() {
         t0=System.currentTimeMillis()/1000.0d;
+        Record2File.out("Linear regression starting...");
         
         if(clusters==null){
             //do regression when there is no clusters[] input
@@ -92,6 +99,9 @@ public class LR implements RegressionInterface{
             setClusterFitFunction();
         
         t1=System.currentTimeMillis()/1000.0d;
+        Record2File.out("Linear regression ends.");
+        printTimeCost();
+        Record2File.out("\n");
     }
 
     @Override
@@ -119,6 +129,14 @@ public class LR implements RegressionInterface{
     public double timeCost() {
         return t1-t0;
     }
+    
+    @Override
+    public void setClusterFitFunction() {
+        if(cluster.getRegressionModel()==null){
+            cluster.runRegression();
+        }
+    }
+    
     
     public void polynominal1D(int powerMax){
         n=Y.length;
@@ -208,11 +226,6 @@ public class LR implements RegressionInterface{
         return beta;
     }
 
-    @Override
-    public void setClusterFitFunction() {
-        if(cluster.getRegressionModel()==null){
-            cluster.runRegression();
-        }
-    }
+    
     
 }

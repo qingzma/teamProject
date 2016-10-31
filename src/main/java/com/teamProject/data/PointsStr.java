@@ -168,8 +168,7 @@ public class PointsStr {
         if(num>=getDimension()){
             System.err.println("dataContainer:getColumn(): error, column inedex"
                     + "out of range!");
-            Record2File.normal("dataContainer:getColumn(): error, column inedex"
-                    + "out of range!");
+            
             Record2File.error("dataContainer:getColumn(): error, column inedex"
                     + "out of range!");
             System.exit(-1);
