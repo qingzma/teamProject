@@ -48,11 +48,13 @@ public class App extends Application {
         primaryStage.setScene(scene);
         //root.add(dimensionBox(),0,0);
         
-        
+       
         Button btnCSV=new Button("read CSV");
         btnCSV.setOnAction((ActionEvent e)->{
             Record2File.deleteFile();
             dc.readCSV("OnlineNewsPopularity.csv",",");
+            
+            //the 2,3,4 column of the csv file
             int[] index={2,3,4};
             dc.filterData(index);
             
@@ -62,9 +64,7 @@ public class App extends Application {
             
             
             
-            //rm=new RegressionModel(km.getClusters());
-            //rm.showBeta(false);
-            //rm.run();
+
             LR lr=new LR(km.getClusters());
             lr.run();
             
@@ -78,8 +78,8 @@ public class App extends Application {
             Fitting ft=new Fitting(km.getClusters());
             ft.showValidateInformation(false);
             ft.validate(dc.getRowsBetween(25000,30000));
-            Record2File.out("error is "+ft.getValidateNRMSE());
-            
+            Record2File.out("NRMSE is "+ft.getValidateNRMSE());
+            Record2File.out("RMSE is "+ft.getValidateRMSE());
             
         });
         

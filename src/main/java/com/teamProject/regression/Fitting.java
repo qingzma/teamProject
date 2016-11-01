@@ -27,6 +27,7 @@ public class Fitting {
     private    double MSS=0;
     private    double SSRatio=0;
     private    double R2=999;
+    private double NRMSE;
     private int validateDegree;
     private boolean m_bShowVaidateInformation=false;
     private double t0,t1;
@@ -114,10 +115,11 @@ public class Fitting {
     
     public Points validate(Points pts){
         Record2File.out("Validation starting...");
-        SSRatio=0;
-        TSS=0;
+        //SSRatio=0;
+        //TSS=0;
         RSS=0;
-        MSS=0;
+        //MSS=0;
+        NRMSE=0;
         validateDegree=pts.getPointNum();
         //Points pts include Y items to check the answer;
         Points newPts=pts.getX();
@@ -132,12 +134,25 @@ public class Fitting {
             //get yi
             yi=pts.get(j).getYValue();
             
-            TSS+=(yi-y_mean)*(yi-y_mean);
+            //TSS+=(yi-y_mean)*(yi-y_mean);
             RSS+=(yi-y_hat)*(yi-y_hat);
-            SSRatio+=(yi-y_hat)*(yi-y_hat)/(yi-y_mean)/(yi-y_mean);
+            //NRMSE+=(yi-y_hat)*(yi-y_hat)/((yi-y_mean)*(yi-y_mean));
+            double d=Double.min((yi-y_hat)*(yi-y_hat)/((yi-0)*(yi-0)), 
+                    (yi-y_hat)*(yi-y_hat)/((yi-y_mean)*(yi-y_mean)));
+            //NRMSE+=(yi-y_hat)*(yi-y_hat)/((yi-0)*(yi-0));
+            NRMSE+=(yi-y_hat)*(yi-y_hat)/((yi-y_mean)*(yi-y_mean));
+            
+            //SSRatio+=(yi-y_hat)*(yi-y_hat)/(yi-y_mean)/(yi-y_mean);
             if(m_bShowVaidateInformation)
-                System.out.println("xi,yi,y_hat,y_mean:"+pts.get(j).get(0)+" "+yi+" "+y_hat+" "+y_mean);
+                System.out.println("xi,yi,y_hat,y_mean:"+pts.get(j).get(0)+" "+yi+" "+y_hat+" "+y_mean+
+                        d);
         }
+        NRMSE=NRMSE/validateDegree;
+        NRMSE=Math.sqrt(NRMSE);
+        
+        RSS=RSS/validateDegree;
+        RSS=Math.sqrt(RSS);
+        
         t1=System.currentTimeMillis();
         Record2File.out("Validation ends.");
         return newPts;
@@ -146,16 +161,14 @@ public class Fitting {
     
     public double getValidateNRMSE(){
         t1=System.currentTimeMillis();
-        double a1=SSRatio/validateDegree;
-        double a2=SSRatio;
-        return Math.sqrt(SSRatio/validateDegree);
+        
+        return NRMSE;
     }
     
     public double getValidateRMSE(){
         t1=System.currentTimeMillis();
-        double a1=SSRatio/validateDegree;
-        double a2=SSRatio;
-        return Math.sqrt(RSS/validateDegree);
+        
+        return Math.sqrt(RSS);
     }
     public double getValidateTMSE(){
         t1=System.currentTimeMillis();

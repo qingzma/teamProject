@@ -1,47 +1,48 @@
 Reading file starting...
 Reading file ends.
-Time for file read and treatment is .994s.
+Time for file read and treatment is .998s.
 
 
 KMeans clustering starting...
 KMeans clustering ends.
-Time for clustering is 5.328s.
+Time for clustering is 5.353s.
 
 
-Linear regression starting...
 Linear regression ends.
-Time for Linear Regression is .094s.
+Time for Linear Regression is .107s.
 
 
 Plot starting...
 Plot ends.
-Time for plot is 7.436s.
+Time for plot is 7.432s.
 
 
 Validation starting...
-[warning:] Point[17.0,796.0]does not belong to any clusters, so choose the nearest cluster 14 to fit, distance is 7.304]
-[warning:] Point[17.0,155.0]does not belong to any clusters, so choose the nearest cluster 5 to fit, distance is 7.313]
-[warning:] Point[18.0,605.0]does not belong to any clusters, so choose the nearest cluster 26 to fit, distance is 18.667]
-[warning:] Point[18.0,453.0]does not belong to any clusters, so choose the nearest cluster 21 to fit, distance is 8.158]
-[warning:] Point[16.0,773.0]does not belong to any clusters, so choose the nearest cluster 14 to fit, distance is 22.203]
-[warning:] Point[16.0,2213.0]does not belong to any clusters, so choose the nearest cluster 16 to fit, distance is 22.229]
-[warning:] Point[16.0,304.0]does not belong to any clusters, so choose the nearest cluster 22 to fit, distance is 9.032]
-[warning:] Point[17.0,628.0]does not belong to any clusters, so choose the nearest cluster 26 to fit, distance is 9.321]
-[warning:] Point[16.0,300.0]does not belong to any clusters, so choose the nearest cluster 22 to fit, distance is 12.348]
-[warning:] Point[17.0,787.0]does not belong to any clusters, so choose the nearest cluster 14 to fit, distance is 10.226]
-[warning:] Point[4.0,1103.0]does not belong to any clusters, so choose the nearest cluster 4 to fit, distance is 49.450]
-[warning:] Point[17.0,298.0]does not belong to any clusters, so choose the nearest cluster 22 to fit, distance is 14.583]
-[warning:] Point[4.0,507.0]does not belong to any clusters, so choose the nearest cluster 11 to fit, distance is 9.298]
-[warning:] Point[18.0,640.0]does not belong to any clusters, so choose the nearest cluster 26 to fit, distance is 19.832]
-[warning:] Point[17.0,621.0]does not belong to any clusters, so choose the nearest cluster 26 to fit, distance is 7.066]
-[warning:] Point[16.0,806.0]does not belong to any clusters, so choose the nearest cluster 14 to fit, distance is 13.162]
-[warning:] Point[18.0,227.0]does not belong to any clusters, so choose the nearest cluster 1 to fit, distance is 12.406]
-[warning:] Point[16.0,755.0]does not belong to any clusters, so choose the nearest cluster 14 to fit, distance is 39.817]
+[warning:] Point[17.0,796.0]does not belong to any clusters, so choose the nearest cluster 13 to fit, distance is 9.810]
+[warning:] Point[18.0,605.0]does not belong to any clusters, so choose the nearest cluster 1 to fit, distance is 26.491]
+[warning:] Point[18.0,453.0]does not belong to any clusters, so choose the nearest cluster 7 to fit, distance is 14.606]
+[warning:] Point[16.0,773.0]does not belong to any clusters, so choose the nearest cluster 13 to fit, distance is 30.368]
+[warning:] Point[16.0,2213.0]does not belong to any clusters, so choose the nearest cluster 5 to fit, distance is 26.661]
+[warning:] Point[16.0,304.0]does not belong to any clusters, so choose the nearest cluster 22 to fit, distance is 9.868]
+[warning:] Point[17.0,628.0]does not belong to any clusters, so choose the nearest cluster 1 to fit, distance is 7.395]
+[warning:] Point[17.0,787.0]does not belong to any clusters, so choose the nearest cluster 13 to fit, distance is 17.281]
+[warning:] Point[9.0,45.0]does not belong to any clusters, so choose the nearest cluster 4 to fit, distance is 40.960]
+[warning:] Point[4.0,1103.0]does not belong to any clusters, so choose the nearest cluster 15 to fit, distance is 39.065]
+[warning:] Point[4.0,507.0]does not belong to any clusters, so choose the nearest cluster 23 to fit, distance is 7.207]
+[warning:] Point[18.0,640.0]does not belong to any clusters, so choose the nearest cluster 1 to fit, distance is 12.652]
+[warning:] Point[17.0,621.0]does not belong to any clusters, so choose the nearest cluster 1 to fit, distance is 11.620]
+[warning:] Point[16.0,806.0]does not belong to any clusters, so choose the nearest cluster 13 to fit, distance is 6.937]
+[warning:] Point[18.0,227.0]does not belong to any clusters, so choose the nearest cluster 16 to fit, distance is 7.898]
+[warning:] Point[6.0,45.0]does not belong to any clusters, so choose the nearest cluster 4 to fit, distance is 41.142]
+[warning:] Point[5.0,44.0]does not belong to any clusters, so choose the nearest cluster 12 to fit, distance is 40.839]
+[warning:] Point[16.0,755.0]does not belong to any clusters, so choose the nearest cluster 28 to fit, distance is 45.232]
 [warning:] Point[16.0,5553.0]does not belong to any clusters, so choose the nearest cluster 27 to fit, distance is 1259.413]
-[warning:] Point[16.0,758.0]does not belong to any clusters, so choose the nearest cluster 14 to fit, distance is 36.856]
-[warning:] Point[16.0,749.0]does not belong to any clusters, so choose the nearest cluster 14 to fit, distance is 45.755]
-[warning:] Point[8.0,3376.0]does not belong to any clusters, so choose the nearest cluster 7 to fit, distance is 549.914]
-[warning:] Point[17.0,643.0]does not belong to any clusters, so choose the nearest cluster 26 to fit, distance is 22.273]
-[warning:] Point[16.0,0.0]does not belong to any clusters, so choose the nearest cluster 15 to fit, distance is 6.513]
+[warning:] Point[4.0,251.0]does not belong to any clusters, so choose the nearest cluster 24 to fit, distance is 6.378]
+[warning:] Point[16.0,758.0]does not belong to any clusters, so choose the nearest cluster 13 to fit, distance is 45.161]
+[warning:] Point[18.0,249.0]does not belong to any clusters, so choose the nearest cluster 24 to fit, distance is 7.916]
+[warning:] Point[8.0,3376.0]does not belong to any clusters, so choose the nearest cluster 29 to fit, distance is 549.914]
+[warning:] Point[17.0,643.0]does not belong to any clusters, so choose the nearest cluster 1 to fit, distance is 14.579]
+[warning:] Point[16.0,0.0]does not belong to any clusters, so choose the nearest cluster 12 to fit, distance is 7.021]
 Validation ends.
-error is 16.898153888321367
+NRMSE is 16.634365059254936
+RMSE is 0.21560223243835308

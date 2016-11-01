@@ -112,11 +112,13 @@ public class dataContainer {
         data=fileData.generateTargetPoints(index);
         iDataWidth=data.get(0).getSize();
         
+        if(index.length>2){
         for(int i=0;i<data.getPointNum();i++){
             if(data.get(i).get(2)>600){
                 System.out.println("abnormal data point detected and deleted: "+i);
                 data.delete(i);
             }
+        }
         }
         
         t1=System.currentTimeMillis();

@@ -45,10 +45,10 @@ public interface RegressionInterface extends Runnable{
         //set the fitFunction is each cluster, simply copy the following codes to
         //the implemented class.
         /* {
-        if(cluster.getRegressionModel()==null){
+        if(cluster.getRegressionMethod()==null
+                || !cluster.getRegressionMethodName().equals(getMethodName())){
+            cluster.setRegressionMethodName(getMethodName());
             cluster.runRegression();
-        }
-        
         }
         */
 }

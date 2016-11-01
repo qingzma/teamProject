@@ -391,6 +391,7 @@ public class Plot {
             //RegressionModel rm=new RegressionModel(cluster[j].getCluster().getX().toArray(), 
             //                                    cluster[j].getCluster().getY().toVector() );
             //rm.run();
+            ///////////////////////////////////////////////////////////////////////
             cluster[j].runRegression();
             for(int i=0;i<m_iPlotPointNum;i++){
                 //double [] xFitData=new double[1];
@@ -464,6 +465,7 @@ public class Plot {
             );
             if(m_bPrintR2){
                 cluster[i].runRegression();
+                ///////////////////////////////////////////
                 System.out.println("R2 of Cluster "+i+" is "+cluster[i].getR2());
                 //System.out.println("R2 of Cluster "+j+" is "+rm.getR2());
             }   

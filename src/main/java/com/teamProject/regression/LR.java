@@ -29,7 +29,8 @@ public class LR implements RegressionInterface{
     int p;
     Cluster cluster;
     Cluster[] clusters;
-    RegressionModel regressionModels[];
+    //RegressionModel regressionModels[];
+    RegressionInterface regressionMethods[];
     private double t0;
     private double t1;
     
@@ -48,9 +49,9 @@ public class LR implements RegressionInterface{
     
     public LR(Cluster[] clusters){
         this.clusters=clusters;
-        regressionModels=new RegressionModel[clusters.length];
+        regressionMethods=new RegressionInterface[clusters.length];
         for(int i=0;i<clusters.length;i++){
-            regressionModels[i]=new RegressionModel(clusters[i]);
+            regressionMethods[i]=new LR(clusters[i]);
         }
     }
     
@@ -67,8 +68,8 @@ public class LR implements RegressionInterface{
 
     @Override
     public void run() {
-        t0=System.currentTimeMillis()/1000.0d;
-        Record2File.out("Linear regression starting...");
+        //t0=System.currentTimeMillis()/1000.0d;
+        //Record2File.out("Linear regression starting...");
         
         if(clusters==null){
             //do regression when there is no clusters[] input
@@ -89,19 +90,24 @@ public class LR implements RegressionInterface{
             }
         }
         else{   //do regression when there is clusters[] input
+            t0=System.currentTimeMillis();
             for(int i=0;i<clusters.length;i++){
-                regressionModels[i].run();  
+                regressionMethods[i].run();  
             }
+            t1=System.currentTimeMillis();
+            Record2File.out("Linear regression ends.");
+            printTimeCost();
+            Record2File.out("\n");
         }
         
         //set the fitFunction is each cluster
         if(cluster!=null)
             setClusterFitFunction();
         
-        t1=System.currentTimeMillis()/1000.0d;
-        Record2File.out("Linear regression ends.");
-        printTimeCost();
-        Record2File.out("\n");
+        //t1=System.currentTimeMillis()/1000.0d;
+        //Record2File.out("Linear regression ends.");
+        //printTimeCost();
+        //Record2File.out("\n");
     }
 
     @Override
@@ -127,12 +133,14 @@ public class LR implements RegressionInterface{
 
     @Override
     public double timeCost() {
-        return t1-t0;
+        return (t1-t0)/1000.0d;
     }
     
     @Override
     public void setClusterFitFunction() {
-        if(cluster.getRegressionModel()==null){
+        if(cluster.getRegressionMethod()==null
+                || !cluster.getRegressionMethodName().equals(getMethodName())){
+            cluster.setRegressionMethodName(getMethodName());
             cluster.runRegression();
         }
     }

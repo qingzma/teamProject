@@ -5,8 +5,16 @@
  */
 package com.teamProject.cluster;
 
+import com.teamProject.Record2File;
 import com.teamProject.data.Point;
 import com.teamProject.data.Points;
+import com.teamProject.regression.GPS;
+import com.teamProject.regression.KNN;
+import com.teamProject.regression.LR;
+import com.teamProject.regression.NL;
+import com.teamProject.regression.NN;
+import com.teamProject.regression.RBF;
+import com.teamProject.regression.RegressionInterface;
 import com.teamProject.regression.RegressionModel;
 
 /**
@@ -20,7 +28,10 @@ public class Cluster {
     private Point[] range;
     final private boolean m_bPrintClusterInformation=false;
     double enlargeFactor=1.01;     // to give freedom to range, multiply this factor
-    public RegressionModel rm;
+    //public RegressionModel rm;
+    public LR lr;
+    public RegressionInterface ri;
+    String regressionMethod;
     
     public Cluster(int id){
         this.id=id;
@@ -114,22 +125,43 @@ public class Cluster {
       }
       
       public double fit(Point pt){
-          if(rm==null)
+          if(ri==null)
               System.err.println("Please call runRegression() Method "
                       + "in Cluster class before calling fit()");
-          return rm.fitFunction(pt.toArray());
+          return ri.fitFunction(pt.toArray());
       }
-      
+     
       public void runRegression(){
-          rm=new RegressionModel(cluster.getX().toArray(),
-                  cluster.getY().toVector());
-          rm.run();
+          if(regressionMethod.equals("Linear Regression")){
+              ri=new LR(cluster.getX().toArray(),cluster.getY().toVector());
+              ri.run();
+          }else if(regressionMethod.equals("Non-linear Regression")){
+              ri=new NL(cluster.getX().toArray(),cluster.getY().toVector());
+              ri.run();
+          }else if(regressionMethod.equals("RBF")){
+              ri=new RBF(cluster.getX().toArray(),cluster.getY().toVector());
+              ri.run();
+          }else if(regressionMethod.equals("KNN")){
+              ri=new KNN(cluster.getX().toArray(),cluster.getY().toVector());
+              ri.run();
+          }else if(regressionMethod.equals("GPS")){
+              ri=new GPS(cluster.getX().toArray(),cluster.getY().toVector());
+              ri.run();
+          }else if(regressionMethod.equals("NN")){
+              ri=new NN(cluster.getX().toArray(),cluster.getY().toVector());
+              ri.run();
+          }else{
+              Record2File.error("Regression method not found! Please check.");
+              System.exit(-1);
+          }
+                  
+            
       }
       
       public double getR2(){
           double result=9999999;
-          if (rm!=null){
-              result= rm.getR2();
+          if (ri!=null){
+              //result= ri.getR2();
           }
           else{
               System.err.println("Please call fit method before getR2 in Class Cluster");
@@ -138,8 +170,18 @@ public class Cluster {
             return result;
       }
       
-      public RegressionModel getRegressionModel(){
-          return rm;
+      public RegressionInterface getRegressionMethod(){
+          return ri;
       }
-    
+      
+      
+      public void setRegressionMethodName(String str){
+          regressionMethod=str;
+      }
+      
+      public String getRegressionMethodName(){
+          return regressionMethod;
+      }
+
+
 }
