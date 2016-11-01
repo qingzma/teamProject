@@ -59,7 +59,7 @@ public class App extends Application {
             dc.filterData(index);
             
             
-            km=new KMeans(dc.getRowsBefore(25000),30); 
+            km=new KMeans(dc.getRowsBefore(2500),30); 
             km.runClusters();
             
             
@@ -77,7 +77,7 @@ public class App extends Application {
             
             Fitting ft=new Fitting(km.getClusters());
             ft.showValidateInformation(false);
-            ft.validate(dc.getRowsBetween(25000,30000));
+            ft.validate(dc.getRowsBetween(2500,3500));
             Record2File.out("NRMSE is "+ft.getValidateNRMSE());
             Record2File.out("RMSE is "+ft.getValidateRMSE());
             
