@@ -22,6 +22,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 //import net.sf.javaml.core.Dataset;
@@ -59,14 +60,16 @@ public class App extends Application {
             dc.filterData(index);
             
             
-            km=new KMeans(dc.getRowsBefore(2500),30); 
+            km=new KMeans(dc.getRowsBefore(25000),30); 
             km.runClusters();
             
             
             
 
             LR lr=new LR(km.getClusters());
-            lr.run();
+            //lr.run();
+            Thread threadLR=new Thread(lr);
+            threadLR.run();
             
             
             plt=new Plot();
@@ -86,7 +89,7 @@ public class App extends Application {
         
         root.add(btnCSV,0,1);
         
-        
+        root.add(evaludateK(),0,2);
         
 
         primaryStage.show();
@@ -142,6 +145,44 @@ public class App extends Application {
         return hbDimension;
     }
     
+    
+    private HBox evaludateK(){
+        HBox hb=new HBox();
+        TextField txtKNum=new TextField("2");
+        TextField txtLineNum=new TextField("2500");
+        
+        Button btn=new Button("evaluate K");
+        btn.setOnAction((ActionEvent)->{
+            Record2File.deleteFile();
+            dc.readCSV("OnlineNewsPopularity.csv",",");
+            
+            //the 2,3,4 column of the csv file
+            int[] index={2,3};
+            dc.filterData(index);
+            
+            int grpNum=Integer.parseInt(txtKNum.getText());
+            int lineNum=Integer.parseInt(txtLineNum.getText());
+            km=new KMeans(dc.getRowsBefore(lineNum),grpNum); 
+            km.runClusters();
+            km.printCentroids();
+            
+            plt=new Plot();
+            plt.showFittingLine(false);
+            plt.plot(km.getClusters());
+            
+        });
+        txtKNum.setPrefWidth(70);
+        txtLineNum.setPrefWidth(100);
+        Label lblKNum=new Label("Cluster number: ");
+        Label lblLineNum=new Label("Rows number: ");
+        
+        
+        
+        
+        hb.getChildren().addAll(lblKNum,txtKNum,lblLineNum,txtLineNum,btn);
+        return hb;
+        
+    }
 
 
     

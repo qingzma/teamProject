@@ -19,11 +19,12 @@ import java.text.NumberFormat;
  * @author qingzhi
  */
 public class Record2File {
-    private final static String fileName="src/main/java/com/teamProject/output.txt";
+    private static String fileName="output.txt";
+    private static String filePath="src/main/java/com/teamProject/";
     public static void out(String str){
         System.out.println(str);
         try(PrintWriter writer = new PrintWriter(new FileWriter(
-                fileName,true))){
+                filePath+fileName,true))){
             //writer.append(str);
             writer.println(str);
             writer.close();
@@ -35,7 +36,7 @@ public class Record2File {
     public static void warning(String str){
         System.out.println("[Warning: "+str+"]");
         try(PrintWriter writer = new PrintWriter(new FileWriter(
-                fileName,true))){
+                filePath+fileName,true))){
             //writer.append(str);
             writer.println("[warning:] "+str+"]");
             writer.close();
@@ -50,7 +51,7 @@ public class Record2File {
     public static void error(String str){
         System.err.println("[Error: "+str+"]");
         try(PrintWriter writer = new PrintWriter(new FileWriter(
-                fileName,true))){
+                filePath+fileName,true))){
             //writer.append(str);
             writer.println("[Error:] "+str+"]");
             writer.close();
@@ -62,14 +63,17 @@ public class Record2File {
     
     public static void deleteFile(){
         try{
-            File file=new File(fileName);
+            File file=new File(filePath+fileName);
             file.delete();
         }catch(Exception e){}
         
     }
     
     public static String double2str(double d){
-        DecimalFormat df = new DecimalFormat("####.000"); 
+        DecimalFormat df = new DecimalFormat("######.000"); 
         return df.format(d);
+    }
+    public void setOutputFile(String str){
+        fileName=str;
     }
 }

@@ -277,4 +277,13 @@ public class KMeans {
         Record2File.out("Time for clustering is "+
                     Record2File.double2str( timeCost())+"s."  );
     }
+    
+    public void printCentroids(){
+        Record2File.out("Total "+NUM_CLUSTER+" centroids:");
+        for(int i=0;i<NUM_CLUSTER;i++){
+            Record2File.out(clusters[i].getCentroid().toString());
+        }
+        Record2File.out(" ");
+        
+    }
 }

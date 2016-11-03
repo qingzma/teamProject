@@ -5,6 +5,7 @@
  */
 package com.teamProject.data;
 
+import com.teamProject.Record2File;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -90,13 +91,7 @@ public class Point {
         this.clusterNum=n;
     }
     
-    public void plotPoint(){
-        System.out.println("Point: ");
-        for(int i=0;i<point.size();i++){
-            System.out.print(point.get(i));
-        }
-        System.out.println("");
-    }
+    
     
     public void RemoveAt(int n){
         point.remove(n);
@@ -177,12 +172,21 @@ public class Point {
     public String toString(){
         String str="[";
         for(int i=0;i<point.size()-1;i++){
-            str+=point.get(i);
+            str+=Record2File.double2str(point.get(i));
             str+=",";
         }
-        str+=point.get(point.size()-1);
+        str+=Record2File.double2str(point.get(point.size()-1));
         str+="]";
         
         return str;
+    }
+    
+    public void plotPoint(){
+        //System.out.println("Point: ");
+        //for(int i=0;i<point.size();i++){
+        //    System.out.print(point.get(i));
+        //}
+        //System.out.println("");
+        Record2File.out(point.toString());
     }
 }
