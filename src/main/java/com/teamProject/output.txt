@@ -1,19 +1,22 @@
 Reading file starting...
 Reading file ends.
-Time for file read and treatment is .936s.
+Time for file read and treatment is .376s.
 
 
 KMeans clustering starting...
 KMeans clustering ends.
-Time for clustering is .021s.
+Time for clustering is .010s.
 
 
-Total 2 centroids:
-[9.642,1151.009]
-[9.879,322.301]
+Total 1 centroids:
+[9.835,477.767,.563]
  
 Plot starting...
+Linear regression ends.
+Time for Linear Regression is .080s.
+
+
 Plot ends.
-Time for plot is 1.898s.
+Time for plot is 2.248s.
 
 
