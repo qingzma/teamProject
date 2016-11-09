@@ -219,15 +219,22 @@ public class PointsStr {
         return header;
     }
     
-    public Points generateTargetPoints(int[] index){
-        //Points pts=new Points();
+    public Points filter(int[] index){
+        Points pts;
+        PointStr newHeader=new PointStr();
         PointsStr ptsStr=column(index[0]);
+        newHeader.add(header.get(0));
         for(int i=1;i<index.length;i++){
             //System.out.println("ptsStr row number "+ptsStr.getPointNum());
             ptsStr.addColumn(column(index[i]));
+            newHeader.add(header.get(i));
         }
+        pts=ptsStr.toPoints();
         
-        return ptsStr.toPoints();
+        //header treatment
+        pts.setHeader(newHeader);
+        
+        return pts;
     }
     
     public Points toPoints(){

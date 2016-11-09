@@ -74,7 +74,8 @@ public class Fitting {
                     " to fit, distance is "+Record2File.double2str(distance));
             
             //clusters[nearestGroupID].runRegression();
-            result=clusters[nearestGroupID].fit(x);
+        //    result=clusters[nearestGroupID].fit(x);
+        
             
             
         }
@@ -82,8 +83,8 @@ public class Fitting {
             //int weight=0;
             for(int i=0;i<clusterGroup.size();i++){
                 //clusters[clusterGroup.get(i)].runRegression();
-                result+=clusters[clusterGroup.get(i)].fit(x) * 
-                        clusterGroupWeight.get(i) ;
+        //        result+=clusters[clusterGroup.get(i)].fit(x) * 
+        //                clusterGroupWeight.get(i) ;
             //   weight+=clusterGroupWeight.get(i);
             }
             //System.out.println("result is "+result);

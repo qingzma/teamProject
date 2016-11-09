@@ -20,7 +20,7 @@ public class KMeans {
     public Points X=new Points();
     public Points Y=new Points();
     public Points data;
-    public int NUM_CLUSTER =2;
+    public int NUM_CLUSTER;
     private final double ITERATION_CRITERIA=0.001;
     private final int ITERATION_STEP=100;
     //private boolean bFinish=false;
@@ -53,7 +53,7 @@ public class KMeans {
     }
     
     
-    public Cluster[] runClusters(){
+    public void run(){
         t0=System.currentTimeMillis();
         Record2File.out("KMeans clustering starting...");
         //create and initialize clusters and centroids
@@ -150,7 +150,7 @@ public class KMeans {
         Record2File.out("KMeans clustering ends.");
         printTimeCost();
         Record2File.out("\n");
-        return clusters;
+        
     }
     
     

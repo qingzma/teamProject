@@ -18,8 +18,6 @@ import java.util.Scanner;
  * @author qingzhi
  */
 public class dataContainer {
-    //private Points X; //=new Points();
-    //private Points Y; //=new Points();
     private PointsStr fileData; 
     private Points data;        //to store  X,Y data points,(point1, x1,x2,..y)
     //private PointStr fileHeader;
@@ -109,9 +107,11 @@ public class dataContainer {
     
     public void filterData(int[] index){
         
-        data=fileData.generateTargetPoints(index);
+        data=fileData.filter(index);
         iDataWidth=data.get(0).getSize();
         
+        
+        //filter abnormal data points
         if(index.length>2){
         for(int i=0;i<data.getPointNum();i++){
             if(data.get(i).get(2)>600){
@@ -201,50 +201,5 @@ public class dataContainer {
                     Record2File.double2str(  timeCost() )+"s." );
     }
     
-    /*
-    public void generateXY(){
-        X=new Points();
-        Y=new Points();
-        Point pointX;
-        Point pointY;
         
-        for(int i=0;i<getPointNum();i++){
-            pointX=new Point();
-            pointY=new Point();
-            for(int j=0;j<iDataWidth-1;j++){
-                   pointX.add(data.get(i).get(j));
-            }
-            pointY.add(data.get(i).get(iDataWidth-1));
-            
-            
-            X.add(pointX);
-            Y.add(pointY);
-        
-        }
-        
-    }
-    
-    
-    
-    public void showXY(){
-        generateXY();
-        for(int i=0;i<X.getPointNum();i++){
-            System.out.print(X.get(i).getPoint());
-            System.out.println(Y.get(i).getPoint());
-        }
-    }
-    */
-    
-    /*
-    public Points getX(){
-        generateXY();
-        return X;
-    }
-    
-    public Points getY(){
-        generateXY();
-        return Y;
-    }
-    */
-    
 }

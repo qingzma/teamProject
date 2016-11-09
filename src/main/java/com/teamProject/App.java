@@ -16,6 +16,7 @@ import com.teamProject.data.PointInt;
 import com.teamProject.regression.Fitting;
 import com.teamProject.regression.LR;
 import com.teamProject.regression.RegressionModel;
+import com.teamProject.regression.LinearRegression;
 import java.util.ArrayList;
 import java.util.Scanner;
 import javafx.application.Application;
@@ -67,20 +68,21 @@ public class App extends Application {
             
             
             km=new KMeans(dc.getRowsBefore(2500),1); 
-            km.runClusters();
+            km.run();
             
             
             
 
             LR lr=new LR(km.getClusters());
+            lr.run();
             //lr.run();
-            Thread threadLR=new Thread(lr);
-            threadLR.run();
+            //Thread threadLR=new Thread(lr);
+            //threadLR.run();
             
             
             plt=new Plot();
             plt.showFittingLine(true);
-            plt.showR2(false);
+            
             plt.plot(km.getClusters());
             
             
@@ -93,12 +95,13 @@ public class App extends Application {
         });
         
         
-        root.add(btnCSV,0,1);
+        //root.add(btnCSV,0,1);
         
-        root.add(evaludateK(),0,2);
+        //root.add(evaludateK(),0,2);
         
-        root.add(ContainerPane(),0,3);
+        //root.add(ContainerPane(),0,3);
         
+        root.add(LRDemo(),0,6);
 
         primaryStage.show();
     }
@@ -123,7 +126,7 @@ public class App extends Application {
                 dc.readFile("iris1.data",",");
                 //dc.filterData();
                 km=new KMeans(dc.getRowsBefore(140),5); 
-                km.runClusters();
+                km.run();
                 
                
                 rm=new RegressionModel(km.getClusters());
@@ -132,7 +135,7 @@ public class App extends Application {
                 
                 plt=new Plot();
                 plt.showFittingLine(false);
-                plt.showR2(false);
+                
                 plt.plot(km.getClusters());
            
                 Fitting ft=new Fitting(km.getClusters());
@@ -180,7 +183,7 @@ public class App extends Application {
             int grpNum=Integer.parseInt(txtKNum.getText());
             int lineNum=Integer.parseInt(txtLineNum.getText());
             km=new KMeans(dc.getRowsBefore(lineNum),grpNum); 
-            km.runClusters();
+            km.run();
             km.printCentroids();
             txtTimeCost.setText("time cost is "+Record2File.double2str(  km.timeCost()   ));
             
@@ -274,7 +277,7 @@ public class App extends Application {
             int grpNum=Integer.parseInt(txtKNum.getText());
             int lineNum=Integer.parseInt(txtLineNum.getText());
             km=new KMeans(dc.getRowsBefore(lineNum),grpNum); 
-            km.runClusters();
+            km.run();
             km.printCentroids();
             txtTimeCost.setText("time cost is "+Record2File.double2str(  km.timeCost()   ));
             
@@ -311,18 +314,46 @@ public class App extends Application {
         Button btnLR=new Button("Run Regression");
         btnLR.setOnAction((ActionEvent)->{
             LR lr=new LR(km.getClusters());
-            //lr.run();
-            Thread threadLR=new Thread(lr);
-            threadLR.start();
+            lr.run();
+            //Thread threadLR=new Thread(lr);
+            //threadLR.start();
             
             
             plt=new Plot();
             plt.showFittingLine(true);
-            plt.showR2(false);
+            
             plt.plot(km.getClusters());
         });
         
         vb.getChildren().addAll(lblLR,btnLR);
         return vb;
+    }
+    
+    
+    private HBox LRDemo(){
+        Button btn=new Button("Linear regression Demo");
+        btn.setOnAction(((ActionEvent) -> {
+            Record2File.deleteFile();
+            dc.readCSV("OnlineNewsPopularity.csv",",");
+            
+            //the 2,3,4 column of the csv file
+            int[] index={2,3,4};
+            dc.filterData(index);
+            
+            
+            LinearRegression lr1=new LinearRegression(dc.getRowsBefore(2500));
+            lr1.run();
+            
+            
+            
+           plt=new Plot();
+           plt.showFittingLine(true);
+           plt.plot(lr1.getClusters(),lr1);
+            
+        }));
+        
+        HBox hb=new HBox();
+        hb.getChildren().add(btn);
+        return hb;
     }
 }

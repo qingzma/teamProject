@@ -35,12 +35,12 @@ public class GPS implements RegressionInterface{
     }
 
     @Override
-    public double fitFunction(double[] x) {
+    public double fit(double[] x,int clusterIDNum) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public double getNRMSE() {
+    public double[] getNRMSE() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -54,8 +54,13 @@ public class GPS implements RegressionInterface{
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    @Override
+    
     public void setClusterFitFunction() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public Cluster[] getClusters() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     

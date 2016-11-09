@@ -194,6 +194,10 @@ public class Points {
         }
         
         return newPt;
-    }         
+    }
+    
+    public void setHeader(PointStr header){
+        this.header=header;
+    }
     
 }

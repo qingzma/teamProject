@@ -27,7 +27,7 @@ public class Cluster {
     private int id;
     private Point[] range;
     final private boolean m_bPrintClusterInformation=false;
-    double enlargeFactor=1.01;     // to give freedom to range, multiply this factor
+    double enlargeFactor=1.00;     // to give freedom to range, multiply this factor
     //public RegressionModel rm;
     public LR lr;
     public RegressionInterface ri;
@@ -124,13 +124,13 @@ public class Cluster {
         return range;
       }
       
-      public double fit(Point pt){
-          if(ri==null)
-              System.err.println("Please call runRegression() Method "
-                      + "in Cluster class before calling fit()");
-          return ri.fitFunction(pt.toArray());
-      }
-     
+//      public double fit(Point pt){
+//          if(ri==null)
+  //            System.err.println("Please call runRegression() Method "
+    //                  + "in Cluster class before calling fit()");
+      //    return ri.fit(pt.toArray());
+      //}
+/*     
       public void runRegression(){
           if(regressionMethod.equals("Linear Regression")){
               ri=new LR(cluster.getX().toArray(),cluster.getY().toVector());
@@ -157,7 +157,7 @@ public class Cluster {
                   
             
       }
-      
+ */     
       public double getR2(){
           double result=9999999;
           if (ri!=null){

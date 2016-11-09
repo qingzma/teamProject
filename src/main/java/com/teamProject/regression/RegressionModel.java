@@ -313,7 +313,7 @@ public class RegressionModel {
     
     public void setClusterFitFunction(){
         if(cluster.getRegressionMethod()==null){
-            cluster.runRegression();
+            //cluster.runRegression();
         }
     }
     

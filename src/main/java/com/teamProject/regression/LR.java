@@ -16,7 +16,7 @@ import org.jblas.Solve;
  *this is the linear regression model
  * @author qingzhi
  */
-public class LR implements RegressionInterface{
+public class LR{
     private DoubleMatrix X;         //the X matrix when run linear regression
     private DoubleMatrix x;         //restore the x value of points
     private DoubleMatrix Y;         //the Y Vector when run linear regression
@@ -30,7 +30,7 @@ public class LR implements RegressionInterface{
     Cluster cluster;
     Cluster[] clusters;
     //RegressionModel regressionModels[];
-    RegressionInterface regressionMethods[];
+    LR regressionMethods[];
     private double t0;
     private double t1;
     
@@ -49,14 +49,13 @@ public class LR implements RegressionInterface{
     
     public LR(Cluster[] clusters){
         this.clusters=clusters;
-        regressionMethods=new RegressionInterface[clusters.length];
+        regressionMethods=new LR[clusters.length];
         for(int i=0;i<clusters.length;i++){
             regressionMethods[i]=new LR(clusters[i]);
         }
     }
     
 
-    @Override
     public String getMethodName() {
         return "Linear Regression"; 
     }
@@ -66,7 +65,6 @@ public class LR implements RegressionInterface{
                     Record2File.double2str( timeCost()) +"s."  );
     }
 
-    @Override
     public void run() {
         //t0=System.currentTimeMillis()/1000.0d;
         //Record2File.out("Linear regression starting...");
@@ -101,8 +99,8 @@ public class LR implements RegressionInterface{
         }
         
         //set the fitFunction is each cluster
-        if(cluster!=null)
-            setClusterFitFunction();
+   //     if(cluster!=null)
+    //        setClusterFitFunction();
         
         //t1=System.currentTimeMillis()/1000.0d;
         //Record2File.out("Linear regression ends.");
@@ -110,7 +108,6 @@ public class LR implements RegressionInterface{
         //Record2File.out("\n");
     }
 
-    @Override
     public double fitFunction(double[] xx) {
         double result=999999;
         if(x.columns==1){
@@ -125,18 +122,15 @@ public class LR implements RegressionInterface{
         return result;
     }
 
-    @Override
     public double getNRMSE() {
         R2=1-RSS/TSS;
         return R2;
     }
 
-    @Override
     public double timeCost() {
         return (t1-t0)/1000.0d;
     }
-    
-    @Override
+    /*
     public void setClusterFitFunction() {
         if(cluster.getRegressionMethod()==null
                 || !cluster.getRegressionMethodName().equals(getMethodName())){
@@ -144,7 +138,7 @@ public class LR implements RegressionInterface{
             cluster.runRegression();
         }
     }
-    
+    */
     
     public void polynominal1D(int powerMax){
         n=Y.length;

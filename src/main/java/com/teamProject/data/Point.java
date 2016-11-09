@@ -14,20 +14,24 @@ import java.util.Arrays;
  * @author qingzhi
  */
 public class Point {
-    private int m_size=0;
-    private ArrayList<Double> point=new ArrayList<>();
+    private int m_size;
+    private ArrayList<Double> point;
     private int clusterNum=0;
     
-    public Point(){}
+    public Point(){
+        point=new ArrayList<>();
+        m_size=0;
+    }
     
     public Point(Point p){
-        this.point=(ArrayList<Double>) p.getPoint().clone();
+        point=(ArrayList<Double>) p.getPoint().clone();
         m_size=p.getSize();
     }
     
 
     
     public Point(ArrayList<Double> al){
+        this();
         for(int i=0;i<al.size();i++){
             point.add(al.get(i));
         }
@@ -36,6 +40,7 @@ public class Point {
     
     
     public Point(double[] doubleArray){
+        this();
         m_size=doubleArray.length;
         
         for(int i=0;i<m_size;i++){
@@ -44,10 +49,10 @@ public class Point {
     }
     
     
-    public Point(double d){
-        point.add(d);
-        m_size++;
-    }
+    //public Point(double d){
+    //    point.add(d);
+    //    m_size++;
+    //}
     
     
     public int getSize(){
@@ -72,6 +77,7 @@ public class Point {
         m_size++;
     }
     
+    @Override
     public Point clone(){
         
         return new Point((ArrayList<Double>)point.clone());
@@ -169,6 +175,7 @@ public class Point {
         return Arrays.stream(toArray()).sum();
     }
     
+    @Override
     public String toString(){
         String str="[";
         for(int i=0;i<point.size()-1;i++){

@@ -3,13 +3,15 @@
  */
 package com.teamProject.regression;
 
+import com.teamProject.cluster.Cluster;
+
 
 /**
  *
  * @author qingzhi
  */
 public interface RegressionInterface extends Runnable{
-    /*the implemented class should have at least three constructors:
+    /*the implemented class should have the following constructors:
     RegressionInterface(double[][] x,double[] y)
     RegressionInterface(Cluster cluster)
     RegressionInterface(Cluster[] clusters)
@@ -21,11 +23,13 @@ public interface RegressionInterface extends Runnable{
     
     public void run();              //implement the regression 
     
-    public double fitFunction(double[]x);  
+    public double fit(double[]x,int clusterIDNum);  
     //this is the fit function, given x value, it should return the fitted value
     
-    public double getNRMSE();        
-    // return the normal root mean square error based on the training dataset
+    public Cluster[] getClusters();   //return the K-Means clusters.
+    
+    public double[] getNRMSE();        
+    // return the normal root mean square error of each cluster based on the training dataset
     
     public double timeCost();
         // return the time cost (in seconds) during calculation
@@ -41,14 +45,5 @@ public interface RegressionInterface extends Runnable{
     */
     
 
-    public void setClusterFitFunction();        //
-        //set the fitFunction is each cluster, simply copy the following codes to
-        //the implemented class.
-        /* {
-        if(cluster.getRegressionMethod()==null
-                || !cluster.getRegressionMethodName().equals(getMethodName())){
-            cluster.setRegressionMethodName(getMethodName());
-            cluster.runRegression();
-        }
-        */
+
 }
