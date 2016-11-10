@@ -15,6 +15,9 @@ public interface RegressionInterface extends Runnable{
     RegressionInterface( Points pts)
     */
     
+    public String equantion();      //return the equation or parameters.
+    
+    public long memory();    ///return the mmeory to sotre data points
     
     public String getMethodName();      //return the name of your regression algorithm
     
@@ -31,7 +34,7 @@ public interface RegressionInterface extends Runnable{
     public double timeCost();
         // return the time cost (in seconds) during calculation
     
-    public void printTimeCost();
+    //public void printTimeCost();
         //print the time cost in a well defined structure
         //Simply copy the following codes
     /*

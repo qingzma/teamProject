@@ -77,17 +77,25 @@ public class LinearRegression implements RegressionInterface {
 
     @Override
     public double timeCost() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return 1.0;
     }
 
-    @Override
-    public void printTimeCost() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+    
+    
 
     @Override
     public Cluster[] getClusters() {
         return clusters;
+    }
+
+    @Override
+    public String equantion() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public long memory() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
     

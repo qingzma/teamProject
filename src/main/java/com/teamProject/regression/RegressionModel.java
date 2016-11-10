@@ -73,8 +73,7 @@ public class RegressionModel {
             }
         }
         
-        if(cluster!=null)
-            setClusterFitFunction();
+      
         
         
         
@@ -94,14 +93,7 @@ public class RegressionModel {
         }
         return result;
     }
-/*    public double fitFunction(double xx){
-        double result=999999;
-
-            result= functionPolynominal1D(xx);
  
-        return result;
-    }
-*/    
     public void polynominal1D(int powerMax){
         n=Y.length;
         p=powerMax+1;
@@ -311,11 +303,7 @@ public class RegressionModel {
     }
     
     
-    public void setClusterFitFunction(){
-        if(cluster.getRegressionMethod()==null){
-            //cluster.runRegression();
-        }
-    }
+ 
     
     
     public void showBeta(boolean b){

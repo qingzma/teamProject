@@ -172,10 +172,10 @@ public class Plot {
     public void scatter3DWindowJzy3d(Cluster[] cluster,RegressionInterface ri){
         Stage stage = new Stage();
         stage.setWidth(800);
-        stage.setHeight(600);
+        stage.setHeight(800);
         stage.setTitle(title);
         GridPane grid=new GridPane();
-        Scene scene=new Scene(grid);
+        
         
         
         
@@ -224,10 +224,10 @@ public class Plot {
         ImageView imageView = factory.bindImageView(chart);
         
         
+        grid.add(hb,0,0);
+        grid.add(imageView, 0, 1);
         
-        grid.add(imageView, 0, 0);
-        grid.add(hb,0,1);
-        
+        Scene scene=new Scene(grid);
         stage.setScene(scene);
         stage.show();
         factory.addSceneSizeChangedListener(chart, scene);
