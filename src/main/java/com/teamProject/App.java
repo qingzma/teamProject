@@ -19,6 +19,8 @@ import com.teamProject.regression.RegressionModel;
 import com.teamProject.regression.LinearRegression;
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.scene.Scene;
@@ -342,7 +344,9 @@ public class App extends Application {
             
             
             LinearRegression lr1=new LinearRegression(dc.getRowsBefore(2500));
+            
             lr1.run();
+            
             
             
             

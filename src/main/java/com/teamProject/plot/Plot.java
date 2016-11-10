@@ -77,6 +77,7 @@ public class Plot {
     JavaFXChartFactory factory;
     AWTChart chart;
     XYPlot plt;
+    Shape[] surfaces;
     
     
     public void scatter2DWindowFX(Points X, Points Y){
@@ -187,7 +188,7 @@ public class Plot {
         
         
         
-        //chart.add(surface);
+        //chart.add(scatters);
         Scatter[] scatters=getJzy3dScatterPoints(cluster);
         for(int i=0;i<scatters.length;i++){
             scatters[i].setWidth(6);
@@ -196,6 +197,16 @@ public class Plot {
                 rand.nextInt(255), 200);
             scatters[i].setColor(color);
             chart.add(scatters[i]);
+        }
+        
+        
+        
+        
+        if(m_bShowFitting){
+            surfaces=getJzy3dSurface(cluster,ri);
+                for(int i=0;i<surfaces.length;i++){
+                    chart.getScene().getGraph().add(surfaces[i]);
+                }
         }
         
         
@@ -229,9 +240,18 @@ public class Plot {
     }
     
     public Button showFitSurfaceButton(Cluster[] clusters,RegressionInterface ri){
-        //HBox hb=new HBox();
-        Button btn=new Button("show fitting");
-        Shape[] surfaces=getJzy3dSurface(clusters,ri);
+        Button btn=new Button();
+        if(m_bShowFitting)
+            btn.setText("hide fitting");
+        else
+            btn.setText("show fitting");
+        
+        
+        
+        if(surfaces==null){
+           surfaces=getJzy3dSurface(clusters,ri); 
+        }
+        
         btn.setOnAction((ActionEvent) -> {
             
             if(!m_bShowFitting){
@@ -248,8 +268,9 @@ public class Plot {
             }
             else{
                 btn.setText("show fitting");
+                m_bShowFitting=false;
                 for(int i=0;i<surfaces.length;i++){
-                    m_bShowFitting=false;
+                    
                     chart.getScene().getGraph().remove(surfaces[i]);
                 }
             }

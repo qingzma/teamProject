@@ -12,10 +12,7 @@ import com.teamProject.cluster.Cluster;
  */
 public interface RegressionInterface extends Runnable{
     /*the implemented class should have the following constructors:
-    RegressionInterface(double[][] x,double[] y)
-    RegressionInterface(Cluster cluster)
-    RegressionInterface(Cluster[] clusters)
-    and should be able to run regression for these three different inputs
+    RegressionInterface( Points pts)
     */
     
     

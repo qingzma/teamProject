@@ -21,7 +21,6 @@ public class LinearRegression implements RegressionInterface {
     private Points points;
     private KMeans km;
     private LR[] lr;
-    private Plot plt;
     private Cluster[] clusters;
     private int clusterNum;
     
