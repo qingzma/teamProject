@@ -8,6 +8,7 @@ package com.teamProject;
 
 
 
+import com.teamProject.cluster.Cluster;
 import com.teamProject.plot.Plot;
 import com.teamProject.data.dataContainer;
 import com.teamProject.cluster.KMeans;
@@ -47,6 +48,7 @@ public class App extends Application {
     KMeans km;
     RegressionModel rm;
     private int[] index;        // store the columns that need to read from file.
+    Cluster[] dataDivision;
 
     //@Override;
     public void start(Stage primaryStage){
@@ -58,7 +60,7 @@ public class App extends Application {
         primaryStage.setScene(scene);
         //root.add(dimensionBox(),0,0);
         
-       
+       /*
         Button btnCSV=new Button("read CSV");
         btnCSV.setOnAction((ActionEvent e)->{
             Record2File.deleteFile();
@@ -96,14 +98,30 @@ public class App extends Application {
             
         });
         
-        
+        */
         //root.add(btnCSV,0,1);
         
         //root.add(evaludateK(),0,2);
         
         //root.add(ContainerPane(),0,3);
         
+        Record2File.deleteFile();
+        dc.readCSV("OnlineNewsPopularity.csv",",");
+            
+            //the 2,3,4 column of the csv file
+        int[] index={2,3,4};
+        dc.filterData(index);
+        km=new KMeans(dc.getData(), 5);
+        km.run();
+        
+        dataDivision=km.getClusters();
+        
+        
         root.add(LRDemo(),0,6);
+        root.add(GPS(),0,7);
+        root.add(KNN(),0,8);
+        root.add(NL(),0,9);
+        root.add(RBF(),0,10);
 
         primaryStage.show();
     }
@@ -335,18 +353,16 @@ public class App extends Application {
     private HBox LRDemo(){
         Button btn=new Button("Linear regression Demo");
         btn.setOnAction(((ActionEvent) -> {
-            Record2File.deleteFile();
-            dc.readCSV("OnlineNewsPopularity.csv",",");
-            
-            //the 2,3,4 column of the csv file
-            int[] index={2,3,4};
-            dc.filterData(index);
             
             
-            LinearRegression lr1=new LinearRegression(dc.getRowsBefore(2500));
+            
+            
+            LinearRegression lr1=new LinearRegression(dataDivision[0].getCluster());
+            
             
             lr1.run();
             
+          
             
             
             
@@ -360,4 +376,98 @@ public class App extends Application {
         hb.getChildren().add(btn);
         return hb;
     }
+    
+    
+    private HBox GPS(){
+        Button btn=new Button("Gaussian Process");
+        btn.setOnAction(((ActionEvent) -> {
+            LinearRegression lr1=new LinearRegression(dataDivision[1].getCluster());
+            
+            
+            lr1.run();
+            
+          
+            
+            
+            
+           plt=new Plot();
+           plt.showFittingLine(true);
+           plt.plot(lr1.getClusters(),lr1);
+        }));
+        
+        HBox hb=new HBox();
+        hb.getChildren().add(btn);
+        return hb;
+    }
+    
+    private HBox NL(){
+        Button btn=new Button("Non-Linear regression Demo");
+        btn.setOnAction(((ActionEvent) -> {
+            LinearRegression lr1=new LinearRegression(dataDivision[2].getCluster());
+            
+            
+            lr1.run();
+            
+          
+            
+            
+            
+           plt=new Plot();
+           plt.showFittingLine(true);
+           plt.plot(lr1.getClusters(),lr1);
+            
+        }));
+        
+        HBox hb=new HBox();
+        hb.getChildren().add(btn);
+        return hb;
+    }
+    
+    private HBox RBF(){
+        Button btn=new Button("RBF Demo");
+        btn.setOnAction(((ActionEvent) -> {
+            LinearRegression lr1=new LinearRegression(dataDivision[3].getCluster());
+            
+            
+            lr1.run();
+            
+          
+            
+            
+            
+           plt=new Plot();
+           plt.showFittingLine(true);
+           plt.plot(lr1.getClusters(),lr1);
+        }));
+        
+        HBox hb=new HBox();
+        hb.getChildren().add(btn);
+        return hb;
+    }
+    
+    private HBox KNN(){
+        Button btn=new Button("KNN Demo");
+        btn.setOnAction(((ActionEvent) -> {
+            LinearRegression lr1=new LinearRegression(dataDivision[4].getCluster());
+            
+            
+            lr1.run();
+            
+          
+            
+            
+            
+           plt=new Plot();
+           plt.showFittingLine(true);
+           plt.plot(lr1.getClusters(),lr1);
+        }));
+        
+        HBox hb=new HBox();
+        hb.getChildren().add(btn);
+        return hb;
+    }
+    
+    
+    
+    
 }
