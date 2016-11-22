@@ -166,6 +166,12 @@ public class Point {
             
         }
         result=Math.sqrt(result);
+        
+        if(point.size()!=x2.getSize()){
+            Record2File.error("Point: distanceTo():  Point dimension mismatch!");
+            System.exit(-1);
+        }
+            
         return result;
     }
     

@@ -14,14 +14,15 @@ import com.teamProject.data.dataContainer;
 import com.teamProject.cluster.KMeans;
 import com.teamProject.data.Point;
 import com.teamProject.data.PointInt;
+import com.teamProject.data.Points;
+import com.teamProject.fit.SimpleValidate;
 import com.teamProject.regression.Fitting;
 import com.teamProject.regression.LR;
 import com.teamProject.regression.RegressionModel;
 import com.teamProject.regression.LinearRegression;
+import com.teamProject.regression.RegressionInterface;
 import java.util.ArrayList;
 import java.util.Scanner;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.scene.Scene;
@@ -31,7 +32,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 //import net.sf.javaml.core.Dataset;
@@ -49,7 +49,11 @@ public class App extends Application {
     RegressionModel rm;
     private int[] index;        // store the columns that need to read from file.
     Cluster[] dataDivision;
-
+    private RegressionInterface lr;
+    private RegressionInterface nl;
+    private RegressionInterface knn;
+    private RegressionInterface gps;
+    private RegressionInterface rbf;
     //@Override;
     public void start(Stage primaryStage){
 
@@ -122,6 +126,7 @@ public class App extends Application {
         root.add(KNN(),0,8);
         root.add(NL(),0,9);
         root.add(RBF(),0,10);
+        root.add(validate(),0,11);
 
         primaryStage.show();
     }
@@ -357,10 +362,10 @@ public class App extends Application {
             
             
             
-            LinearRegression lr1=new LinearRegression(dataDivision[0].getCluster());
+            lr=new LinearRegression(dataDivision[0].getCluster());
             
             
-            lr1.run();
+            lr.run();
             
           
             
@@ -368,7 +373,7 @@ public class App extends Application {
             
            plt=new Plot();
            plt.showFittingLine(true);
-           plt.plot(lr1.getClusters(),lr1);
+           plt.plot(lr.getClusters(),lr);
             
         }));
         
@@ -381,10 +386,10 @@ public class App extends Application {
     private HBox GPS(){
         Button btn=new Button("Gaussian Process");
         btn.setOnAction(((ActionEvent) -> {
-            LinearRegression lr1=new LinearRegression(dataDivision[1].getCluster());
+            gps=new LinearRegression(dataDivision[1].getCluster());
             
             
-            lr1.run();
+            gps.run();
             
           
             
@@ -392,7 +397,7 @@ public class App extends Application {
             
            plt=new Plot();
            plt.showFittingLine(true);
-           plt.plot(lr1.getClusters(),lr1);
+           plt.plot(gps.getClusters(),gps);
         }));
         
         HBox hb=new HBox();
@@ -403,10 +408,10 @@ public class App extends Application {
     private HBox NL(){
         Button btn=new Button("Non-Linear regression Demo");
         btn.setOnAction(((ActionEvent) -> {
-            LinearRegression lr1=new LinearRegression(dataDivision[2].getCluster());
+            nl=new LinearRegression(dataDivision[2].getCluster());
             
             
-            lr1.run();
+            nl.run();
             
           
             
@@ -414,7 +419,7 @@ public class App extends Application {
             
            plt=new Plot();
            plt.showFittingLine(true);
-           plt.plot(lr1.getClusters(),lr1);
+           plt.plot(nl.getClusters(),nl);
             
         }));
         
@@ -426,10 +431,10 @@ public class App extends Application {
     private HBox RBF(){
         Button btn=new Button("RBF Demo");
         btn.setOnAction(((ActionEvent) -> {
-            LinearRegression lr1=new LinearRegression(dataDivision[3].getCluster());
+            rbf=new LinearRegression(dataDivision[3].getCluster());
             
             
-            lr1.run();
+            rbf.run();
             
           
             
@@ -437,7 +442,7 @@ public class App extends Application {
             
            plt=new Plot();
            plt.showFittingLine(true);
-           plt.plot(lr1.getClusters(),lr1);
+           plt.plot(rbf.getClusters(),rbf);
         }));
         
         HBox hb=new HBox();
@@ -448,10 +453,10 @@ public class App extends Application {
     private HBox KNN(){
         Button btn=new Button("KNN Demo");
         btn.setOnAction(((ActionEvent) -> {
-            LinearRegression lr1=new LinearRegression(dataDivision[4].getCluster());
+            knn=new LinearRegression(dataDivision[4].getCluster());
             
             
-            lr1.run();
+            knn.run();
             
           
             
@@ -459,7 +464,7 @@ public class App extends Application {
             
            plt=new Plot();
            plt.showFittingLine(true);
-           plt.plot(lr1.getClusters(),lr1);
+           plt.plot(knn.getClusters(),knn);
         }));
         
         HBox hb=new HBox();
@@ -467,7 +472,36 @@ public class App extends Application {
         return hb;
     }
     
-    
+    private HBox validate(){
+        Button btn=new Button("validate");
+        btn.setOnAction(((ActionEvent) -> {
+            RegressionInterface ris[]=new RegressionInterface[1];
+            ris[0]=lr;
+            /*
+            ris[1]=nl;
+            ris[2]=knn;
+            ris[3]=rbf;
+            ris[4]=gps;
+            */
+            Points pts=dc.getRowsBefore(20);
+            Point pt=dc.getRowsBefore(10).get(4);
+            
+            SimpleValidate validate=new SimpleValidate(ris);
+            
+            validate.runValidate(pts);
+            System.out.println(validate.NRMSE());
+            System.out.println(validate.RMSE());
+            
+            
+            
+           
+        }));
+        
+        HBox hb=new HBox();
+        hb.getChildren().add(btn);
+        return hb;
+    }
+
     
     
 }

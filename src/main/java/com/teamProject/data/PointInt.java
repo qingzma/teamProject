@@ -25,6 +25,14 @@ public class PointInt {
         pointInt=(ArrayList<Integer>) al.clone();
     }
     
+    public void add(int a){
+        pointInt.add(a);
+        m_size++;
+    }
+    
+    public int get(int i){
+        return pointInt.get(i);
+    }
     
     public int[] toArray(){
         int[] result=new int[m_size];
