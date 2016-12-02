@@ -92,7 +92,7 @@ public class LinearRegression implements RegressionInterface {
     }
 
     @Override
-    public String equantion() {
+    public String equation() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

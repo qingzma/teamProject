@@ -16,7 +16,7 @@ public interface RegressionInterface extends Runnable{
     RegressionInterface( Points pts)
     */
     
-    public String equantion();      //return the equation or parameters.
+    public String equation();      //return the equation or parameters.
     
     public long memory();    ///return the mmeory to sotre data points
     
