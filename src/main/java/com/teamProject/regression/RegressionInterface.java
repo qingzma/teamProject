@@ -21,6 +21,7 @@ public interface RegressionInterface extends Runnable{
     
     public String getMethodName();      //return the name of your regression algorithm
     
+    @Override
     public void run();              //implement the regression 
     
     public double fit(double[]x,int clusterIDNum);  
@@ -34,15 +35,7 @@ public interface RegressionInterface extends Runnable{
     public double timeCost();
         // return the time cost (in seconds) during calculation
     
-    //public void printTimeCost();
-        //print the time cost in a well defined structure
-        //Simply copy the following codes
-    /*
-    {
-        Record2File.out("Time for "+getMethodName()+" is "+
-                    Record2File.double2str( timeCost()) +"s."  );
-    }
-    */
+
     
 
 

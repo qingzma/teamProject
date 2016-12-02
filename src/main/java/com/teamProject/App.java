@@ -23,6 +23,8 @@ import com.teamProject.regression.LinearRegression;
 import com.teamProject.regression.RegressionInterface;
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.scene.Scene;
@@ -119,6 +121,11 @@ public class App extends Application {
         km.run();
         
         dataDivision=km.getClusters();
+        lr=new LinearRegression(dataDivision[0].getCluster());
+        gps=new LinearRegression(dataDivision[1].getCluster());
+        nl=new LinearRegression(dataDivision[2].getCluster());
+        rbf=new LinearRegression(dataDivision[3].getCluster());
+        knn=new LinearRegression(dataDivision[4].getCluster());
         
         
         root.add(LRDemo(),0,6);
@@ -344,10 +351,10 @@ public class App extends Application {
             //threadLR.start();
             
             
-            plt=new Plot();
-            plt.showFittingLine(true);
+            //plt=new Plot();
+            //plt.showFittingLine(true);
             
-            plt.plot(km.getClusters());
+            //plt.plot(km.getClusters());
         });
         
         vb.getChildren().addAll(lblLR,btnLR);
@@ -362,7 +369,7 @@ public class App extends Application {
             
             
             
-            lr=new LinearRegression(dataDivision[0].getCluster());
+            
             
             
             lr.run();
@@ -371,9 +378,9 @@ public class App extends Application {
             
             
             
-           plt=new Plot();
-           plt.showFittingLine(true);
-           plt.plot(lr.getClusters(),lr);
+           //plt=new Plot();
+           //plt.showFittingLine(true);
+           //plt.plot(lr.getClusters(),lr);
             
         }));
         
@@ -386,7 +393,7 @@ public class App extends Application {
     private HBox GPS(){
         Button btn=new Button("Gaussian Process");
         btn.setOnAction(((ActionEvent) -> {
-            gps=new LinearRegression(dataDivision[1].getCluster());
+            
             
             
             gps.run();
@@ -395,9 +402,9 @@ public class App extends Application {
             
             
             
-           plt=new Plot();
-           plt.showFittingLine(true);
-           plt.plot(gps.getClusters(),gps);
+           //plt=new Plot();
+           //plt.showFittingLine(true);
+           //plt.plot(gps.getClusters(),gps);
         }));
         
         HBox hb=new HBox();
@@ -408,7 +415,7 @@ public class App extends Application {
     private HBox NL(){
         Button btn=new Button("Non-Linear regression Demo");
         btn.setOnAction(((ActionEvent) -> {
-            nl=new LinearRegression(dataDivision[2].getCluster());
+            
             
             
             nl.run();
@@ -417,9 +424,9 @@ public class App extends Application {
             
             
             
-           plt=new Plot();
-           plt.showFittingLine(true);
-           plt.plot(nl.getClusters(),nl);
+           //plt=new Plot();
+           //plt.showFittingLine(true);
+           //plt.plot(nl.getClusters(),nl);
             
         }));
         
@@ -431,7 +438,7 @@ public class App extends Application {
     private HBox RBF(){
         Button btn=new Button("RBF Demo");
         btn.setOnAction(((ActionEvent) -> {
-            rbf=new LinearRegression(dataDivision[3].getCluster());
+            
             
             
             rbf.run();
@@ -440,9 +447,9 @@ public class App extends Application {
             
             
             
-           plt=new Plot();
-           plt.showFittingLine(true);
-           plt.plot(rbf.getClusters(),rbf);
+           //plt=new Plot();
+           //plt.showFittingLine(true);
+           //plt.plot(rbf.getClusters(),rbf);
         }));
         
         HBox hb=new HBox();
@@ -453,7 +460,7 @@ public class App extends Application {
     private HBox KNN(){
         Button btn=new Button("KNN Demo");
         btn.setOnAction(((ActionEvent) -> {
-            knn=new LinearRegression(dataDivision[4].getCluster());
+            
             
             
             knn.run();
@@ -462,9 +469,9 @@ public class App extends Application {
             
             
             
-           plt=new Plot();
-           plt.showFittingLine(true);
-           plt.plot(knn.getClusters(),knn);
+           //plt=new Plot();
+           //plt.showFittingLine(true);
+           //plt.plot(knn.getClusters(),knn);
         }));
         
         HBox hb=new HBox();
@@ -476,21 +483,39 @@ public class App extends Application {
         Button btn=new Button("validate");
         btn.setOnAction(((ActionEvent) -> {
             RegressionInterface ris[]=new RegressionInterface[1];
+            
+            
             ris[0]=lr;
-            /*
-            ris[1]=nl;
-            ris[2]=knn;
-            ris[3]=rbf;
-            ris[4]=gps;
-            */
-            Points pts=dc.getRowsBefore(20);
+            //ris[1]=gps;
+            //ris[2]=nl;
+            //ris[3]=rbf;
+            //ris[4]=knn;
+            
+            Thread threads[]=new Thread[ris.length];
+            for(int i=0;i<ris.length;i++){
+                threads[i]=new Thread(ris[i]);
+                try {
+                    threads[i].start();
+                    threads[i].join();
+                    
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(App.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                
+                
+            }
+            
+            
+            Points pts=dc.getRowsBefore(200);
             Point pt=dc.getRowsBefore(10).get(4);
             
             SimpleValidate validate=new SimpleValidate(ris);
             
             validate.runValidate(pts);
-            System.out.println(validate.NRMSE());
-            System.out.println(validate.RMSE());
+            validate.NRMSE();
+            validate.RMSE();
+            
+            
             
             
             

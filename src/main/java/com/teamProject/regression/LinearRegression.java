@@ -59,7 +59,7 @@ public class LinearRegression implements RegressionInterface {
 
     @Override
     public String getMethodName() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return "linear regression"; //To change body of generated methods, choose Tools | Templates.
     }
 
     public double fit(double[] x) {

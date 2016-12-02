@@ -5,6 +5,7 @@
  */
 package com.teamProject.fit;
 
+import com.teamProject.Record2File;
 import com.teamProject.data.Point;
 import com.teamProject.data.PointInt;
 import com.teamProject.data.Points;
@@ -48,7 +49,7 @@ public class SimpleValidate {
     }
     */
     public PointInt locateRegressionModel(Point pt){
-        PointInt ptInt;
+        PointInt ptInt;         //0 is the index of cluster, 1 is the index of regression method
         int rmIndex=0;
         int clusterIndex=0;
         int numRegressionModels=ris.length;
@@ -74,6 +75,8 @@ public class SimpleValidate {
     public double fit(Point pt){
         double result;
         PointInt index=locateRegressionModel(pt);
+        Record2File.out("Point "+pt+" is fitted by Cluster "+ index.get(1)+
+                " in " + "regression method: "+ris[index.get(0)].getMethodName());
         result = ris[index.get(0)].fit(pt.toArray(), index.get(1));
         return result;
     }
@@ -107,10 +110,12 @@ public class SimpleValidate {
     }
     
     public double RMSE(){
+        Record2File.out("The root mean squared error (RMSE) is: "+ Record2File.double2str(RMSE));
         return RMSE;
     }
     
     public double NRMSE(){
+        Record2File.out("The normalised root mean squared error (NRMSE) is: "+ Record2File.double2str(NRMSE));
         return NRMSE;
     }
     
