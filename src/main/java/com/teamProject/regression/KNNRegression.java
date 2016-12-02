@@ -119,11 +119,10 @@ public class KNNRegression implements RegressionInterface {
           Instances testingDataSet = testingDataSource.getDataSet();
           testingDataSet.setClassIndex(testingDataSet.numAttributes()-1);
           
-          double startPredictTime = System.currentTimeMillis();
+        
           
           fittedValue = knnRegModel[clusterIDNum].classifyInstance(testingDataSet.get(0));
           
-          timeCost = System.currentTimeMillis() - startPredictTime;
           memoryUsed = (Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory())/(1024*1024) ;
             
         } catch (Exception ex) {
@@ -135,6 +134,14 @@ public class KNNRegression implements RegressionInterface {
     @Override
     public Cluster[] getClusters() {
         return clusters;
+    }
+    
+    public double getRSME() {
+        return 0.0;
+    }
+    
+    public double getNRSME() {
+        return 0.0;
     }
 
     @Override
@@ -253,7 +260,7 @@ public class KNNRegression implements RegressionInterface {
     private void buildModel (int clusterNum) throws Exception {
         
         String localClusterName = "LocalClusterKnnRegression-";
-        
+        double startPredictTime = System.currentTimeMillis();
         for (int i = 0; i < clusterNum ; i++) {
             trainingDataSource[i] = new DataSource(System.getProperty("user.dir")+"\\"+localClusterName+i+".arff");
             trainingDataSet[i] =  trainingDataSource[i].getDataSet();
@@ -262,7 +269,7 @@ public class KNNRegression implements RegressionInterface {
             knnRegModel[i].setKNN(k);
             knnRegModel[i].buildClassifier(trainingDataSet[i]);
         }
-        
+        timeCost = System.currentTimeMillis() - startPredictTime;
         /*DataSource testingDataSource = new DataSource(System.getProperty("user.dir")+"\\"+"testing.arff");
 	Instances testingDataSet = testingDataSource.getDataSet();
 	testingDataSet.setClassIndex(testingDataSet.numAttributes()-1);
