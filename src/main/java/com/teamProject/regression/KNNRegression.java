@@ -60,7 +60,7 @@ public class KNNRegression implements RegressionInterface {
     }
     
     @Override
-    public String equantion() {
+    public String equation() {
         return "KNN Regression with k= "+k;
     }
 
@@ -136,15 +136,9 @@ public class KNNRegression implements RegressionInterface {
         return clusters;
     }
     
-    public double getRSME() {
-        return 0.0;
-    }
-    
-    public double getNRSME() {
-        return 0.0;
-    }
 
-    @Override
+
+    //@Override
     public double[] getNRMSE() {
         double errors [] = new double[clusterNum];
         for (int i = 0; i < clusterNum; i++) {
@@ -303,4 +297,16 @@ public class KNNRegression implements RegressionInterface {
 			e.printStackTrace();
 		}
 	}
+
+    @Override
+    public double NRMSE() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public double RMSE() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+
 }
