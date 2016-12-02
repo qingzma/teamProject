@@ -37,6 +37,7 @@ public class KNNRegression implements RegressionInterface {
     private DataSource trainingDataSource [];
     private Instances trainingDataSet [];
     private double nrmse [];
+    private int totalInstance;
 
      public KNNRegression(Points pts){
         points=pts;
@@ -203,6 +204,7 @@ public class KNNRegression implements RegressionInterface {
         
         DataSource dataSource = new DataSource(System.getProperty("user.dir")+"\\"+fileName);
         Instances data = dataSource.getDataSet();
+        totalInstance = data.size();
         SimpleKMeans kMeans = new SimpleKMeans();
         kMeans.setPreserveInstancesOrder(true);
         kMeans.setNumClusters(clusterNum);
@@ -305,7 +307,41 @@ public class KNNRegression implements RegressionInterface {
 
     @Override
     public double RMSE() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        double rmse = 0.0;
+        double errors [] = new double[clusterNum];
+        int clusterAmount [] = new int [clusterNum];
+        for (int i = 0; i < clusterNum; i++) {
+            int instanceNum = trainingDataSet[i].size();
+            clusterAmount[i] = instanceNum;
+            double meanY = 0.0;
+            if (instanceNum > 1) {
+                for (int j = 0; j < instanceNum ; j++ ) {
+                    try {
+                        double realValue = trainingDataSet[i].get(j).classValue();
+                        meanY = meanY + realValue;
+                        double predictedValue = knnRegModel[i].classifyInstance(trainingDataSet[i].get(j));
+                        double tempDiffValue = predictedValue - realValue;
+                        tempDiffValue = tempDiffValue * tempDiffValue;
+                        errors[i] = errors[i] + tempDiffValue;
+                    } catch (Exception ex) {
+                        Logger.getLogger(KNNRegression.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+                
+                errors[i] = (double) errors[i] / instanceNum;
+                errors[i] = Math.sqrt(errors[i]);
+                
+            }
+        }
+        
+        for (int k = 0; k < clusterNum;k++) {
+            rmse = rmse + ((errors[k]*errors[k])*clusterAmount[k]);
+        }
+        
+        rmse = (double) rmse / totalInstance;
+        rmse = Math.sqrt(rmse);
+        
+        return rmse;
     }
 
 
