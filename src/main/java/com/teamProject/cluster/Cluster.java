@@ -48,10 +48,11 @@ public class Cluster {
         return centroid;
     }
 
-
+    public double[][] toArray(){
+        return cluster.toArray();
+    }
     
   
-    
     public int getID(){
         return id;
     }
