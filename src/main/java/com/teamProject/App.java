@@ -66,50 +66,7 @@ public class App extends Application {
         primaryStage.setScene(scene);
         //root.add(dimensionBox(),0,0);
         
-       /*
-        Button btnCSV=new Button("read CSV");
-        btnCSV.setOnAction((ActionEvent e)->{
-            Record2File.deleteFile();
-            dc.readCSV("OnlineNewsPopularity.csv",",");
-            
-            //the 2,3,4 column of the csv file
-            int[] index={2,3,4};
-            dc.filterData(index);
-            
-            
-            km=new KMeans(dc.getRowsBefore(2500),1); 
-            km.run();
-            
-            
-            
-
-            LR lr=new LR(km.getClusters());
-            lr.run();
-            //lr.run();
-            //Thread threadLR=new Thread(lr);
-            //threadLR.run();
-            
-            
-            plt=new Plot();
-            plt.showFittingLine(true);
-            
-            plt.plot(km.getClusters());
-            
-            
-            Fitting ft=new Fitting(km.getClusters());
-            ft.showValidateInformation(false);
-            ft.validate(dc.getRowsBetween(2500,3500));
-            Record2File.out("NRMSE is "+ft.getValidateNRMSE());
-            Record2File.out("RMSE is "+ft.getValidateRMSE());
-            
-        });
-        
-        */
-        //root.add(btnCSV,0,1);
-        
-        //root.add(evaludateK(),0,2);
-        
-        //root.add(ContainerPane(),0,3);
+       
         
         Record2File.deleteFile();
         dc.readCSV("OnlineNewsPopularity.csv",",");
@@ -117,7 +74,8 @@ public class App extends Application {
             //the 2,3,4 column of the csv file
         int[] index={2,3,4};
         dc.filterData(index);
-        km=new KMeans(dc.getData(), 5);
+        //km=new KMeans(dc.getData(), 5);
+        km=new KMeans(dc.getRowsBefore(25000), 5);
         km.run();
         
         dataDivision=km.getClusters();
@@ -506,8 +464,8 @@ public class App extends Application {
             }
             
             
-            Points pts=dc.getRowsBefore(200);
-            Point pt=dc.getRowsBefore(10).get(4);
+            Points pts=dc.getRowsAfter(25000);
+            //Point pt=dc.getRowsBefore(10).get(4);
             
             SimpleValidate validate=new SimpleValidate(ris);
             
