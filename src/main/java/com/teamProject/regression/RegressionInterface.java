@@ -4,6 +4,7 @@
 package com.teamProject.regression;
 
 import com.teamProject.cluster.Cluster;
+import com.teamProject.data.Points;
 
 
 /**
@@ -29,13 +30,20 @@ public interface RegressionInterface extends Runnable{
     
     public Cluster[] getClusters();   //return the K-Means clusters.
     
-    public double[] getNRMSE();        
+    public double NRMSE();        
     // return the normal root mean square error of each cluster based on the training dataset
+    
+    public double RMSE();
     
     public double timeCost();
         // return the time cost (in seconds) during calculation
     
-
+    //public Points evaluationData();
+    // return 1/3 of the whole data set for evaluation.
+    // note, you are suggested not to use this part of data in training.
+    
+    
+    
     
 
 

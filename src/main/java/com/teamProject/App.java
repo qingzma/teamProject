@@ -75,16 +75,18 @@ public class App extends Application {
         int[] index={2,3,4};
         dc.filterData(index);
         //km=new KMeans(dc.getData(), 5);
-        km=new KMeans(dc.getRowsBefore(25000), 5);
-        km.run();
+        //km=new KMeans(dc.getRowsBefore(25000), 5);
+        //km.run();
         
-        dataDivision=km.getClusters();
-        lr=new LinearRegression(dataDivision[0].getCluster());
-        gps=new LinearRegression(dataDivision[1].getCluster());
-        nl=new LinearRegression(dataDivision[2].getCluster());
-        rbf=new LinearRegression(dataDivision[3].getCluster());
-        knn=new LinearRegression(dataDivision[4].getCluster());
+        //dataDivision=km.getClusters();
+        lr=new LinearRegression(dc.getRowsBefore(6607));
+        gps=new LinearRegression(dc.getRowsBetween(6607, 13214));
+        nl=new LinearRegression(dc.getRowsBetween(13214, 19821));
+        rbf=new LinearRegression(dc.getRowsBetween(19821, 26428));
+        knn=new LinearRegression(dc.getRowsBetween(26428, 33035));
+        Points evaluations=dc.getRowsAfter(33035);
         
+        //39644
         
         root.add(LRDemo(),0,6);
         root.add(GPS(),0,7);

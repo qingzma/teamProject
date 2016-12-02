@@ -67,12 +67,15 @@ public class LinearRegression implements RegressionInterface {
     }
 
     @Override
-    public double[] getNRMSE() {
-        double[] results=new double[clusterNum];
-        for(int i=0;i<clusterNum;i++){
-            results[i]=lr[i].getNRMSE();
-        }
-        return results;
+    public double RMSE() {
+        
+        return 1.0;
+    }
+    
+    @Override
+    public double NRMSE() {
+        
+        return 1.0;
     }
 
     @Override
