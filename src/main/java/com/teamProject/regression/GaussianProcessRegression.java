@@ -132,7 +132,7 @@ public class GaussianProcessRegression implements RegressionInterface{
 
     @Override
     public Cluster[] getClusters() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return clusters;
     }
 
     @Override
@@ -147,7 +147,7 @@ public class GaussianProcessRegression implements RegressionInterface{
 
     @Override
     public double timeCost() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+       return timeCost;
     }
     
 }
