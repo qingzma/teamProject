@@ -17,9 +17,12 @@ import com.teamProject.data.PointInt;
 import com.teamProject.data.Points;
 import com.teamProject.fit.SimpleValidate;
 import com.teamProject.regression.Fitting;
+import com.teamProject.regression.GaussianProcessRegression;
+import com.teamProject.regression.KNNRegression;
 import com.teamProject.regression.LR;
 import com.teamProject.regression.RegressionModel;
 import com.teamProject.regression.LinearRegression;
+import com.teamProject.regression.PolynomialRegression;
 import com.teamProject.regression.RegressionInterface;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -56,6 +59,7 @@ public class App extends Application {
     private RegressionInterface knn;
     private RegressionInterface gps;
     private RegressionInterface rbf;
+    private Points evaluations;
     //@Override;
     public void start(Stage primaryStage){
 
@@ -80,11 +84,11 @@ public class App extends Application {
         
         //dataDivision=km.getClusters();
         lr=new LinearRegression(dc.getRowsBefore(6607));
-        gps=new LinearRegression(dc.getRowsBetween(6607, 13214));
-        nl=new LinearRegression(dc.getRowsBetween(13214, 19821));
+        gps=new GaussianProcessRegression(dc.getRowsBetween(6607, 13214));
+        nl=new PolynomialRegression(dc.getRowsBetween(13214, 19821));
         rbf=new LinearRegression(dc.getRowsBetween(19821, 26428));
-        knn=new LinearRegression(dc.getRowsBetween(26428, 33035));
-        Points evaluations=dc.getRowsAfter(33035);
+        knn=new KNNRegression(dc.getRowsBetween(26428, 33035));
+        evaluations=dc.getRowsAfter(33035);
         
         //39644
         
@@ -442,14 +446,14 @@ public class App extends Application {
     private HBox validate(){
         Button btn=new Button("validate");
         btn.setOnAction(((ActionEvent) -> {
-            RegressionInterface ris[]=new RegressionInterface[1];
+            RegressionInterface ris[]=new RegressionInterface[5];
             
             
             ris[0]=lr;
-            //ris[1]=gps;
-            //ris[2]=nl;
-            //ris[3]=rbf;
-            //ris[4]=knn;
+            ris[1]=gps;
+            ris[2]=nl;
+            ris[3]=rbf;
+            ris[4]=knn;
             
             Thread threads[]=new Thread[ris.length];
             for(int i=0;i<ris.length;i++){
@@ -466,12 +470,12 @@ public class App extends Application {
             }
             
             
-            Points pts=dc.getRowsAfter(25000);
+            //Points pts=dc.getRowsAfter(25000);
             //Point pt=dc.getRowsBefore(10).get(4);
             
             SimpleValidate validate=new SimpleValidate(ris);
             
-            validate.runValidate(pts);
+            validate.runValidate(evaluations);
             validate.NRMSE();
             validate.RMSE();
             
