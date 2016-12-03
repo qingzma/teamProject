@@ -259,7 +259,7 @@ public class PR {
         for(int i=0;i<n;i++){
             YMean.put(i, yMean);
         }
-        YM=Y.sub(YMean);
+        YM=predicte.sub(YMean);
         YMsq=YM.transpose().mmul(YM);
         double nrmseAve=(Esq.get(0)/YMsq.get(0))/Y.length;
         NRSMEi=Math.sqrt(nrmseAve);
