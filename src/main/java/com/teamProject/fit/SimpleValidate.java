@@ -9,6 +9,7 @@ import com.teamProject.Record2File;
 import com.teamProject.data.Point;
 import com.teamProject.data.PointInt;
 import com.teamProject.data.Points;
+import com.teamProject.data.PointsInt;
 import com.teamProject.regression.RegressionInterface;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -23,31 +24,42 @@ public class SimpleValidate {
     //private Point pt;
     private double RMSE;   //the sum of (y_i -y_mean)^2
     private double NRMSE;   //the sum of (y_i -y_hat)^2
-    //private Points centroids;
-    //private PointInt centroidIndex;
+    private Points[] centroids;   //the matrix to store all centroids
+    private Points[] radius;    //the matrix to store all radius
     public SimpleValidate(RegressionInterface[] ris){
         RMSE=0;
         NRMSE=0;
         this.ris=ris;
+        collectCentroids();
     }
     
 
     
     
     //get all the centroids and its corresponding regression model
-/*    public void collectCentroids(){
+    public Points[] collectCentroids(){
         int numRegressionModels=ris.length;
-        centroids=new Points();
-        centroidIndex=new PointInt();
+        centroids=new Points[numRegressionModels];
+        radius=new Points[numRegressionModels];
         for(int i=0;i<numRegressionModels;i++){
-            for(int j=0;i<ris[i].getClusters().length;j++){
-                centroids.add((ris[i].getClusters())[j].getCentroid());
-                centroidIndex.add(i);
+            centroids[i]=new Points();
+            radius[i]=new Points();
+            for(int j=0;j<ris[i].getClusters().length;j++){
+                centroids[i].add((ris[i].getClusters())[j].getCentroid());
+                Point pt=new Point();
+                pt.add(ris[i].getClusters()[j].radius());
+                radius[i].add(pt);
             }
                 
         }
+        return  centroids;
     }
-    */
+    
+    
+    public Points[] centroids(){
+        return centroids;
+    }
+    
     public PointInt locateRegressionModel(Point pt){
         PointInt ptInt;         //0 is the index of cluster, 1 is the index of regression method
         int rmIndex=0;
@@ -71,15 +83,92 @@ public class SimpleValidate {
         return ptInt;
     }
     
+    public PointsInt locateRegressionModels(Point pt){
+        PointsInt ptsInt=new PointsInt();
+        int numRegressionModels=ris.length;
+        for(int i=0;i<numRegressionModels;i++){
+            for(int j=0;j<ris[i].getClusters().length;j++){
+                double distance=ris[i].getClusters()[j].getCentroid().getXPoint().distanceTo(pt);
+                if(distance<radius[i].get(j).get(0)){
+                    PointInt ptInt =new PointInt();
+                    ptInt.add(i);
+                    ptInt.add(j);
+                    ptsInt.add(ptInt);
+                    System.out.println("haha"+"point close to "+i+" "+j);
+                    //System.out.println("distance is "+distance+"radius is "+
+                    //        ris[i].getClusters()[j].radius()+". range is "+
+                    //        ris[i].getClusters()[j].getRange()[0]);
+                }
+            }
+                
+        }
+            
+                
+        return ptsInt;
+    }
     
     public double fit(Point pt){
         double result;
+        
+        PointsInt indexs=locateRegressionModels(pt);
+        if(indexs.length()==1){
+            Record2File.out("Point "+pt+" is fitted by Cluster "+ indexs.get(0).get(1)+
+                " in " + "regression method: "+ris[indexs.get(0).get(0)].getMethodName());
+            result = ris[indexs.get(0).get(0)].fit(pt.toArray(), indexs.get(0).get(1));
+        }
+        else if (indexs.length()==0){
+            PointInt index=locateRegressionModel(pt);
+            Record2File.warning("Point "+pt+" does not belongs to any clusters, thus is fitted by Cluster "+ index.get(1)+
+                " in " + "regression method: "+ris[index.get(0)].getMethodName());
+            result = ris[index.get(0)].fit(pt.toArray(), index.get(1));
+        }
+        else{
+            result=999;
+            //System.out.println("hahahhahsdfaslkdjfklasjdfkjalsdf");
+            Point distances=new Point();
+            Point ys=new Point();
+            for(int i=0;i<indexs.length();i++){
+                distances.add(ris[indexs.get(i).get(0)].getClusters()[indexs.get(i).get(1)].getCentroid().getXPoint().distanceTo(pt));
+                ys.add(ris[indexs.get(i).get(0)].fit(pt.toArray(), indexs.get(i).get(1)));
+            }
+            double totalDistance=Arrays.stream(distances.toArray()).sum();
+            Point weights=new Point();
+            
+            double tmp;
+            for(int i=0;i<indexs.length();i++){
+                tmp=totalDistance-distances.get(i);
+                weights.add(tmp);
+            }
+            double totalWeights=Arrays.stream(weights.toArray()).sum();
+            Point finalWeights=new Point();
+            for(int i=0;i<indexs.length();i++){
+                finalWeights.add(weights.get(i)/totalWeights);
+            }
+            result=0;
+            for(int i=0;i<indexs.length();i++){
+                result+=finalWeights.get(i)*ys.get(i);
+            }
+            System.out.println("SimpleValidate:ys "+ys+"weights: "+finalWeights);
+            
+            
+            //Record2File.warning("Point "+pt+" does not belongs to any clusters, thus is fitted by Cluster "+ index.get(1)+
+            //    " in " + "regression method: "+ris[index.get(0)].getMethodName());
+            //result = ris[index.get(0)].fit(pt.toArray(), index.get(1));
+        }
+        
+        return result;
+    }
+    /*
+    public double fit(Point pt){
+        double result;
         PointInt index=locateRegressionModel(pt);
+        locateRegressionModels(pt);
         Record2File.out("Point "+pt+" is fitted by Cluster "+ index.get(1)+
                 " in " + "regression method: "+ris[index.get(0)].getMethodName());
         result = ris[index.get(0)].fit(pt.toArray(), index.get(1));
         return result;
     }
+    */
     
     public double[] fit(Points pts){
         double results[]=new double[pts.getPointNum()];

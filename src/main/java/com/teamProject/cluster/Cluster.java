@@ -119,7 +119,15 @@ public class Cluster {
       }
       
     
-      
+      public double radius(){
+          //return the radius of each cluster
+          double result=0;
+          for (int i=0;i<cluster.getPointNum();i++){
+              if(result<centroid.distanceTo(cluster.get(i)))
+                  result=centroid.distanceTo(cluster.get(i));
+          }
+          return result;
+      }
      
 
 

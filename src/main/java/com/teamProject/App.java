@@ -83,13 +83,22 @@ public class App extends Application {
         //km.run();
         
         //dataDivision=km.getClusters();
+        ///*
+        lr=new LinearRegression(dc.getRowsBefore(1600));
+        gps=new GaussianProcessRegression(dc.getRowsBetween(660, 1200));
+        nl=new PolynomialRegression(dc.getRowsBetween(1200, 1800));
+        rbf=new LinearRegression(dc.getRowsBetween(1800, 2400));
+        knn=new KNNRegression(dc.getRowsBetween(2400, 3000));
+        evaluations=dc.getRowsBefore(33);
+        //*/
+        /*
         lr=new LinearRegression(dc.getRowsBefore(6607));
         gps=new GaussianProcessRegression(dc.getRowsBetween(6607, 13214));
         nl=new PolynomialRegression(dc.getRowsBetween(13214, 19821));
         rbf=new LinearRegression(dc.getRowsBetween(19821, 26428));
         knn=new KNNRegression(dc.getRowsBetween(26428, 33035));
         evaluations=dc.getRowsAfter(33035);
-        
+        */
         //39644
         
         root.add(LRDemo(),0,6);
@@ -342,9 +351,9 @@ public class App extends Application {
             
             
             
-           //plt=new Plot();
-           //plt.showFittingLine(true);
-           //plt.plot(lr.getClusters(),lr);
+           plt=new Plot();
+           plt.showFittingLine(true);
+           plt.plot(lr.getClusters(),lr);
             
         }));
         
@@ -470,17 +479,21 @@ public class App extends Application {
             }
             
             
-            //Points pts=dc.getRowsAfter(25000);
-            //Point pt=dc.getRowsBefore(10).get(4);
+            
+            Point pt=dc.getRowsBefore(10).get(4).getXPoint();
             
             SimpleValidate validate=new SimpleValidate(ris);
             
+            /*
             validate.runValidate(evaluations);
             validate.NRMSE();
             validate.RMSE();
+            plt=new Plot();
+            plt.plot(validate.collectCentroids());
+            */
             
-            
-            
+            System.out.println(validate.fit(pt));
+            System.out.println("finished!");
             
             
            

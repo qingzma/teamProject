@@ -113,7 +113,59 @@ public class Plot {
     }
     
     
+    public void scatter3DWindowJzy3d(Points[] ptss){
+        Stage stage = new Stage();
+        stage.setWidth(800);
+        stage.setHeight(600);
+        stage.setTitle(title);
+        GridPane grid=new GridPane();
+        Scene scene=new Scene(grid);
+        
+
+        
+        // Jzy3d
+        JavaFXChartFactory factory = new JavaFXChartFactory();
+
+        AWTChart chart = (AWTChart) factory.newChart(Quality.Advanced, IChartComponentFactory.Toolkit.offscreen);
+        
+        
+        
+        //chart.add(surface);
+        Scatter[] scatters=getJzy3dScatterPoints(ptss);
+        for(int i=0;i<scatters.length;i++){
+            scatters[i].setWidth(6);
+            Random rand=new Random();
+            Color color=new Color(rand.nextInt(255), rand.nextInt(255), 
+                rand.nextInt(255), 200);
+            scatters[i].setColor(color);
+            chart.add(scatters[i]);
+        }
+        
+        
+        
+        
+        
+        
+        //JavaFXChartFactory factory = new JavaFXChartFactory();
+        //AWTChart chart  = getDemoChart(factory, "offscreen");
+        
+        ImageView imageView = factory.bindImageView(chart);
+        
+        
+        
+        grid.add(imageView, 0, 0);
+        //grid.add(showFitSurfaceButton(),1,1);
+        
+        stage.setScene(scene);
+        stage.show();
+        factory.addSceneSizeChangedListener(chart, scene);
+        
+        t1=System.currentTimeMillis();
+        
     
+ 
+        
+    }
 
     public void scatter3DWindowJzy3d(Cluster[] cluster){
         Stage stage = new Stage();
@@ -407,6 +459,61 @@ public class Plot {
         t1=System.currentTimeMillis();
     }
     
+    
+    public void scatter2DWindow(Points[] ptss){
+        Stage stage = new Stage();
+        stage.setTitle(title);
+        
+        XYPlot plt=new XYPlot();
+
+        /* SETUP Scatter */
+       // Create the scatter data, renderer, and axis
+        XYDataset collection1=get2DScatterPlotData(ptss);
+        XYItemRenderer renderer1= new XYLineAndShapeRenderer(false, true);
+        ValueAxis domain1=new org.jfree.chart.axis.NumberAxis("x");
+        ValueAxis range1=new org.jfree.chart.axis.NumberAxis("y");
+        //range1.setInverted(false);
+        // Set the scatter data, renderer, and axis into plot
+        plt.setDataset(0, collection1);
+        plt.setRenderer(0, renderer1);
+        plt.setDomainAxis(0, domain1);
+        plt.setRangeAxis(0, range1);
+        
+
+        
+        
+
+        
+  
+        JFreeChart chart = new JFreeChart("Multi Dataset Chart", 
+                JFreeChart.DEFAULT_TITLE_FONT, plt, true);
+        
+
+        
+        XYPlot plot=chart.getXYPlot();
+        plot.getRangeAxis().setInverted(false);
+        
+        /*
+        Range rangeX=get2DScatterPlotData(cluster).getDomainBounds(true);
+        plot.getDomainAxis().setRange(rangeX);
+        Range rangeY=get2DScatterPlotData(cluster).getRangeBounds(true);
+        plot.getRangeAxis().setRange(rangeY);
+        */
+        
+        ChartCanvas canvas = new ChartCanvas(chart);
+        
+        StackPane gp=new StackPane();
+        gp.getChildren().add(canvas);
+        canvas.widthProperty().bind( gp.widthProperty()); 
+        canvas.heightProperty().bind( gp.heightProperty());
+
+        
+        
+        stage.setScene(new Scene(gp, 750, 750));
+        stage.show();
+        t1=System.currentTimeMillis();
+    }
+    
     public void scatter2DWindow(Cluster[] cluster,RegressionInterface ri){
         Stage stage = new Stage();
         stage.setTitle(title);
@@ -529,6 +636,29 @@ public class Plot {
         Record2File.out("\n");
     }
     
+    public void plot(Points[] ptss){
+        Record2File.out("Plot starting...");
+        t0=System.currentTimeMillis();
+        
+        int xDimension=ptss[0].getDimension()-1;
+        
+        if(xDimension==1)
+            scatter2DWindow(ptss);
+        else if(xDimension==2)
+            scatter3DWindowJzy3d(ptss);
+            //scatter3DWindow(cluster);
+            
+        else{
+            System.err.println("not 2D or 3D, so can not plot!");
+            
+        }
+        t1=System.currentTimeMillis();
+        
+        Record2File.out("Plot ends.");
+        printTimeCost();
+        Record2File.out("\n");
+    }
+    
     public XYSeriesCollection get2DScatterPlotData(Cluster[] cluster){
         int numCluster=cluster.length;
         // Initialize Scatter plot data    
@@ -552,6 +682,25 @@ public class Plot {
         }
         
         xyCollection.addSeries(centroidGroup);
+        
+        return xyCollection;
+    }
+    
+    public XYSeriesCollection get2DScatterPlotData(Points[] ptss){
+        int numCluster=ptss.length;
+        // Initialize Scatter plot data    
+        XYSeriesCollection xyCollection=new XYSeriesCollection();
+        XYSeries[] xySeries=new XYSeries[numCluster];
+        for(int j=0;j<numCluster;j++){
+            xySeries[j]=new XYSeries("group "+j);
+            for(int i=0;i<ptss[j].getPointNum();i++){
+                xySeries[j].add(ptss[j].getX().get(i).get(0), 
+                                ptss[j].getY().get(i).get(0));
+                
+            }
+             xyCollection.addSeries(xySeries[j]);
+             
+        }
         
         return xyCollection;
     }
@@ -647,6 +796,41 @@ public class Plot {
         //scatters[numCluster]=new Scatter(points,colors);
         
 
+        return scatters;
+    }
+    
+    private Scatter[] getJzy3dScatterPoints(Points[] ptss){
+        int numCluster=ptss.length;
+        Scatter[] scatters=new Scatter[numCluster];
+        Coord3d[] points;
+        Color[]   colors;
+        float a;
+        //XYZSeriesCollection xyzCollection=new XYZSeriesCollection();
+        //XYZSeries[] xyzSeries=new XYZSeries[numCluster];
+        
+        //Color clors[]=new Color[numCluster+1];
+        
+        Random rand=new Random();
+        Color color=new Color(rand.nextInt(255), rand.nextInt(255), 
+                rand.nextInt(255), 200);
+        
+        for(int i=0;i<numCluster;i++){
+            //xyzSeries[i]=new XYZSeries("Group "+cluster[i].getID());
+            int clusterILength=ptss[i].getPointNum();
+            points=new Coord3d[clusterILength];
+            colors=new Color[clusterILength];
+            for(int j=0;j<ptss[i].getPointNum();j++){
+                points[j]=new Coord3d(ptss[i].getX().get(j).get(0),
+                                 ptss[i].getX().get(j).get(1), 
+                                 ptss[i].getY().get(j).get(0));
+                a=0.25f;
+               // colors[j]=new Color((int)(20+30*i),(int)(255-30*i),(int)(100+20*i),
+                //                255);
+            }
+            //scatters[i]=new Scatter(points,colors);
+            scatters[i]=new Scatter(points);
+            
+        }
         return scatters;
     }
     

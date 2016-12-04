@@ -33,7 +33,7 @@ public class LinearRegression implements RegressionInterface {
 
     @Override
     public void run() {
-        clusterNum=15;
+        clusterNum=5;
         km=new KMeans(points, clusterNum);
         km.run();
         clusters=km.getClusters();

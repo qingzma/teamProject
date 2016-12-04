@@ -43,5 +43,9 @@ public class PointInt {
         return result;
     }
     
+    public ArrayList<Integer> getPointInt(){
+        return pointInt;
+    }
+    
 
 }
