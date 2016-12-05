@@ -36,7 +36,7 @@ public class PR {
     private double RSS;
     private double TSS;
     private double R2;
-    private boolean m_bShowBeta=true;
+    private boolean m_bShowBeta=false;
     int n;
     int p;
     Cluster cluster;
