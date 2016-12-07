@@ -27,6 +27,10 @@ public class SimpleValidate {
     private Points[] centroids;   //the matrix to store all centroids
     private Points[] radius;    //the matrix to store all radius
     private double radiusReduceFactor=0.1;      //this facotr is used to restrict the distance to centroids when assign point X to it.
+    double y_hat[];
+    double y[];
+    
+    
     public SimpleValidate(RegressionInterface[] ris){
         RMSE=0;
         NRMSE=0;
@@ -89,6 +93,8 @@ public class SimpleValidate {
         int numRegressionModels=ris.length;
         for(int i=0;i<numRegressionModels;i++){
             for(int j=0;j<ris[i].getClusters().length;j++){
+                //System.out.println("i,j"+i+" "+j);
+                //System.out.println("the centroids are: "+ris[i].getClusters()[j].getCentroid());
                 double distance=ris[i].getClusters()[j].getCentroid().getXPoint().distanceTo(pt);
                 if(distance<radiusReduceFactor*radius[i].get(j).get(0)){
                     PointInt ptInt =new PointInt();
@@ -176,8 +182,8 @@ public class SimpleValidate {
     }
     
     public void runValidate(Points pts){
-        double y_hat[]=fit(pts.getX());
-        double y[]=pts.getY().toVector();
+        y_hat=fit(pts.getX());
+        y=pts.getY().toVector();
         double y_mean=Arrays.stream(y).sum()/y.length;
         RMSE=0;
         NRMSE=0;
@@ -203,5 +209,7 @@ public class SimpleValidate {
         Record2File.out("The normalised root mean squared error (NRMSE) is: "+ Record2File.double2str(NRMSE));
         return NRMSE;
     }
+    
+    
     
 }

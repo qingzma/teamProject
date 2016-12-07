@@ -171,10 +171,7 @@ public class Point {
             Record2File.error("Point: distanceTo():  Point dimension mismatch!");
             System.exit(-1);
         }
-        if(x2.getSize()!=point.size()){
-            Record2File.error("Point:distanceTo() error! dimension mismatch!");
-            System.exit(-1);
-        }
+
             
         return result;
     }

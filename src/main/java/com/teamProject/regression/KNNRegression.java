@@ -42,7 +42,7 @@ public class KNNRegression implements RegressionInterface {
 
      public KNNRegression(Points pts){
         points=pts;
-        attributeNumber = 3;
+        attributeNumber = pts.getDimension();
         clusterNum = 5;
         k=5;
       

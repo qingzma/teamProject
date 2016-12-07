@@ -1,21 +1,11 @@
 Reading file starting...
 Reading file ends.
-Time for file read and treatment is 1.249s.
+Time for file read and treatment is 1.238s.
 
 
 KMeans clustering starting...
 KMeans clustering ends.
-Time for clustering is .070s.
-
-
-KMeans clustering starting...
-KMeans clustering ends.
-Time for clustering is .005s.
-
-
-KMeans clustering starting...
-KMeans clustering ends.
-Time for clustering is .016s.
+Time for clustering is .112s.
 
 
 KMeans clustering starting...
@@ -23,104 +13,110 @@ KMeans clustering ends.
 Time for clustering is .015s.
 
 
-           point [12.000,219.000] close to centroid 4 in linear regression: [10.038,204.420]
-           point [12.000,219.000] close to centroid 2 in KNN Regression: [7.462,240.837]
-Point [12.000,219.000] is fitted by multiple models: 
-Fitted Y: [.640,.812]; Weights: [.603,.397]; RMSE: [].
-           point [9.000,255.000] close to centroid 1 in KNN Regression: [12.223,271.223]
-           point [9.000,255.000] close to centroid 2 in KNN Regression: [7.462,240.837]
-Point [9.000,255.000] is fitted by multiple models: 
-Fitted Y: [.763,.847]; Weights: [.463,.537]; RMSE: [].
-           point [9.000,211.000] close to centroid 4 in linear regression: [10.038,204.420]
-Point [9.000,211.000] is fitted by Cluster 4 in regression method: linear regression
-[warning:] Point [9.000,531.000] does not belongs to any clusters, thus is fitted by Cluster 3 in regression method: GaussianProcessRegression]
-           point [13.000,1072.000] close to centroid 4 in Polynominal Regression: [9.429,1088.179]
-           point [13.000,1072.000] close to centroid 0 in KNN Regression: [10.895,1077.368]
-Point [13.000,1072.000] is fitted by multiple models: 
-Fitted Y: [.449,.418]; Weights: [.258,.742]; RMSE: [].
-[warning:] Point [10.000,370.000] does not belongs to any clusters, thus is fitted by Cluster 2 in regression method: Polynominal Regression]
-           point [8.000,960.000] close to centroid 0 in GaussianProcessRegression: [9.493,931.767]
-           point [8.000,960.000] close to centroid 0 in KNN Regression: [10.895,1077.368]
-           point [8.000,960.000] close to centroid 4 in KNN Regression: [8.097,806.291]
-Point [8.000,960.000] is fitted by multiple models: 
-Fitted Y: [.375,.453,.308]; Weights: [.453,.304,.243]; RMSE: [].
-           point [12.000,989.000] close to centroid 0 in KNN Regression: [10.895,1077.368]
-           point [12.000,989.000] close to centroid 4 in KNN Regression: [8.097,806.291]
-Point [12.000,989.000] is fitted by multiple models: 
-Fitted Y: [.434,.249]; Weights: [.674,.326]; RMSE: [].
-[warning:] Point [11.000,97.000] does not belongs to any clusters, thus is fitted by Cluster 4 in regression method: GaussianProcessRegression]
-           point [10.000,231.000] close to centroid 1 in KNN Regression: [12.223,271.223]
-           point [10.000,231.000] close to centroid 2 in KNN Regression: [7.462,240.837]
-Point [10.000,231.000] is fitted by multiple models: 
-Fitted Y: [.763,.812]; Weights: [.201,.799]; RMSE: [].
-           point [9.000,1248.000] close to centroid 0 in KNN Regression: [10.895,1077.368]
-Point [9.000,1248.000] is fitted by Cluster 0 in regression method: KNN Regression
-           point [10.000,187.000] close to centroid 4 in linear regression: [10.038,204.420]
-           point [10.000,187.000] close to centroid 4 in GaussianProcessRegression: [10.194,172.331]
-           point [10.000,187.000] close to centroid 3 in Polynominal Regression: [9.829,177.073]
-           point [10.000,187.000] close to centroid 1 in linear regression: [9.828,191.401]
-Point [10.000,187.000] is fitted by multiple models: 
-Fitted Y: [.647,.396,.700,.631]; Weights: [.208,.228,.262,.302]; RMSE: [].
-           point [9.000,274.000] close to centroid 1 in KNN Regression: [12.223,271.223]
-Point [9.000,274.000] is fitted by Cluster 1 in regression method: KNN Regression
-           point [9.000,285.000] close to centroid 1 in KNN Regression: [12.223,271.223]
-Point [9.000,285.000] is fitted by Cluster 1 in regression method: KNN Regression
-           point [8.000,259.000] close to centroid 1 in KNN Regression: [12.223,271.223]
-           point [8.000,259.000] close to centroid 2 in KNN Regression: [7.462,240.837]
-Point [8.000,259.000] is fitted by multiple models: 
-Fitted Y: [.763,.894]; Weights: [.584,.416]; RMSE: [].
-           point [12.000,682.000] close to centroid 0 in Polynominal Regression: [9.884,685.347]
-           point [12.000,682.000] close to centroid 4 in KNN Regression: [8.097,806.291]
-Point [12.000,682.000] is fitted by multiple models: 
-Fitted Y: [.482,.249]; Weights: [.969,.031]; RMSE: [].
-           point [8.000,1118.000] close to centroid 0 in linear regression: [9.645,1113.291]
-           point [8.000,1118.000] close to centroid 4 in Polynominal Regression: [9.429,1088.179]
-           point [8.000,1118.000] close to centroid 0 in KNN Regression: [10.895,1077.368]
-Point [8.000,1118.000] is fitted by multiple models: 
-Fitted Y: [.432,.441,.453]; Weights: [.467,.302,.231]; RMSE: [].
-           point [8.000,397.000] close to centroid 2 in Polynominal Regression: [9.497,391.016]
-Point [8.000,397.000] is fitted by Cluster 2 in regression method: Polynominal Regression
-[warning:] Point [11.000,103.000] does not belongs to any clusters, thus is fitted by Cluster 4 in regression method: GaussianProcessRegression]
-           point [8.000,1207.000] close to centroid 0 in KNN Regression: [10.895,1077.368]
-Point [8.000,1207.000] is fitted by Cluster 0 in regression method: KNN Regression
-           point [13.000,1248.000] close to centroid 0 in KNN Regression: [10.895,1077.368]
-Point [13.000,1248.000] is fitted by Cluster 0 in regression method: KNN Regression
-           point [9.000,391.000] close to centroid 2 in Polynominal Regression: [9.497,391.016]
-Point [9.000,391.000] is fitted by Cluster 2 in regression method: Polynominal Regression
-           point [11.000,1154.000] close to centroid 0 in KNN Regression: [10.895,1077.368]
-Point [11.000,1154.000] is fitted by Cluster 0 in regression method: KNN Regression
-[warning:] Point [11.000,125.000] does not belongs to any clusters, thus is fitted by Cluster 4 in regression method: GaussianProcessRegression]
-           point [13.000,244.000] close to centroid 1 in KNN Regression: [12.223,271.223]
-           point [13.000,244.000] close to centroid 2 in KNN Regression: [7.462,240.837]
-Point [13.000,244.000] is fitted by multiple models: 
-Fitted Y: [.754,.812]; Weights: [.190,.810]; RMSE: [].
-           point [8.000,266.000] close to centroid 1 in KNN Regression: [12.223,271.223]
-           point [8.000,266.000] close to centroid 2 in KNN Regression: [7.462,240.837]
-Point [8.000,266.000] is fitted by multiple models: 
-Fitted Y: [.763,.894]; Weights: [.789,.211]; RMSE: [].
-           point [8.000,331.000] close to centroid 3 in KNN Regression: [9.893,334.706]
-Point [8.000,331.000] is fitted by Cluster 3 in regression method: KNN Regression
-           point [12.000,1225.000] close to centroid 0 in KNN Regression: [10.895,1077.368]
-Point [12.000,1225.000] is fitted by Cluster 0 in regression method: KNN Regression
-           point [10.000,243.000] close to centroid 1 in KNN Regression: [12.223,271.223]
-           point [10.000,243.000] close to centroid 2 in KNN Regression: [7.462,240.837]
-Point [10.000,243.000] is fitted by multiple models: 
-Fitted Y: [.763,.812]; Weights: [.105,.895]; RMSE: [].
-           point [11.000,723.000] close to centroid 2 in linear regression: [9.742,726.030]
-           point [11.000,723.000] close to centroid 4 in KNN Regression: [8.097,806.291]
-Point [11.000,723.000] is fitted by multiple models: 
-Fitted Y: [.474,.249]; Weights: [.962,.038]; RMSE: [].
-           point [8.000,708.000] close to centroid 2 in linear regression: [9.742,726.030]
-           point [8.000,708.000] close to centroid 4 in KNN Regression: [8.097,806.291]
-Point [8.000,708.000] is fitted by multiple models: 
-Fitted Y: [.482,.171]; Weights: [.844,.156]; RMSE: [].
-           point [10.000,633.000] close to centroid 4 in KNN Regression: [8.097,806.291]
-Point [10.000,633.000] is fitted by Cluster 4 in regression method: KNN Regression
-           point [14.000,290.000] close to centroid 1 in KNN Regression: [12.223,271.223]
-Point [14.000,290.000] is fitted by Cluster 1 in regression method: KNN Regression
-The normalised root mean squared error (NRMSE) is: .320
-The root mean squared error (RMSE) is: .141
-           point [13.000,1072.000] close to centroid 4 in Polynominal Regression: [9.429,1088.179]
-           point [13.000,1072.000] close to centroid 0 in KNN Regression: [10.895,1077.368]
-Point [13.000,1072.000] is fitted by multiple models: 
-Fitted Y: [.449,.421]; Weights: [.258,.742]; RMSE: [].
+KMeans clustering starting...
+KMeans clustering ends.
+Time for clustering is .018s.
+
+
+KMeans clustering starting...
+KMeans clustering ends.
+Time for clustering is .015s.
+
+
+           point [12.000,219.000,.664] close to centroid 3 in linear regression: [10.038,204.420,.642]
+           point [12.000,219.000,.664] close to centroid 1 in KNN Regression: [11.485,255.545,.641]
+Point [12.000,219.000,.664] is fitted by multiple models: 
+Fitted Y: [1.018,1.000]; Weights: [.713,.287]; RMSE: [].
+           point [9.000,255.000,.605] close to centroid 1 in KNN Regression: [11.485,255.545,.641]
+           point [9.000,255.000,.605] close to centroid 2 in KNN Regression: [7.830,253.007,.641]
+Point [9.000,255.000,.605] is fitted by multiple models: 
+Fitted Y: [1.000,1.000]; Weights: [.476,.524]; RMSE: [].
+           point [9.000,211.000,.575] close to centroid 3 in linear regression: [10.038,204.420,.642]
+           point [9.000,211.000,.575] close to centroid 1 in KNN Regression: [11.485,255.545,.641]
+Point [9.000,211.000,.575] is fitted by multiple models: 
+Fitted Y: [.927,1.000]; Weights: [.870,.130]; RMSE: [].
+[warning:] Point [9.000,531.000,.504] does not belongs to any clusters, thus is fitted by Cluster 0 in regression method: GaussianProcessRegression]
+           point [13.000,1072.000,.416] close to centroid 3 in Polynominal Regression: [9.429,1088.179,.446]
+           point [13.000,1072.000,.416] close to centroid 4 in KNN Regression: [7.853,934.427,.457]
+Point [13.000,1072.000,.416] is fitted by multiple models: 
+Fitted Y: [.999,1.000]; Weights: [.893,.107]; RMSE: [].
+[warning:] Point [10.000,370.000,.560] does not belongs to any clusters, thus is fitted by Cluster 2 in regression method: Polynominal Regression]
+           point [8.000,960.000,.418] close to centroid 2 in GaussianProcessRegression: [9.493,931.767,.449]
+           point [8.000,960.000,.418] close to centroid 4 in KNN Regression: [7.853,934.427,.457]
+Point [8.000,960.000,.418] is fitted by multiple models: 
+Fitted Y: [1.118,1.000]; Weights: [.475,.525]; RMSE: [].
+           point [12.000,989.000,.434] close to centroid 4 in KNN Regression: [7.853,934.427,.457]
+Point [12.000,989.000,.434] is fitted by Cluster 4 in regression method: KNN Regression
+[warning:] Point [11.000,97.000,.670] does not belongs to any clusters, thus is fitted by Cluster 3 in regression method: GaussianProcessRegression]
+           point [10.000,231.000,.636] close to centroid 1 in KNN Regression: [11.485,255.545,.641]
+           point [10.000,231.000,.636] close to centroid 2 in KNN Regression: [7.830,253.007,.641]
+Point [10.000,231.000,.636] is fitted by multiple models: 
+Fitted Y: [1.000,1.000]; Weights: [.473,.527]; RMSE: [].
+           point [9.000,1248.000,.490] close to centroid 0 in KNN Regression: [11.000,1256.922,.434]
+Point [9.000,1248.000,.490] is fitted by Cluster 0 in regression method: KNN Regression
+           point [10.000,187.000,.667] close to centroid 3 in linear regression: [10.038,204.420,.642]
+           point [10.000,187.000,.667] close to centroid 3 in GaussianProcessRegression: [10.194,172.331,.659]
+           point [10.000,187.000,.667] close to centroid 1 in Polynominal Regression: [9.829,177.073,.635]
+           point [10.000,187.000,.667] close to centroid 0 in linear regression: [9.828,191.401,.631]
+Point [10.000,187.000,.667] is fitted by multiple models: 
+Fitted Y: [.991,1.003,1.004,.999]; Weights: [.208,.228,.262,.302]; RMSE: [].
+           point [9.000,274.000,.609] close to centroid 1 in KNN Regression: [11.485,255.545,.641]
+           point [9.000,274.000,.609] close to centroid 2 in KNN Regression: [7.830,253.007,.641]
+Point [9.000,274.000,.609] is fitted by multiple models: 
+Fitted Y: [1.000,1.000]; Weights: [.530,.470]; RMSE: [].
+           point [9.000,285.000,.744] close to centroid 1 in KNN Regression: [11.485,255.545,.641]
+           point [9.000,285.000,.744] close to centroid 2 in KNN Regression: [7.830,253.007,.641]
+Point [9.000,285.000,.744] is fitted by multiple models: 
+Fitted Y: [1.000,1.000]; Weights: [.520,.480]; RMSE: [].
+           point [8.000,259.000,.563] close to centroid 1 in KNN Regression: [11.485,255.545,.641]
+           point [8.000,259.000,.563] close to centroid 2 in KNN Regression: [7.830,253.007,.641]
+Point [8.000,259.000,.563] is fitted by multiple models: 
+Fitted Y: [1.000,1.000]; Weights: [.550,.450]; RMSE: [].
+           point [12.000,682.000,.460] close to centroid 4 in Polynominal Regression: [9.884,685.347,.483]
+Point [12.000,682.000,.460] is fitted by Cluster 4 in regression method: Polynominal Regression
+           point [8.000,1118.000,.512] close to centroid 2 in linear regression: [9.645,1113.291,.431]
+           point [8.000,1118.000,.512] close to centroid 3 in Polynominal Regression: [9.429,1088.179,.446]
+           point [8.000,1118.000,.512] close to centroid 0 in KNN Regression: [11.000,1256.922,.434]
+Point [8.000,1118.000,.512] is fitted by multiple models: 
+Fitted Y: [1.000,1.003,1.000]; Weights: [.486,.414,.100]; RMSE: [].
+           point [8.000,397.000,.625] close to centroid 2 in Polynominal Regression: [9.497,391.016,.560]
+Point [8.000,397.000,.625] is fitted by Cluster 2 in regression method: Polynominal Regression
+[warning:] Point [11.000,103.000,.689] does not belongs to any clusters, thus is fitted by Cluster 3 in regression method: GaussianProcessRegression]
+           point [8.000,1207.000,.411] close to centroid 0 in KNN Regression: [11.000,1256.922,.434]
+Point [8.000,1207.000,.411] is fitted by Cluster 0 in regression method: KNN Regression
+           point [13.000,1248.000,.391] close to centroid 0 in KNN Regression: [11.000,1256.922,.434]
+Point [13.000,1248.000,.391] is fitted by Cluster 0 in regression method: KNN Regression
+           point [9.000,391.000,.510] close to centroid 2 in Polynominal Regression: [9.497,391.016,.560]
+Point [9.000,391.000,.510] is fitted by Cluster 2 in regression method: Polynominal Regression
+           point [11.000,1154.000,.427] close to centroid 0 in KNN Regression: [11.000,1256.922,.434]
+Point [11.000,1154.000,.427] is fitted by Cluster 0 in regression method: KNN Regression
+[warning:] Point [11.000,125.000,.675] does not belongs to any clusters, thus is fitted by Cluster 3 in regression method: GaussianProcessRegression]
+           point [13.000,244.000,.560] close to centroid 1 in KNN Regression: [11.485,255.545,.641]
+           point [13.000,244.000,.560] close to centroid 2 in KNN Regression: [7.830,253.007,.641]
+Point [13.000,244.000,.560] is fitted by multiple models: 
+Fitted Y: [1.000,1.000]; Weights: [.471,.529]; RMSE: [].
+           point [8.000,266.000,.573] close to centroid 1 in KNN Regression: [11.485,255.545,.641]
+           point [8.000,266.000,.573] close to centroid 2 in KNN Regression: [7.830,253.007,.641]
+Point [8.000,266.000,.573] is fitted by multiple models: 
+Fitted Y: [1.000,1.000]; Weights: [.541,.459]; RMSE: [].
+           point [8.000,331.000,.563] close to centroid 1 in GaussianProcessRegression: [9.922,342.216,.581]
+Point [8.000,331.000,.563] is fitted by Cluster 1 in regression method: GaussianProcessRegression
+           point [12.000,1225.000,.385] close to centroid 0 in KNN Regression: [11.000,1256.922,.434]
+Point [12.000,1225.000,.385] is fitted by Cluster 0 in regression method: KNN Regression
+           point [10.000,243.000,.619] close to centroid 1 in KNN Regression: [11.485,255.545,.641]
+           point [10.000,243.000,.619] close to centroid 2 in KNN Regression: [7.830,253.007,.641]
+Point [10.000,243.000,.619] is fitted by multiple models: 
+Fitted Y: [1.000,1.000]; Weights: [.448,.552]; RMSE: [].
+           point [11.000,723.000,.491] close to centroid 0 in linear regression: [9.742,726.030,.476]
+Point [11.000,723.000,.491] is fitted by Cluster 0 in regression method: linear regression
+           point [8.000,708.000,.482] close to centroid 0 in linear regression: [9.742,726.030,.476]
+Point [8.000,708.000,.482] is fitted by Cluster 0 in regression method: linear regression
+[warning:] Point [10.000,633.000,.476] does not belongs to any clusters, thus is fitted by Cluster 4 in regression method: Polynominal Regression]
+           point [14.000,290.000,.612] close to centroid 1 in KNN Regression: [11.485,255.545,.641]
+Point [14.000,290.000,.612] is fitted by Cluster 1 in regression method: KNN Regression
+The normalised root mean squared error (NRMSE) is: .194
+The root mean squared error (RMSE) is: .021
+           point [13.000,1072.000,.416] close to centroid 3 in Polynominal Regression: [9.429,1088.179,.446]
+           point [13.000,1072.000,.416] close to centroid 4 in KNN Regression: [7.853,934.427,.457]
+Point [13.000,1072.000,.416] is fitted by multiple models: 
+Fitted Y: [.999,1.000]; Weights: [.893,.107]; RMSE: [].

@@ -76,7 +76,7 @@ public class App extends Application {
         dc.readCSV("OnlineNewsPopularity.csv",",");
             
             //the 2,3,4 column of the csv file
-        int[] index={2,3,4};
+        int[] index={2,3,4,5};
         dc.filterData(index);
         //km=new KMeans(dc.getData(), 5);
         //km=new KMeans(dc.getRowsBefore(25000), 5);
