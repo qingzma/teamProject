@@ -484,16 +484,18 @@ public class App extends Application {
             
             SimpleValidate validate=new SimpleValidate(ris);
             
-            /*
+            
             validate.runValidate(evaluations);
             validate.NRMSE();
             validate.RMSE();
             plt=new Plot();
             plt.plot(validate.collectCentroids());
-            */
+            
             
             System.out.println(validate.fit(pt));
             System.out.println("finished!");
+            
+            System.out.println(knn.NRMSE());
             
             
            
