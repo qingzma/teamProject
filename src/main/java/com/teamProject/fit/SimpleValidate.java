@@ -26,6 +26,7 @@ public class SimpleValidate {
     private double NRMSE;   //the sum of (y_i -y_hat)^2
     private Points[] centroids;   //the matrix to store all centroids
     private Points[] radius;    //the matrix to store all radius
+    private double radiusReduceFactor=0.1;      //this facotr is used to restrict the distance to centroids when assign point X to it.
     public SimpleValidate(RegressionInterface[] ris){
         RMSE=0;
         NRMSE=0;
@@ -89,12 +90,13 @@ public class SimpleValidate {
         for(int i=0;i<numRegressionModels;i++){
             for(int j=0;j<ris[i].getClusters().length;j++){
                 double distance=ris[i].getClusters()[j].getCentroid().getXPoint().distanceTo(pt);
-                if(distance<radius[i].get(j).get(0)){
+                if(distance<radiusReduceFactor*radius[i].get(j).get(0)){
                     PointInt ptInt =new PointInt();
                     ptInt.add(i);
                     ptInt.add(j);
                     ptsInt.add(ptInt);
-                    System.out.println("haha"+"point close to "+i+" "+j);
+                    Record2File.out("           point "+pt+" close to centroid "+j+" in "+
+                            ris[i].getMethodName()+": "+ris[i].getClusters()[j].getCentroid().getXPoint());
                     //System.out.println("distance is "+distance+"radius is "+
                     //        ris[i].getClusters()[j].radius()+". range is "+
                     //        ris[i].getClusters()[j].getRange()[0]);
@@ -123,8 +125,8 @@ public class SimpleValidate {
             result = ris[index.get(0)].fit(pt.toArray(), index.get(1));
         }
         else{
-            result=999;
-            //System.out.println("hahahhahsdfaslkdjfklasjdfkjalsdf");
+            result=Double.MAX_VALUE;
+            Record2File.out("Point "+pt+" is fitted by multiple models: ");
             Point distances=new Point();
             Point ys=new Point();
             for(int i=0;i<indexs.length();i++){
@@ -148,27 +150,21 @@ public class SimpleValidate {
             for(int i=0;i<indexs.length();i++){
                 result+=finalWeights.get(i)*ys.get(i);
             }
-            System.out.println("SimpleValidate:ys "+ys+"weights: "+finalWeights);
+            Record2File.outInLine("Fitted Y: "+ys+"; Weights: "+finalWeights+"; RMSE: [");
+            
+            /*
+            for(int i=0;i<indexs.length();i++){
+                Record2File.out(ris[indexs.get(i).get(0)].NRMSE()+" ");
+            }
+            */
+            Record2File.out("].");
             
             
-            //Record2File.warning("Point "+pt+" does not belongs to any clusters, thus is fitted by Cluster "+ index.get(1)+
-            //    " in " + "regression method: "+ris[index.get(0)].getMethodName());
-            //result = ris[index.get(0)].fit(pt.toArray(), index.get(1));
         }
         
         return result;
     }
-    /*
-    public double fit(Point pt){
-        double result;
-        PointInt index=locateRegressionModel(pt);
-        locateRegressionModels(pt);
-        Record2File.out("Point "+pt+" is fitted by Cluster "+ index.get(1)+
-                " in " + "regression method: "+ris[index.get(0)].getMethodName());
-        result = ris[index.get(0)].fit(pt.toArray(), index.get(1));
-        return result;
-    }
-    */
+
     
     public double[] fit(Points pts){
         double results[]=new double[pts.getPointNum()];

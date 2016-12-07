@@ -57,7 +57,7 @@ public class KNNRegression implements RegressionInterface {
         
         try {
             meanY = getMeanY();
-            System.out.println("meanY="+meanY);
+            //System.out.println("meanY="+meanY);
         } catch (Exception ex) {
             Logger.getLogger(KNNRegression.class.getName()).log(Level.SEVERE, null, ex);
         }

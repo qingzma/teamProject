@@ -488,14 +488,24 @@ public class App extends Application {
             validate.runValidate(evaluations);
             validate.NRMSE();
             validate.RMSE();
-            plt=new Plot();
-            plt.plot(validate.collectCentroids());
+            
+            
+            //plt=new Plot();
+            //plt.plot(validate.collectCentroids());
             
             
             System.out.println(validate.fit(pt));
             System.out.println("finished!");
-            
+                        
+            /*
+            Cluster[] hah=knn.getClusters();
+            System.out.println(hah[0].getCentroid());
+            System.out.println(hah[1].getCentroid());
+            System.out.println(hah[2].getCentroid());
+            System.out.println(hah[3].getCentroid());
+            System.out.println(hah[4].getCentroid());
             System.out.println(knn.NRMSE());
+            */
             
             
            

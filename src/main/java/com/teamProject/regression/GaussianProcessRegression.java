@@ -88,9 +88,9 @@ public class GaussianProcessRegression implements RegressionInterface{
                 //                System.out.println(data.size());
                 for(int x = 0;x<data.size();x++){
                     for(int y = 0;y<data.get(x).numValues();y++){
-                        System.out.println(data.get(x).value(y)+" ");
+                        //////////////////System.out.println(data.get(x).value(y)+" ");
                     }
-                    System.out.println();
+                    ///////////////////System.out.println();
                 }
                 //System.out.println("DATAEMPTY:" + data.isEmpty());
                 //System.out.println(data.toString());
@@ -132,9 +132,9 @@ public class GaussianProcessRegression implements RegressionInterface{
             inst.setValue(x.length,0);
             test.add(inst);
             double[][] result = new double[1][2];
-            for(i = 0;i<x.length;i++){
-                System.out.println(x[i]);
-            }
+            //for(i = 0;i<x.length;i++){
+            //    System.out.println(x[i]);
+            //}
             test.setClassIndex(test.numAttributes()-1);
             result = gp[i].predictIntervals(test.get(0), 0.05);
             //System.out.println("result[0]: " + result[0][0] + " result[1]: "+ result[0][1]);

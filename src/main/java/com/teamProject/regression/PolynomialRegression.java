@@ -119,7 +119,7 @@ public class PolynomialRegression implements RegressionInterface{
          }
         
         double RMSE=Math.sqrt(TEIN/TNUM);
-          System.out.println("The RMSE is: "+RMSE);
+          //System.out.println("The RMSE is: "+RMSE);
         return RMSE;
     }
 
@@ -144,7 +144,7 @@ public class PolynomialRegression implements RegressionInterface{
         TNRM=TNRM+NRMSEINI[i];
          }
           double NRMSE=Math.sqrt(TNRM/TNUM);
-         System.out.println("The NRMSE is: "+NRMSE);
+         //System.out.println("The NRMSE is: "+NRMSE);
         return NRMSE;
     }
        

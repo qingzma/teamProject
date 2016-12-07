@@ -33,6 +33,18 @@ public class Record2File {
         }
     }
     
+    public static void outInLine(String str){
+        System.out.print(str);
+        try(PrintWriter writer = new PrintWriter(new FileWriter(
+                filePath+fileName,true))){
+            //writer.append(str);
+            writer.print(str);
+            writer.close();
+        } catch (Exception e) {
+            System.err.println("error to write to output.txt");
+        }
+    }
+    
     public static void warning(String str){
         System.out.println("[Warning: "+str+"]");
         try(PrintWriter writer = new PrintWriter(new FileWriter(

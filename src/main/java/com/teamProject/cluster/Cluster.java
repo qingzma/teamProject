@@ -8,7 +8,6 @@ package com.teamProject.cluster;
 import com.teamProject.data.Point;
 import com.teamProject.data.Points;
 import com.teamProject.regression.LR;
-import com.teamProject.regression.RegressionInterface;
 
 /**
  *
@@ -22,8 +21,8 @@ public class Cluster {
     final private boolean m_bPrintClusterInformation=false;
     double enlargeFactor=1.00;     // to give freedom to range, multiply this factor
     //public RegressionModel rm;
-    public LR lr;
-    public RegressionInterface ri;
+    //public LR lr;
+    //public RegressionInterface ri;
     String regressionMethod;
     
     public Cluster(int id){
