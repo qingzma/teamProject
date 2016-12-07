@@ -36,8 +36,13 @@ public class PolynomialRegression implements RegressionInterface{
      }
     @Override
     public String equation() {
-        
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        for(int i=0;i<clusterNum;i++){
+            
+             System.out.println("Beta for "+i+"th"+" cluster: "+pr[i].getBeta());
+        }
+     
+      return "";
+       
     }
 
     @Override

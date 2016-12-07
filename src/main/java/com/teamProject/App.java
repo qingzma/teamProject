@@ -437,7 +437,7 @@ public class App extends Application {
             
             
             knn.run();
-            
+            System.out.println("sfasdfsd");
           
             
             

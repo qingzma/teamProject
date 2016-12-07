@@ -37,12 +37,15 @@ public class KNNRegression implements RegressionInterface {
     private DataSource trainingDataSource [];
     private Instances trainingDataSet [];
     private double nrmse [];
+    private int totalInstance;
+    private double meanY;
 
      public KNNRegression(Points pts){
         points=pts;
         attributeNumber = 3;
         clusterNum = 5;
-        k=3;
+        k=5;
+      
         clusters = new Cluster[clusterNum];
         knnRegModel = new IBk [clusterNum];
         trainingDataSource = new DataSource[clusterNum];
@@ -51,6 +54,14 @@ public class KNNRegression implements RegressionInterface {
         
         initialData = createArffFile(attributeNumber,points,"InitialData");
         writeToFile(initialData,"LocalClusterKNNRegression.arff");
+        
+        try {
+            meanY = getMeanY();
+            System.out.println("meanY="+meanY);
+        } catch (Exception ex) {
+            Logger.getLogger(KNNRegression.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
         try {
             LocalCluster("LocalClusterKNNRegression.arff",clusterNum);
         } catch (Exception ex) {
@@ -203,6 +214,7 @@ public class KNNRegression implements RegressionInterface {
         
         DataSource dataSource = new DataSource(System.getProperty("user.dir")+"\\"+fileName);
         Instances data = dataSource.getDataSet();
+        totalInstance = data.size();        
         SimpleKMeans kMeans = new SimpleKMeans();
         kMeans.setPreserveInstancesOrder(true);
         kMeans.setNumClusters(clusterNum);
@@ -300,12 +312,101 @@ public class KNNRegression implements RegressionInterface {
 
     @Override
     public double NRMSE() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        double nrmse = 0.0;
+        double errors [] = new double[clusterNum];
+        int clusterAmount [] = new int [clusterNum];
+        for (int i = 0; i < clusterNum; i++) {
+            int instanceNum = trainingDataSet[i].size();
+            clusterAmount[i] = instanceNum;
+           
+            if (instanceNum > 1) {
+                for (int j = 0; j < instanceNum ; j++ ) {
+                    try {
+                        double realValue = trainingDataSet[i].get(j).classValue();
+                        meanY = meanY + realValue;
+                        double predictedValue = knnRegModel[i].classifyInstance(trainingDataSet[i].get(j));
+                        double tempDiffValue = predictedValue - realValue;
+                        tempDiffValue = tempDiffValue * tempDiffValue;
+                        
+                        double tempDiffValue2 = meanY - realValue;
+                        tempDiffValue2 = tempDiffValue2 * tempDiffValue2;
+                        
+                        tempDiffValue = (double)tempDiffValue / tempDiffValue2;
+                        
+                        errors[i] = errors[i] + tempDiffValue;
+                    } catch (Exception ex) {
+                        Logger.getLogger(KNNRegression.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+                
+                errors[i] = (double) errors[i] / instanceNum;
+                errors[i] = Math.sqrt(errors[i]);
+                
+            }
+        }
+        
+        for (int k = 0; k < clusterNum;k++) {
+            nrmse = nrmse + ((errors[k]*errors[k])*clusterAmount[k]);
+        }
+        
+        nrmse = (double) nrmse / totalInstance;
+        nrmse = Math.sqrt(nrmse);
+        
+        return nrmse;
     }
 
     @Override
     public double RMSE() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        double rmse = 0.0;
+        double errors [] = new double[clusterNum];
+        int clusterAmount [] = new int [clusterNum];
+        for (int i = 0; i < clusterNum; i++) {
+            int instanceNum = trainingDataSet[i].size();
+            clusterAmount[i] = instanceNum;
+           
+            if (instanceNum > 1) {
+                for (int j = 0; j < instanceNum ; j++ ) {
+                    try {
+                        double realValue = trainingDataSet[i].get(j).classValue();
+                        meanY = meanY + realValue;
+                        double predictedValue = knnRegModel[i].classifyInstance(trainingDataSet[i].get(j));
+                        double tempDiffValue = predictedValue - realValue;
+                        tempDiffValue = tempDiffValue * tempDiffValue;
+                        errors[i] = errors[i] + tempDiffValue;
+                    } catch (Exception ex) {
+                        Logger.getLogger(KNNRegression.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+                
+                errors[i] = (double) errors[i] / instanceNum;
+                errors[i] = Math.sqrt(errors[i]);
+                
+            }
+        }
+        
+        for (int k = 0; k < clusterNum;k++) {
+            rmse = rmse + ((errors[k]*errors[k])*clusterAmount[k]);
+        }
+        
+        rmse = (double) rmse / totalInstance;
+        rmse = Math.sqrt(rmse);
+        
+        return rmse;
+    }
+    
+    public double getMeanY()  throws Exception {
+        double meanY = 0.0;    
+        DataSource dataSource = new DataSource(System.getProperty("user.dir")+"\\"+"LocalClusterKNNRegression.arff");
+        Instances data = dataSource.getDataSet();
+        data.setClassIndex(data.numAttributes()-1);
+        
+        for (int i = 0;i < data.size();i++) {
+            meanY = meanY + data.get(i).classValue();
+        }
+        
+        meanY = (double) meanY / data.size();
+        
+        return meanY;
     }
 
 
