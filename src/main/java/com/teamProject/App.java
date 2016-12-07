@@ -76,30 +76,38 @@ public class App extends Application {
         dc.readCSV("OnlineNewsPopularity.csv",",");
             
             //the 2,3,4 column of the csv file
-        int[] index={2,3,4,5};
+        int[] index={2,3,4,5,6};
         dc.filterData(index);
         //km=new KMeans(dc.getData(), 5);
         //km=new KMeans(dc.getRowsBefore(25000), 5);
         //km.run();
         
         //dataDivision=km.getClusters();
-        ///*
+        /*
         lr=new LinearRegression(dc.getRowsBefore(1600));
         gps=new GaussianProcessRegression(dc.getRowsBetween(660, 1200));
         nl=new PolynomialRegression(dc.getRowsBetween(1200, 1800));
         rbf=new LinearRegression(dc.getRowsBetween(1800, 2400));
         knn=new KNNRegression(dc.getRowsBetween(2400, 3000));
         evaluations=dc.getRowsBefore(33);
-        //*/
-        /*
+        */
+        ///*
         lr=new LinearRegression(dc.getRowsBefore(6607));
         gps=new GaussianProcessRegression(dc.getRowsBetween(6607, 13214));
         nl=new PolynomialRegression(dc.getRowsBetween(13214, 19821));
         rbf=new LinearRegression(dc.getRowsBetween(19821, 26428));
         knn=new KNNRegression(dc.getRowsBetween(26428, 33035));
         evaluations=dc.getRowsAfter(33035);
-        */
-        //39644
+        //*/
+        //
+        lr=new KNNRegression(dc.getRowsBefore(6607));
+        gps=new KNNRegression(dc.getRowsBetween(6607, 13214));
+        nl=new KNNRegression(dc.getRowsBetween(13214, 19821));
+        rbf=new KNNRegression(dc.getRowsBetween(19821, 26428));
+        knn=new KNNRegression(dc.getRowsBetween(26428, 33035));
+        evaluations=dc.getRowsAfter(33035);
+        
+        
         
         root.add(LRDemo(),0,6);
         root.add(GPS(),0,7);
@@ -490,9 +498,10 @@ public class App extends Application {
             validate.RMSE();
             
             
-            //plt=new Plot();
+            plt=new Plot();
             //plt.plot(validate.collectCentroids());
-            
+            Points[] haha=validate.pairPoints();
+            plt.plot(haha);
             
             System.out.println(validate.fit(pt));
             System.out.println("finished!");

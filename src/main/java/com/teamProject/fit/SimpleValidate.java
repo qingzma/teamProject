@@ -26,7 +26,7 @@ public class SimpleValidate {
     private double NRMSE;   //the sum of (y_i -y_hat)^2
     private Points[] centroids;   //the matrix to store all centroids
     private Points[] radius;    //the matrix to store all radius
-    private double radiusReduceFactor=0.1;      //this facotr is used to restrict the distance to centroids when assign point X to it.
+    private double radiusReduceFactor=0.3;      //this facotr is used to restrict the distance to centroids when assign point X to it.
     double y_hat[];
     double y[];
     
@@ -210,6 +210,27 @@ public class SimpleValidate {
         return NRMSE;
     }
     
+    public Points[] pairPoints(){
+        Points pts[]=new Points[2];
+        pts[0]=new Points();
+        pts[1]=new Points();
+        Point pt1;
+        Point pt2;
+        for(int i=0;i<y.length;i++){
+            pt1=new Point();
+            pt2=new Point();
+            pt1.add((double)i);
+            pt1.add(y[i]);
+            pt2.add((double)i);
+            pt2.add(y_hat[i]);
+            
+            pts[0].add(pt1);
+            pts[1].add(pt2);
+        }
+        
+        
+        return pts;
+    }
     
     
 }
