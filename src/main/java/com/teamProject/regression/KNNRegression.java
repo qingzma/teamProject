@@ -11,6 +11,7 @@ import com.teamProject.data.Points;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import weka.classifiers.lazy.IBk;
@@ -39,37 +40,41 @@ public class KNNRegression implements RegressionInterface {
     private double nrmse [];
     private int totalInstance;
     private double meanY;
+    private String pid;
 
      public KNNRegression(Points pts){
         points=pts;
         attributeNumber = pts.getDimension();
         clusterNum = 5;
         k=5;
-      
+        pid = UUID.randomUUID().toString().replaceAll("-", "");
+        
         clusters = new Cluster[clusterNum];
         knnRegModel = new IBk [clusterNum];
         trainingDataSource = new DataSource[clusterNum];
         trainingDataSet = new Instances[clusterNum];
         nrmse = new double[clusterNum];
-        
+        String fileName="LocalClusterKNNRegression";
+        fileName = fileName + pid;
+        fileName = fileName +".arff";
         initialData = createArffFile(attributeNumber,points,"InitialData");
-        writeToFile(initialData,"LocalClusterKNNRegression.arff");
+        writeToFile(initialData,fileName);
         
         try {
             meanY = getMeanY();
-            //System.out.println("meanY="+meanY);
+            System.out.println("meanY="+meanY);
         } catch (Exception ex) {
             Logger.getLogger(KNNRegression.class.getName()).log(Level.SEVERE, null, ex);
         }
         
         try {
-            LocalCluster("LocalClusterKNNRegression.arff",clusterNum);
+            LocalCluster(fileName,clusterNum);
         } catch (Exception ex) {
             Logger.getLogger(KNNRegression.class.getName()).log(Level.SEVERE, null, ex);
         }
         
     }
-    
+     
     @Override
     public String equation() {
         return "KNN Regression with k= "+k;
@@ -121,12 +126,13 @@ public class KNNRegression implements RegressionInterface {
                 arffContent = arffContent+newX[j]+",";
             }
         }
-            
-            writeToFile(arffContent,"knnRegressionTesting.arff");
+            String fileName = "knnRegressionTesting";
+            fileName = fileName + pid + ".arff";
+            writeToFile(arffContent,fileName);
         try {
             
             
-          DataSource testingDataSource = new DataSource(System.getProperty("user.dir")+"\\"+"knnRegressionTesting.arff");
+          DataSource testingDataSource = new DataSource(System.getProperty("user.dir")+"\\"+fileName);
           Instances testingDataSet = testingDataSource.getDataSet();
           testingDataSet.setClassIndex(testingDataSet.numAttributes()-1);
           
@@ -257,18 +263,18 @@ public class KNNRegression implements RegressionInterface {
         }
         
         for (int i = 0; i < clusterNum;i++) {
-            String localClusterName = "LocalClusterKnnRegression-";
-            writeToFile(arffContent[i],localClusterName+i+".arff");
+            String localClusterName = "LocalClusterKnnRegression-"+pid;
+            writeToFile(arffContent[i],localClusterName+"-"+i+".arff");
         }
         
     }
        
     private void buildModel (int clusterNum) throws Exception {
         
-        String localClusterName = "LocalClusterKnnRegression-";
+        String localClusterName = "LocalClusterKnnRegression-"+pid;
         double startPredictTime = System.currentTimeMillis();
         for (int i = 0; i < clusterNum ; i++) {
-            trainingDataSource[i] = new DataSource(System.getProperty("user.dir")+"\\"+localClusterName+i+".arff");
+            trainingDataSource[i] = new DataSource(System.getProperty("user.dir")+"\\"+localClusterName+"-"+i+".arff");
             trainingDataSet[i] =  trainingDataSource[i].getDataSet();
             trainingDataSet[i].setClassIndex(trainingDataSet[i].numAttributes()-1);
             knnRegModel[i] = new IBk();
@@ -395,8 +401,9 @@ public class KNNRegression implements RegressionInterface {
     }
     
     public double getMeanY()  throws Exception {
-        double meanY = 0.0;    
-        DataSource dataSource = new DataSource(System.getProperty("user.dir")+"\\"+"LocalClusterKNNRegression.arff");
+        double meanY = 0.0;
+        String fileName = "LocalClusterKNNRegression"+pid+".arff";
+        DataSource dataSource = new DataSource(System.getProperty("user.dir")+"\\"+fileName);
         Instances data = dataSource.getDataSet();
         data.setClassIndex(data.numAttributes()-1);
         
