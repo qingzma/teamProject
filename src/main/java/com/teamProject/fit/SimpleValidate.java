@@ -27,8 +27,10 @@ public class SimpleValidate {
     private Points[] centroids;   //the matrix to store all centroids
     private Points[] radius;    //the matrix to store all radius
     private double radiusReduceFactor=0.3;      //this facotr is used to restrict the distance to centroids when assign point X to it.
-    double y_hat[];
-    double y[];
+    private double y_hat[];
+    private double y[];
+    private boolean isDIstanceSquared;
+    private boolean isYPrinted;
     
     
     public SimpleValidate(RegressionInterface[] ris){
@@ -36,8 +38,13 @@ public class SimpleValidate {
         NRMSE=0;
         this.ris=ris;
         collectCentroids();
+        isDIstanceSquared=true;
+        isYPrinted=true;
     }
     
+    public void showFittedInformation(boolean b){
+        isYPrinted=b;
+    }
 
     
     
@@ -101,8 +108,10 @@ public class SimpleValidate {
                     ptInt.add(i);
                     ptInt.add(j);
                     ptsInt.add(ptInt);
-                    Record2File.out("           point "+pt+" close to centroid "+j+" in "+
+                    if(isYPrinted){
+                        Record2File.out("           point "+pt+" close to centroid "+j+" in "+
                             ris[i].getMethodName()+": "+ris[i].getClusters()[j].getCentroid().getXPoint());
+                    }
                     //System.out.println("distance is "+distance+"radius is "+
                     //        ris[i].getClusters()[j].radius()+". range is "+
                     //        ris[i].getClusters()[j].getRange()[0]);
@@ -120,19 +129,28 @@ public class SimpleValidate {
         
         PointsInt indexs=locateRegressionModels(pt);
         if(indexs.length()==1){
-            Record2File.out("Point "+pt+" is fitted by Cluster "+ indexs.get(0).get(1)+
+            if(isYPrinted){
+                Record2File.out("Point "+pt+" is fitted by Cluster "+ indexs.get(0).get(1)+
                 " in " + "regression method: "+ris[indexs.get(0).get(0)].getMethodName());
+            }
+            
             result = ris[indexs.get(0).get(0)].fit(pt.toArray(), indexs.get(0).get(1));
         }
         else if (indexs.length()==0){
             PointInt index=locateRegressionModel(pt);
-            Record2File.warning("Point "+pt+" does not belongs to any clusters, thus is fitted by Cluster "+ index.get(1)+
+            if(isYPrinted){
+                Record2File.warning("Point "+pt+" does not belongs to any clusters, thus is fitted by Cluster "+ index.get(1)+
                 " in " + "regression method: "+ris[index.get(0)].getMethodName());
+            }
+            
             result = ris[index.get(0)].fit(pt.toArray(), index.get(1));
         }
         else{
             result=Double.MAX_VALUE;
-            Record2File.out("Point "+pt+" is fitted by multiple models: ");
+            if(isYPrinted){
+                Record2File.out("Point "+pt+" is fitted by multiple models: ");
+            }
+            
             Point distances=new Point();
             Point ys=new Point();
             for(int i=0;i<indexs.length();i++){
@@ -145,6 +163,8 @@ public class SimpleValidate {
             double tmp;
             for(int i=0;i<indexs.length();i++){
                 tmp=totalDistance-distances.get(i);
+                if(isDIstanceSquared)
+                    tmp=tmp*tmp;
                 weights.add(tmp);
             }
             double totalWeights=Arrays.stream(weights.toArray()).sum();
@@ -156,14 +176,18 @@ public class SimpleValidate {
             for(int i=0;i<indexs.length();i++){
                 result+=finalWeights.get(i)*ys.get(i);
             }
-            Record2File.outInLine("Fitted Y: "+ys+"; Weights: "+finalWeights+"; RMSE: [");
-            
-            /*
-            for(int i=0;i<indexs.length();i++){
-                Record2File.out(ris[indexs.get(i).get(0)].NRMSE()+" ");
+            if(isYPrinted){
+                Record2File.outInLine("Fitted Y: "+ys+"; Weights: "+finalWeights+"; RMSE: [");
+                /*
+                for(int i=0;i<indexs.length();i++){
+                   Record2File.out(ris[indexs.get(i).get(0)].NRMSE()+" ");
+                }
+                */
+                Record2File.out("].");
             }
-            */
-            Record2File.out("].");
+            
+            
+            
             
             
         }

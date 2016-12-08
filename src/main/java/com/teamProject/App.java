@@ -76,7 +76,7 @@ public class App extends Application {
         dc.readCSV("OnlineNewsPopularity.csv",",");
             
             //the 2,3,4 column of the csv file
-        int[] index={2,3,4,5,6};
+        int[] index={2,3,4};
         dc.filterData(index);
         //km=new KMeans(dc.getData(), 5);
         //km=new KMeans(dc.getRowsBefore(25000), 5);
@@ -100,11 +100,11 @@ public class App extends Application {
         evaluations=dc.getRowsAfter(33035);
         //*/
         //
-        lr=new KNNRegression(dc.getRowsBefore(6607));
-        gps=new KNNRegression(dc.getRowsBetween(6607, 13214));
-        nl=new KNNRegression(dc.getRowsBetween(13214, 19821));
-        rbf=new KNNRegression(dc.getRowsBetween(19821, 26428));
-        knn=new KNNRegression(dc.getRowsBetween(26428, 33035));
+        lr=new PolynomialRegression(dc.getRowsBefore(6607));
+        gps=new PolynomialRegression(dc.getRowsBetween(6607, 13214));
+        nl=new PolynomialRegression(dc.getRowsBetween(13214, 19821));
+        rbf=new PolynomialRegression(dc.getRowsBetween(19821, 26428));
+        knn=new PolynomialRegression(dc.getRowsBetween(26428, 33035));
         evaluations=dc.getRowsAfter(33035);
         
         
@@ -491,7 +491,7 @@ public class App extends Application {
             Point pt=dc.getRowsBefore(10).get(4).getXPoint();
             
             SimpleValidate validate=new SimpleValidate(ris);
-            
+            validate.showFittedInformation(false);
             
             validate.runValidate(evaluations);
             validate.NRMSE();
