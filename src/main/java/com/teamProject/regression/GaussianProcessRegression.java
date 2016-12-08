@@ -101,8 +101,8 @@ public class GaussianProcessRegression implements RegressionInterface{
                 gp[i] = new GaussianProcesses();
                 gp[i].buildClassifier(data);
                 //System.out.println(data.toString());
-                //RMSE();
-                //NRMSE();
+                RMSE();
+                NRMSE();
             }
         }catch(Exception e){
             e.printStackTrace();
@@ -195,10 +195,12 @@ public class GaussianProcessRegression implements RegressionInterface{
                     data.add(inst);
                     double[][] result = gp[i].predictIntervals(data.get(k), 0.95);
                     //System.out.println("result: " + result[0][0] + " " + result[0][1]);
-                    nrmse_i[i] += (pow(((result[0][0]+result[0][1])/2 - trainData[k][trainData[k].length-1]),2)
-                            /pow((trainData[k][trainData[k].length-1]-yAverage),2)); 
+                    if(abs(trainData[k][trainData[k].length-1] - yAverage) > 0.03){
+                        nrmse_i[i] += (double)(pow(((result[0][0]+result[0][1])/2 - trainData[k][trainData[k].length-1]),2)
+                                /pow((trainData[k][trainData[k].length-1]-yAverage),2));
+                    }
                 }
-                nrmse_i[i] = sqrt(nrmse_i[i]/trainData.length);
+                nrmse_i[i] = sqrt((double) nrmse_i[i]/trainData.length);
                 System.out.println("nrmse_i: " + nrmse_i[i]);
                 ni[i] = trainData.length;
             }
@@ -208,8 +210,8 @@ public class GaussianProcessRegression implements RegressionInterface{
         for(int i = 0;i<clusterNum;i++){
             nrmse += ni[i]*pow(nrmse_i[i],2);
         }
-        System.out.println("NRMSE: " + sqrt(nrmse/N));
-        return sqrt(nrmse/N);
+        System.out.println("NRMSE: " + sqrt((double)nrmse/N));
+        return sqrt((double)nrmse/N);
     }
     
     @Override
@@ -245,7 +247,7 @@ public class GaussianProcessRegression implements RegressionInterface{
                     //System.out.println("result: " + result[0][0] + " " + result[0][1]);
                     rmse_i[i]+=pow(((result[0][0]+result[0][1])/2 - trainData[k][trainData[k].length-1]),2); 
                 }
-                rmse_i[i] = sqrt(rmse_i[i]/trainData.length);
+                rmse_i[i] = sqrt((double)rmse_i[i]/trainData.length);
                 ni[i] = trainData.length;
                 N += trainData.length;
             }
@@ -255,8 +257,8 @@ public class GaussianProcessRegression implements RegressionInterface{
         for(int i = 0;i<clusterNum;i++){
             rmse += ni[i]*pow(rmse_i[i],2);
         }
-        System.out.println("RMSE: " + sqrt(rmse/N));
-        return sqrt(rmse/N);
+        System.out.println("RMSE: " + sqrt((double)rmse/N));
+        return sqrt((double)rmse/N);
     }
     
     @Override
