@@ -43,8 +43,8 @@ public class KNNRegression implements RegressionInterface {
         points=pts;
         attributeNumber = pts.getDimension();
         totalInstance = pts.getPointNum();
-        clusterNum = 5;
-        k=1;
+        clusterNum = 6;
+        k=5;
         clusters = new Cluster[clusterNum];
         knnRegModel = new IBk [clusterNum];
         trainingDataSet = new Instances[clusterNum];
@@ -80,33 +80,28 @@ public class KNNRegression implements RegressionInterface {
     @Override
     public double fit(double[] x, int clusterIDNum){
         double fittedValue = 0.0;
-        double [] newX = new double [x.length+1];
-        for (int i = 0; i < x.length; i++) {
-            newX[i] = x[i];
-        }
-        newX[x.length-1] = 0.0;
-        try{ 
-            Instance instance = new DenseInstance(newX.length);
-            for(int i = 0; i < newX.length; i++){
-                instance.setValue(0, newX[i]);
-            }
-            
-            Instances testingDataSet = new Instances("testData",new FastVector(),1);
-            for(int j = 0; j < attributeNumber-1; j++){
+        try{
+            Instances testingDataSet = new Instances("testingDataSet",new FastVector(x.length),1);
+            for(int i = 0; i<x.length; i++){
                 String temp = "X";
-                temp = temp+j;
+                temp = temp+i;
                 Attribute attribute = new Attribute(temp);
-                testingDataSet.insertAttributeAt(attribute, j);
-           }
-           Attribute attribute = new Attribute("Y");
-           testingDataSet.insertAttributeAt(attribute, attributeNumber-1);
-           testingDataSet.add(instance);
-           testingDataSet.setClassIndex(testingDataSet.numAttributes()-1);
-           fittedValue = knnRegModel[clusterIDNum].classifyInstance(testingDataSet.get(0));
-           
+                testingDataSet.insertAttributeAt(attribute, i);
+            }
+            Attribute attribute = new Attribute("Y");
+            testingDataSet.insertAttributeAt(attribute, x.length);
+            Instance testingInstance = new DenseInstance(x.length + 1);
+            for(int j = 0; j <x.length; j++){
+                testingInstance.setValue(j, x[j]);
+            }
+            testingInstance.setValue(x.length,0);
+            testingDataSet.add(testingInstance);
+            testingDataSet.setClassIndex(testingDataSet.numAttributes()-1);
+            fittedValue = knnRegModel[clusterIDNum].classifyInstance(testingDataSet.get(0));
+            
         }catch(Exception ex){
-             Logger.getLogger(KNNRegression.class.getName()).log(Level.SEVERE, null, ex);
-        }          
+           Logger.getLogger(KNNRegression.class.getName()).log(Level.SEVERE, null, ex);
+        }
         return fittedValue;
     }
 
@@ -121,6 +116,7 @@ public class KNNRegression implements RegressionInterface {
     }
        
     private void buildModel (int clusterNum) throws Exception {
+        System.out.println("KNN training start");
         double startTrainingTime = System.currentTimeMillis();
         try{    
                 for (int i = 0; i < clusterNum; i++) {
@@ -145,13 +141,15 @@ public class KNNRegression implements RegressionInterface {
 
                 trainingDataSet[i].setClassIndex(trainingDataSet[i].numAttributes() - 1);
                 knnRegModel[i] = new IBk();
-                knnRegModel[i].setKNN(k);
-                knnRegModel[i].buildClassifier(trainingDataSet[i]);           
+                //knnRegModel[i].setKNN(k);
+                knnRegModel[i].buildClassifier(trainingDataSet[i]);
+                //System.out.println(knnRegModel[i]);
             }
         }catch(Exception ex){
                 Logger.getLogger(KNNRegression.class.getName()).log(Level.SEVERE, null, ex);
         }
         timeCost = System.currentTimeMillis() - startTrainingTime;
+        System.out.println("KNN training end");
         meanY = getMeanY();
         memoryUsed =  (Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory())/(1024*1024);
     }
