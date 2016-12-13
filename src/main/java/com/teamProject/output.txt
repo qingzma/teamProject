@@ -1,37 +1,20 @@
 Reading file starting...
 Reading file ends.
-Time for file read and treatment is 1.195s.
+Time for file read and treatment is 1.158s.
 
 
 KMeans clustering starting...
 KMeans clustering ends.
-Time for clustering is .280s.
+Time for clustering is .325s.
 
 
 KMeans clustering starting...
 KMeans clustering ends.
-Time for clustering is .234s.
+Time for clustering is .185s.
 
 
-KMeans clustering starting...
-KMeans clustering ends.
-Time for clustering is .265s.
-
-
-KMeans clustering starting...
-KMeans clustering ends.
-Time for clustering is .398s.
-
-
-KMeans clustering starting...
-KMeans clustering ends.
-Time for clustering is .355s.
-
-
-The normalised root mean squared error (NRMSE) is: .348
-The root mean squared error (RMSE) is: .174
 Plot starting...
 Plot ends.
-Time for plot is 11.818s.
+Time for plot is 4.317s.
 
 

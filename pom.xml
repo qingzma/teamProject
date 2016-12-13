@@ -50,6 +50,11 @@
       <version>3.7.13</version>
       <type>jar</type>
     </dependency>
+    <dependency>
+      <groupId>nz.ac.waikato.cms.weka</groupId>
+      <artifactId>RBFNetwork</artifactId>
+      <version>1.0.8</version>
+    </dependency>
   </dependencies>
     <properties>
         <maven.compiler.source>1.8</maven.compiler.source>
