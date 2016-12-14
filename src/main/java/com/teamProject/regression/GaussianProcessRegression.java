@@ -187,7 +187,7 @@ public class GaussianProcessRegression implements RegressionInterface{
                 }
                 Attribute attr = new Attribute("y");
                 data.insertAttributeAt(attr, trainData[0].length-1);
-                for(int k = 0;k<1;k++){
+                for(int k = 0;k<trainData.length;k++){
                     Instance inst = new DenseInstance(trainData[k].length);
                     for(int x = 0;x<trainData[k].length;x++){
                         inst.setValue(x, trainData[k][x]);
@@ -237,7 +237,7 @@ public class GaussianProcessRegression implements RegressionInterface{
                 }
                 Attribute attr = new Attribute("y");
                 data.insertAttributeAt(attr, trainData[0].length-1);
-                for(int k = 0;k<1;k++){
+                for(int k = 0;k<trainData.length;k++){
                     Instance inst = new DenseInstance(trainData[k].length);
                     for(int x = 0;x<trainData[k].length;x++){
                         inst.setValue(x, trainData[k][x]);
