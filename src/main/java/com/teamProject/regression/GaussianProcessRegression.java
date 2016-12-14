@@ -101,8 +101,7 @@ public class GaussianProcessRegression implements RegressionInterface{
                 gp[i] = new GaussianProcesses();
                 gp[i].buildClassifier(data);
                 //System.out.println(data.toString());
-                RMSE();
-                NRMSE();
+                
             }
         }catch(Exception e){
             e.printStackTrace();
@@ -110,7 +109,8 @@ public class GaussianProcessRegression implements RegressionInterface{
         long end = System.currentTimeMillis();
         timeCost = end - start;
         memoryCost = runtime.totalMemory() - runtime.freeMemory();
-        
+        RMSE();
+        NRMSE();
     }
     
     @Override
@@ -187,21 +187,21 @@ public class GaussianProcessRegression implements RegressionInterface{
                 }
                 Attribute attr = new Attribute("y");
                 data.insertAttributeAt(attr, trainData[0].length-1);
-                for(int k = 0;k<trainData.length;k++){
+                for(int k = 0;k<1;k++){
                     Instance inst = new DenseInstance(trainData[k].length);
                     for(int x = 0;x<trainData[k].length;x++){
                         inst.setValue(x, trainData[k][x]);
                     }
                     data.add(inst);
-                    double[][] result = gp[i].predictIntervals(data.get(k), 0.95);
-                    //System.out.println("result: " + result[0][0] + " " + result[0][1]);
+                    double[][] result = gp[i].predictIntervals(data.lastInstance(), 0.95);
+                    //System.out.println("NRMSE I: "+ i + "result: " + result[0][0] + " " + result[0][1]);
                     if(abs(trainData[k][trainData[k].length-1] - yAverage) > 0.03){
                         nrmse_i[i] += (double)(pow(((result[0][0]+result[0][1])/2 - trainData[k][trainData[k].length-1]),2)
                                 /pow((trainData[k][trainData[k].length-1]-yAverage),2));
                     }
                 }
                 nrmse_i[i] = sqrt((double) nrmse_i[i]/trainData.length);
-                System.out.println("nrmse_i: " + nrmse_i[i]);
+                //System.out.println("nrmse_i: " + nrmse_i[i]);
                 ni[i] = trainData.length;
             }
         }catch(Exception e){
@@ -237,13 +237,14 @@ public class GaussianProcessRegression implements RegressionInterface{
                 }
                 Attribute attr = new Attribute("y");
                 data.insertAttributeAt(attr, trainData[0].length-1);
-                for(int k = 0;k<trainData.length;k++){
+                for(int k = 0;k<1;k++){
                     Instance inst = new DenseInstance(trainData[k].length);
                     for(int x = 0;x<trainData[k].length;x++){
                         inst.setValue(x, trainData[k][x]);
                     }
                     data.add(inst);
-                    double[][] result = gp[i].predictIntervals(data.get(k), 0.95);
+                    double[][] result = gp[i].predictIntervals(data.lastInstance(), 0.95);
+                    //System.out.println("RMSE I: "+ i + "result: " + result[0][0] + " " + result[0][1]);
                     //System.out.println("result: " + result[0][0] + " " + result[0][1]);
                     rmse_i[i]+=pow(((result[0][0]+result[0][1])/2 - trainData[k][trainData[k].length-1]),2); 
                 }
