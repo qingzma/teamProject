@@ -24,6 +24,7 @@ import com.teamProject.regression.RegressionModel;
 import com.teamProject.regression.LinearRegression;
 import com.teamProject.regression.PolynomialRegression;
 import com.teamProject.regression.RegressionInterface;
+import com.teamProject.regression.RBF;
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.logging.Level;
@@ -95,16 +96,17 @@ public class App extends Application {
         lr=new LinearRegression(dc.getRowsBefore(6607));
         gps=new GaussianProcessRegression(dc.getRowsBetween(6607, 13214));
         nl=new PolynomialRegression(dc.getRowsBetween(13214, 19821));
-        rbf=new LinearRegression(dc.getRowsBetween(19821, 26428));
+        rbf=new RBF(dc.getRowsBetween(19821, 26428));
         knn=new KNNRegression(dc.getRowsBetween(26428, 33035));
         evaluations=dc.getRowsAfter(33035);
         //*/
-        //
-        lr=new PolynomialRegression(dc.getRowsBefore(6607));
-        gps=new PolynomialRegression(dc.getRowsBetween(6607, 13214));
-        nl=new PolynomialRegression(dc.getRowsBetween(13214, 19821));
-        rbf=new PolynomialRegression(dc.getRowsBetween(19821, 26428));
-        knn=new PolynomialRegression(dc.getRowsBetween(26428, 33035));
+        /*
+        lr=new KNNRegression(dc.getRowsBefore(6607));
+        gps=new KNNRegression(dc.getRowsBetween(6607, 13214));
+        nl=new KNNRegression(dc.getRowsBetween(13214, 19821));
+        rbf=new KNNRegression(dc.getRowsBetween(19821, 26428));
+        knn=new KNNRegression(dc.getRowsBetween(26428, 33035));
+        */
         evaluations=dc.getRowsAfter(33035);
         
         
@@ -352,7 +354,7 @@ public class App extends Application {
             
             
             
-            lr.changeK(10);
+            lr.changeK(5); 
             lr.run();
             
           
@@ -376,10 +378,13 @@ public class App extends Application {
         btn.setOnAction(((ActionEvent) -> {
             
             
-            
+            gps.changeK(10);
             gps.run();
             
-          
+            System.out.println("RMSE: " + gps.RMSE());
+            System.out.println("NRMSE: " + gps.NRMSE());
+            System.out.println("TimeCost: " + gps.timeCost());
+            System.out.println("NRMSE: " + gps.NRMSE());
             
             
             
@@ -398,9 +403,9 @@ public class App extends Application {
         btn.setOnAction(((ActionEvent) -> {
             
             
-            
+            nl.changeK(5);
             nl.run();
-            
+           
           
             
             
@@ -421,7 +426,7 @@ public class App extends Application {
         btn.setOnAction(((ActionEvent) -> {
             
             
-            
+            rbf.changeK(5);
             rbf.run();
             
           
@@ -443,9 +448,9 @@ public class App extends Application {
         btn.setOnAction(((ActionEvent) -> {
             
             
-            
+            knn.changeK(5);
             knn.run();
-            System.out.println("sfasdfsd");
+            //System.out.println("sfasdfsd");
           
             
             
