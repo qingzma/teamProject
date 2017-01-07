@@ -357,13 +357,16 @@ public class App extends Application {
             lr.changeK(5); 
             lr.run();
             
-          
+          System.out.println("RMSE: " + lr.RMSE());
+            System.out.println("NRMSE: " + lr.NRMSE());
+            System.out.println("TimeCost: " + lr.timeCost());
+           // System.out.println("Memory: " + lr.memory());
             
             
             
-           plt=new Plot();
-           plt.showFittingLine(true);
-           plt.plot(lr.getClusters(),lr);
+          // plt=new Plot();
+          // plt.showFittingLine(true);
+          // plt.plot(lr.getClusters(),lr);
             
         }));
         
@@ -403,7 +406,7 @@ public class App extends Application {
         btn.setOnAction(((ActionEvent) -> {
             
             
-            nl.changeK(20);
+            nl.changeK(5);
             nl.run();
             System.out.println("RMSE: " + nl.RMSE());
             System.out.println("NRMSE: " + nl.NRMSE());
