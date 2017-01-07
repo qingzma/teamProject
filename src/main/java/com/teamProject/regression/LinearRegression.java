@@ -67,16 +67,56 @@ public class LinearRegression implements RegressionInterface {
         return 1.0;
     }
 
-    @Override
+     @Override
     public double RMSE() {
+       
+        double[] EIN=new double[clusterNum];
+        double[] T=new double[clusterNum];
+        for(int i=0;i<clusterNum;i++){
+            EIN[i]=lr[i].getEiN();
+            
+        }
+        for(int i=0;i<clusterNum;i++){
+            T[i]=lr[i].getTotalLength();
+            
+        }
+        double TNUM=0;
+        for(int i=0; i<clusterNum;i++){
+        TNUM=TNUM+T[i];
+         }
+        double TEIN=0;
+         for(int i=0; i<clusterNum;i++){
+        TEIN=TEIN+EIN[i];
+         }
         
-        return 1.0;
+        double RMSE=Math.sqrt(TEIN/TNUM);
+          //System.out.println("The RMSE is: "+RMSE);
+        return RMSE;
     }
-    
+
     @Override
     public double NRMSE() {
+         double[] T=new double[clusterNum];
+         for(int i=0;i<clusterNum;i++){
+            T[i]=lr[i].getTotalLength();
+            
+        }
+        double TNUM=0;
+        for(int i=0; i<clusterNum;i++){
+        TNUM=TNUM+T[i];
+         }
         
-        return 1.0;
+        double[] NRMSEINI=new double[clusterNum];
+        for(int i=0;i<clusterNum;i++){
+            NRMSEINI[i]=lr[i].getNRSMEiNi();
+         }
+        double TNRM=0;
+         for(int i=0; i<clusterNum;i++){
+        TNRM=TNRM+NRMSEINI[i];
+         }
+          double NRMSE=Math.sqrt(TNRM/TNUM);
+         //System.out.println("The NRMSE is: "+NRMSE);
+        return NRMSE;
     }
 
     @Override
