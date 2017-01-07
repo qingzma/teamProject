@@ -21,6 +21,16 @@ public class LR{
     private DoubleMatrix x;         //restore the x value of points
     private DoubleMatrix Y;         //the Y Vector when run linear regression
     private DoubleMatrix beta;
+    private DoubleMatrix predicte;
+    private DoubleMatrix E;
+    private DoubleMatrix YM;
+    private DoubleMatrix Esq;
+    private DoubleMatrix YMsq;
+    private int ylength;
+     private double MSE;
+    private double NRSMEi;
+    private double ein;
+    private double NRSMEiNi;
     private double RSS;
     private double TSS;
     private double R2;
@@ -121,7 +131,28 @@ public class LR{
         }
         return result;
     }
-
+    
+    public double getMSE() {
+        
+        return MSE;
+    }
+    
+     public int getTotalLength(){
+        return ylength;
+    }
+     
+     public double getEiN(){
+        
+        return ein;
+    }
+     
+     public double getNRSMEiNi(){
+      return NRSMEiNi;
+    }
+     
+     public double getNRSMEi(){
+       return NRSMEi;
+    }
     public double getNRMSE() {
         R2=1-RSS/TSS;
         return R2;
@@ -151,10 +182,16 @@ public class LR{
             }
         }
         X=new DoubleMatrix(arrayX);
+        ylength=Y.length;
+        beta=Solve.pinv(X.transpose().mmul(X)).mmul((X.transpose()).mmul(Y));
+        predicte=X.mmul(beta);
+        E=(predicte.sub(Y));
+        Esq=E.transpose().mmul(E);
+        double aveEsq=Esq.get(0)/E.length;
+        MSE=Math.sqrt(aveEsq);
+        ein=MSE*MSE*E.length;
         
-        //X.print();
-        //System.out.println("column "+X.columns);
-        //System.out.println("row "+X.rows);
+        
         beta=Solve.pinv(X.transpose().mmul(X)).mmul(X.transpose()).mmul(Y);
         RSS=Y.transpose().mmul(Y).sub(Y.transpose().mmul(X).mmul(beta)).get(0);
         
@@ -163,6 +200,11 @@ public class LR{
         for(int i=0;i<n;i++){
             YMean.put(i, yMean);
         }
+         YM=predicte.sub(YMean);
+        YMsq=YM.transpose().mmul(YM);
+        double nrmseAve=(Esq.get(0)/YMsq.get(0))/Y.length;
+        NRSMEi=Math.sqrt(nrmseAve);
+        NRSMEiNi=NRSMEi*NRSMEi*Y.length;
         
         TSS=(Y.sub(YMean)).transpose().mmul(Y.sub(YMean)).get(0);
         
@@ -200,12 +242,26 @@ public class LR{
         //System.out.println("row "+X.rows);
         beta=Solve.pinv(X.transpose().mmul(X)).mmul(X.transpose()).mmul(Y);
         RSS=Y.transpose().mmul(Y).sub(Y.transpose().mmul(X).mmul(beta)).get(0);
-        
-        double yMean=Y.mean();
+         ylength=Y.length;
+          beta=Solve.pinv(X.transpose().mmul(X)).mmul((X.transpose()).mmul(Y));
+          predicte=X.mmul(beta);
+        E=(predicte.sub(Y));
+        Esq=E.transpose().mmul(E);
+        double aveEsq=Esq.get(0)/E.length;
+        MSE=Math.sqrt(aveEsq);
+        ein=MSE*MSE*E.length;
+        RSS=Y.transpose().mmul(Y).sub(Y.transpose().mmul(X).mmul(beta)).get(0);
+         double yMean=Y.mean();
+         
         DoubleMatrix YMean=new DoubleMatrix(n);
         for(int i=0;i<n;i++){
             YMean.put(i, yMean);
         }
+        YM=predicte.sub(YMean);
+        YMsq=YM.transpose().mmul(YM);
+        double nrmseAve=(Esq.get(0)/YMsq.get(0))/Y.length;
+        NRSMEi=Math.sqrt(nrmseAve);
+        NRSMEiNi=NRSMEi*NRSMEi*Y.length;
         
         TSS=(Y.sub(YMean)).transpose().mmul(Y.sub(YMean)).get(0);
     
