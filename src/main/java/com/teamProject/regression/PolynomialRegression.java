@@ -49,7 +49,7 @@ public class PolynomialRegression implements RegressionInterface{
 
     @Override
     public long memory() {
-        return (long) ((start-end)/1024.0/1024.0);
+        return (long) ((end-start)/1024.0/1024.0);
     }
 
     @Override
@@ -75,7 +75,7 @@ public class PolynomialRegression implements RegressionInterface{
             
         }
         System.gc();
-        end = Runtime.getRuntime().freeMemory();
+        end = Runtime.getRuntime().totalMemory();
     }
 
     @Override
