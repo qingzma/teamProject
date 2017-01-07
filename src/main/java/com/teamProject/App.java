@@ -378,7 +378,7 @@ public class App extends Application {
         btn.setOnAction(((ActionEvent) -> {
             
             
-            gps.changeK(10);
+            gps.changeK(5);
             gps.run();
             
             System.out.println("RMSE: " + gps.RMSE());
@@ -403,9 +403,12 @@ public class App extends Application {
         btn.setOnAction(((ActionEvent) -> {
             
             
-            nl.changeK(5);
+            nl.changeK(20);
             nl.run();
-           
+            System.out.println("RMSE: " + nl.RMSE());
+            System.out.println("NRMSE: " + nl.NRMSE());
+            System.out.println("TimeCost: " + nl.timeCost());
+            System.out.println("Memory: " + nl.memory());
           
             
             
@@ -428,7 +431,10 @@ public class App extends Application {
             
             rbf.changeK(5);
             rbf.run();
-            
+            System.out.println("RMSE: " + rbf.RMSE());
+            System.out.println("NRMSE: " + rbf.NRMSE());
+            System.out.println("TimeCost: " + rbf.timeCost());
+            System.out.println("Memory: " + rbf.memory());
           
             
             
