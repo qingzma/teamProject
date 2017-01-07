@@ -24,6 +24,8 @@ public class LinearRegression implements RegressionInterface {
     private Cluster[] clusters;
     private int clusterNum;
     private int k;
+    private long start;
+    private long end;
     
 
     public LinearRegression(Points pts){
@@ -34,6 +36,8 @@ public class LinearRegression implements RegressionInterface {
 
     @Override
     public void run() {
+        System.gc();
+        start=Runtime.getRuntime().freeMemory();
         clusterNum=k;
         km=new KMeans(points, clusterNum);
         km.run();
@@ -45,7 +49,8 @@ public class LinearRegression implements RegressionInterface {
             lr[i].run();
         }
         
-        
+        System.gc();
+        end = Runtime.getRuntime().totalMemory();
     }
     
     @Override
@@ -119,9 +124,10 @@ public class LinearRegression implements RegressionInterface {
         return NRMSE;
     }
 
-    @Override
+     @Override
     public double timeCost() {
-        return 1.0;
+        double t=lr[0].timeCost();
+        return t;
     }
 
     
@@ -134,12 +140,15 @@ public class LinearRegression implements RegressionInterface {
 
     @Override
     public String equation() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        for(int i=0;i<clusterNum;i++){
+            System.out.println("Beta for cluster number "+i+" is: "+lr[i].getBeta());
+        }
+        return "";
     }
 
     @Override
     public long memory() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return (long) ((end-start)/1024.0/1024.0);
     }
 
     @Override
