@@ -31,6 +31,8 @@ public class PolynomialRegression implements RegressionInterface{
     private long start=0;
     private long end=0;
     
+    private int k=5;
+    
     public PolynomialRegression(Points pts){
           points=pts;
      }
@@ -61,7 +63,7 @@ public class PolynomialRegression implements RegressionInterface{
        
         System.gc();
         start=Runtime.getRuntime().freeMemory();
-        clusterNum=5;
+        clusterNum=k;
         km=new KMeans(points, clusterNum);
         km.run();
         clusters=km.getClusters();
@@ -146,6 +148,11 @@ public class PolynomialRegression implements RegressionInterface{
           double NRMSE=Math.sqrt(TNRM/TNUM);
          //System.out.println("The NRMSE is: "+NRMSE);
         return NRMSE;
+    }
+
+    @Override
+    public void changeK(int i) {
+        k=i;
     }
        
     

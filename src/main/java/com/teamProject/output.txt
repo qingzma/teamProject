@@ -1,20 +1,20 @@
 Reading file starting...
 Reading file ends.
-Time for file read and treatment is 1.158s.
+Time for file read and treatment is 1.210s.
 
 
 KMeans clustering starting...
 KMeans clustering ends.
-Time for clustering is .325s.
+Time for clustering is .457s.
 
 
 KMeans clustering starting...
 KMeans clustering ends.
-Time for clustering is .185s.
+Time for clustering is .719s.
 
 
 Plot starting...
 Plot ends.
-Time for plot is 4.317s.
+Time for plot is 2.917s.
 
 

@@ -26,7 +26,8 @@ public class GaussianProcessRegression implements RegressionInterface{
     private double timeCost;
     public Points points;
     private KMeans km;
-    private int clusterNum = 10;
+    private int k=5;
+    private int clusterNum = k;
     private GaussianProcesses[] gp = new GaussianProcesses[clusterNum];
     private Cluster[] clusters;
     
@@ -265,6 +266,11 @@ public class GaussianProcessRegression implements RegressionInterface{
     @Override
     public double timeCost() {
         return timeCost;
+    }
+
+    @Override
+    public void changeK(int i) {
+        k=i;
     }
     
 }

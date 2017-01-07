@@ -42,7 +42,7 @@ public interface RegressionInterface extends Runnable{
     // return 1/3 of the whole data set for evaluation.
     // note, you are suggested not to use this part of data in training.
     
-    
+    public void changeK(int i);
     
     
 

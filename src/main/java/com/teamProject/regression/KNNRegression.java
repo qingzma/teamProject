@@ -42,6 +42,7 @@ public class KNNRegression implements RegressionInterface {
     private long memoryUsed;
     /** number of nearest neighbors used **/
     private int k;
+    private int kkk=5;
     /**  object for training instances **/
     private Instances trainingDataSet [];
     /** variable for total number of instance **/
@@ -61,7 +62,7 @@ public class KNNRegression implements RegressionInterface {
         points=pts;
         attributeNumber = pts.getDimension();
         totalInstance = pts.getPointNum();
-        clusterNum = 5;
+        clusterNum = kkk;
         k=3;
         clusters = new Cluster[clusterNum];
         knnRegModel = new IBk [clusterNum];
@@ -365,6 +366,11 @@ public class KNNRegression implements RegressionInterface {
         System.out.println(trainingDataSet[4].size());*/
         
         return meanY;
+    }
+
+    @Override
+    public void changeK(int i) {
+        kkk=i;
     }
 
 

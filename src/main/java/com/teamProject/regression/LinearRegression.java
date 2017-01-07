@@ -23,17 +23,18 @@ public class LinearRegression implements RegressionInterface {
     private LR[] lr;
     private Cluster[] clusters;
     private int clusterNum;
-    
+    private int k;
     
 
     public LinearRegression(Points pts){
         points=pts;
+        k=5;
         
     }
 
     @Override
     public void run() {
-        clusterNum=5;
+        clusterNum=k;
         km=new KMeans(points, clusterNum);
         km.run();
         clusters=km.getClusters();
@@ -99,6 +100,11 @@ public class LinearRegression implements RegressionInterface {
     @Override
     public long memory() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void changeK(int i) {
+        k=i;
     }
     
     

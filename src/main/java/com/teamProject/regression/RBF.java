@@ -39,6 +39,7 @@ public class RBF implements RegressionInterface {
     private int k;
     private int tInstance;
     private KMeans kMeans;
+    private int kkk=5;
    
     
 	
@@ -46,7 +47,7 @@ public RBF(Points pts){
      points=pts;
      attributeNum = pts.getDimension();
      tInstance = pts.getPointNum();
-     clusterNum = 5;
+     clusterNum = kkk;
      k=5;
      clusters = new Cluster[clusterNum];
      rbfModel = new RBFNetwork [clusterNum];
@@ -328,6 +329,11 @@ public static void main(String[] args){
         yMean = (double) ySum / tInstance;
         
         return yMean;
+    }
+
+    @Override
+    public void changeK(int i) {
+        kkk=i;
     }
 
 

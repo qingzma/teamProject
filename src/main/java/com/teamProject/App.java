@@ -352,7 +352,7 @@ public class App extends Application {
             
             
             
-            
+            lr.changeK(10);
             lr.run();
             
           
