@@ -62,14 +62,7 @@ public class KNNRegression implements RegressionInterface {
         points=pts;
         attributeNumber = pts.getDimension();
         totalInstance = pts.getPointNum();
-        clusterNum = kkk;
-        k=3;
-        clusters = new Cluster[clusterNum];
-        knnRegModel = new IBk [clusterNum];
-        trainingDataSet = new Instances[clusterNum];
-        kMeans = new KMeans(points,clusterNum);
-        kMeans.run();
-        clusters = kMeans.getClusters();
+       
     }
      
     @Override
@@ -105,6 +98,14 @@ public class KNNRegression implements RegressionInterface {
      * 
      */
     public void run() {
+        clusterNum = kkk;
+        k=3;
+        clusters = new Cluster[clusterNum];
+        knnRegModel = new IBk [clusterNum];
+        trainingDataSet = new Instances[clusterNum];
+        kMeans = new KMeans(points,clusterNum);
+        kMeans.run();
+        clusters = kMeans.getClusters();
         try {
             buildModel(clusterNum);
         } catch (Exception ex) {
@@ -259,7 +260,7 @@ public class KNNRegression implements RegressionInterface {
                         double predictedValue = knnRegModel[i].classifyInstance(trainingDataSet[i].get(j));
                         double tempDiffValue = predictedValue - realValue;
                         double tempDiffValue2 = meanY - realValue;
-                        if (Math.abs(tempDiffValue2) > 0.008) {
+                        if (Math.abs(tempDiffValue2) > 0.08) {
                             tempDiffValue = tempDiffValue * tempDiffValue;
                             tempDiffValue2 = tempDiffValue2 * tempDiffValue2;
                             tempDiffValue = (double)tempDiffValue / tempDiffValue2;
