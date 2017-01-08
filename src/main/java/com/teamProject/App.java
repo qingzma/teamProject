@@ -67,7 +67,7 @@ public class App extends Application {
         GridPane root = new GridPane();
         Scene scene = new Scene(root, 900, 800);
         
-        primaryStage.setTitle("Hello World!");
+        primaryStage.setTitle("Team project interface");
         primaryStage.setScene(scene);
         //root.add(dimensionBox(),0,0);
         
