@@ -334,10 +334,10 @@ public class App extends Application {
             //threadLR.start();
             
             
-            //plt=new Plot();
-            //plt.showFittingLine(true);
+            plt=new Plot();
+            plt.showFittingLine(true);
             
-            //plt.plot(km.getClusters());
+            plt.plot(km.getClusters());
         });
         
         vb.getChildren().addAll(lblLR,btnLR);
@@ -360,13 +360,13 @@ public class App extends Application {
           System.out.println("RMSE: " + lr.RMSE());
             System.out.println("NRMSE: " + lr.NRMSE());
             System.out.println("TimeCost: " + lr.timeCost());
-           // System.out.println("Memory: " + lr.memory());
+           System.out.println("Memory: " + lr.memory());
             
             
             
-          // plt=new Plot();
-          // plt.showFittingLine(true);
-          // plt.plot(lr.getClusters(),lr);
+           plt=new Plot();
+           plt.showFittingLine(true);
+           plt.plot(lr.getClusters(),lr);
             
         }));
         
@@ -391,9 +391,9 @@ public class App extends Application {
             
             
             
-           //plt=new Plot();
-           //plt.showFittingLine(true);
-           //plt.plot(gps.getClusters(),gps);
+           plt=new Plot();
+           plt.showFittingLine(true);
+           plt.plot(gps.getClusters(),gps);
         }));
         
         HBox hb=new HBox();
@@ -413,12 +413,10 @@ public class App extends Application {
             System.out.println("TimeCost: " + nl.timeCost());
             System.out.println("Memory: " + nl.memory());
           
-            
-            
-            
-           //plt=new Plot();
-           //plt.showFittingLine(true);
-           //plt.plot(nl.getClusters(),nl);
+          
+           plt=new Plot();
+           plt.showFittingLine(true);
+           plt.plot(nl.getClusters(),nl);
             
         }));
         
@@ -439,12 +437,10 @@ public class App extends Application {
             System.out.println("TimeCost: " + rbf.timeCost());
             System.out.println("Memory: " + rbf.memory());
           
-            
-            
-            
-           //plt=new Plot();
-           //plt.showFittingLine(true);
-           //plt.plot(rbf.getClusters(),rbf);
+           
+           plt=new Plot();
+           plt.showFittingLine(true);
+           plt.plot(rbf.getClusters(),rbf);
         }));
         
         HBox hb=new HBox();
@@ -459,14 +455,17 @@ public class App extends Application {
             
             knn.changeK(5);
             knn.run();
-            //System.out.println("sfasdfsd");
+            System.out.println("RMSE: " + knn.RMSE());
+            System.out.println("NRMSE: " + knn.NRMSE());
+            System.out.println("TimeCost: " + knn.timeCost());
+            System.out.println("Memory: " + knn.memory());
           
             
             
             
-           //plt=new Plot();
-           //plt.showFittingLine(true);
-           //plt.plot(knn.getClusters(),knn);
+           plt=new Plot();
+           plt.showFittingLine(true);
+           plt.plot(knn.getClusters(),knn);
         }));
         
         HBox hb=new HBox();
